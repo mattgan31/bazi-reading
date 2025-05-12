@@ -1,4 +1,5 @@
 import React from 'react'
+import { Tooltip } from 'react-tooltip'
 
 export default function Result3({ result, biodata }) {
     const handlePrint = () => {
@@ -7,6 +8,7 @@ export default function Result3({ result, biodata }) {
 
     return (
         <div className='max-w-screen w-auto flex flex-col gap-4'>
+            <Tooltip id="my-tooltip" className='whitespace-pre-line'/>
             {/* Header */}
             <div className='flex flex-col gap-4'>
                 <div className='flex flex-col print:hidden'>
@@ -73,8 +75,112 @@ export default function Result3({ result, biodata }) {
                     </div>
 
                 </div>
-                <div>
+                {/* <div>
                     <div className="w-full rounded-md overflow-hidden border">
+
+                        <div
+                            className="bg-red-800 dark:text-black text-white font-semibold p-2">
+                            Five Elemental
+                        </div>
+
+
+                        <div className="flex bg-red-800 dark:text-black text-white font-semibold">
+                            <div className="flex-1 p-2">Wood</div>
+                            <div className="flex-1 p-2">Fire</div>
+                            <div className="flex-1 p-2">Water</div>
+                            <div className="flex-1 p-2">Earth</div>
+                            <div className="flex-1 p-2">Metal</div>
+                        </div>
+
+                        <div className="flex ">
+                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementBalance.Wood}</div>
+                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementBalance.Fire}</div>
+                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementBalance.Water}</div>
+                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementBalance.Earth}</div>
+                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementBalance.Metal}</div>
+                        </div>
+                    </div>
+
+                </div> */}
+                <div>
+                    <div className="w-full rounded-md overflow-hidden border"
+                        data-tooltip-id="my-tooltip" data-tooltip-content="In BaZi (Four Pillars), each person has a combination of 8 characters (Heavenly Stems and Earthly Branches)
+                        that represent the elements of Wood, Fire, Earth, Metal, and Water.
+                        The purpose of this calculation is to identify which elements are dominant and which are weak in your life.
+"
+                    >
+                        {/* Title Row */}
+                        <div className="bg-red-800 dark:text-black text-white font-semibold p-2">
+                            Five Elemental
+                        </div>
+
+                        {/* Header Row */}
+                        <div className="flex bg-red-800 dark:text-black text-white font-semibold">
+                            <div className="flex-1 p-2">Wood</div>
+                            <div className="flex-1 p-2">Fire</div>
+                            <div className="flex-1 p-2">Water</div>
+                            <div className="flex-1 p-2">Earth</div>
+                            <div className="flex-1 p-2">Metal</div>
+                        </div>
+
+                        {/* Row */}
+                        <div className="flex ">
+                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementJoeyYap.Wood}</div>
+                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementJoeyYap.Fire}</div>
+                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementJoeyYap.Water}</div>
+                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementJoeyYap.Earth}</div>
+                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementJoeyYap.Metal}</div>
+                        </div>
+                    </div>
+
+                </div>
+                <div>
+                    <div className="w-full rounded-md overflow-hidden border"
+                        data-tooltip-id='my-tooltip'
+                        data-tooltip-content={`Categorize Element is a process in BaZi analysis used to classify the five elements (Wood, Fire, Earth, Metal, Water)
+                        based on their relationship with the Day Master (the element representing the self, found in the Heavenly Stem of the Day Pillar).
+                        Each element has a natural relationship in the Five Element cycle (producing, controlling, weakening), and can be categorized as:
+                        Supportive: The element that produces the Day Master
+                        Weakening: The element that is produced by the Day Master
+                        Controlling: The element that controls the Day Master
+                        Same: The same element as the Day Master (can support or compete)
+                        This classification helps to understand which elements are beneficial, which are challenging, and how the balance of elements influences a person's life according to Chinese metaphysics.`}
+                    >
+                        {/* Title Row */}
+                        <div className="bg-red-800 dark:text-black text-white font-semibold p-2">
+                            Categorize elements
+                        </div>
+
+                        {/* Header Row */}
+                        <div className="flex bg-red-800 dark:text-black text-white font-semibold">
+                            <div className="flex-1 p-2">Supportive</div>
+                            <div className="flex-1 p-2">Weakening</div>
+                            <div className="flex-1 p-2">Controlling</div>
+                            <div className="flex-1 p-2">Same</div>
+                        </div>
+
+                        {/* Row */}
+                        <div className="flex ">
+                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementCategories.supportive.element}</div>
+                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementCategories.weakening.element}</div>
+                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementCategories.controlling.element}</div>
+                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementCategories.same.element}</div>
+                        </div>
+                    </div>
+
+                </div>
+                <div>
+                    <div className="w-full rounded-md overflow-hidden border"
+                        data-tooltip-id='my-tooltip'
+                        data-tooltip-content={`The Four Pillars of BaZi (also known as the Four Pillars of Destiny or Eight Characters) is a system in Chinese metaphysics used to analyze a person’s life based on their birth date and time.
+                        Each pillar represents a time component and consists of two parts: the Heavenly Stem and the Earthly Branch.
+                        The four pillars are:
+                        1. Year Pillar – represents family heritage, childhood, and social environment.
+                        2. Month Pillar – represents parents, teenage years, and career potential.
+                        3. Day Pillar – represents the self (Day Master) and spouse.
+                        4. Hour Pillar – represents children, inner thoughts, and future.
+                        Each stem and branch contains one or more of the five elements (Wood, Fire, Earth, Metal, Water), which are used to understand personality, strengths, and the balance of energy in a person’s life.`}
+                    >
                         {/* Title Row */}
                         <div className="bg-red-800 dark:text-black text-white font-semibold p-2">
                             Four Pillars | Bazi
@@ -150,7 +256,14 @@ export default function Result3({ result, biodata }) {
 
                 </div>
                 <div>
-                    <div className='w-full rounded-md overflow-hidden border'>
+                    <div className='w-full rounded-md overflow-hidden border'
+                        data-tooltip-id='my-tooltip'
+                        data-tooltip-content={
+                            `This direction brings luck, health, harmony, and success.
+                            It is usually determined based on a person's dominant element from their BaZi chart and their Kua number (in the Eight Mansions system).
+                            It is ideal for facing while working, sleeping, or designing home and office layouts.`
+                        }
+                    >
                         <div className='flex bg-red-800 dark:text-black text-white '>
                                 <div className='flex-1 p-2'>FAVORABLE DIRECTIONS</div>
                                 <div className='flex-1 p-2'>本命吉方</div>
@@ -174,7 +287,14 @@ export default function Result3({ result, biodata }) {
                     </div>
                 </div>
                 <div>
-                    <div className='w-full rounded-md overflow-hidden border'>
+                    <div className='w-full rounded-md overflow-hidden border'
+                        data-tooltip-id='my-tooltip'
+                        data-tooltip-content={
+                            `This direction may cause obstacles, conflicts, illness, or setbacks.
+                            It is best avoided for important activities.
+                            Knowing and avoiding this direction helps maintain energetic balance and reduce negative influences in life.`
+                        }
+                    >
                         <div className='flex bg-red-800 dark:text-black text-white '>
                             <div className='flex-1 p-2'>UNFAVORABLE DIRECTIONS</div>
                             <div className='flex-1 p-2'>本命凶方</div>

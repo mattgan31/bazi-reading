@@ -8,6 +8,23 @@ const stemToElement = {
     壬: 'Water', 癸: 'Water',
 };
 
+// Optional: branch characters if you want to map branches directly
+// const branchToElement = {
+//     寅: 'Wood', 卯: 'Wood',
+//     巳: 'Fire', 午: 'Fire',
+//     辰: 'Earth', 丑: 'Earth', 未: 'Earth', 戌: 'Earth',
+//     申: 'Metal', 酉: 'Metal',
+//     亥: 'Water', 子: 'Water'
+// };
+
+const relationships = {
+    Wood: { productive: 'Fire', draining: 'Water', controlling: 'Earth', same: 'Wood' },
+    Fire: { productive: 'Earth', draining: 'Wood', controlling: 'Water', same: 'Fire' },
+    Earth: { productive: 'Metal', draining: 'Fire', controlling: 'Wood', same: 'Earth' },
+    Metal: { productive: 'Water', draining: 'Earth', controlling: 'Fire', same: 'Metal' },
+    Water: { productive: 'Wood', draining: 'Metal', controlling: 'Earth', same: 'Water' },
+};
+
 const elementMap = {
     Wood: ['Jia', 'Yi', 'Yin', 'Mao'],
     Fire: ['Bing', 'Ding', 'Si', 'Wu'],
@@ -72,18 +89,33 @@ const getDirections = (gua) => {
 
 const countElements = (pillars) => {
     const elements = { Wood: 0, Fire: 0, Earth: 0, Metal: 0, Water: 0 };
-    const count = (char) => {
+
+    const countStem = (char) => {
         const el = stemToElement[char];
         if (el) elements[el]++;
     };
 
     Object.values(pillars).forEach(({ stem, branch }) => {
-        count(stem);
-        hiddenStemsMap[branch]?.forEach(count);
+        countStem(stem); // Count Heavenly Stem
+        const hiddenStems = hiddenStemsMap[branch];
+        if (hiddenStems) {
+            hiddenStems.forEach(countStem); // Count hidden stems inside Earthly Branch
+        }
     });
 
     return elements;
 };
+
+function categorizeElements(dayMaster, chartElementCounts) {
+    const rel = relationships[dayMaster];
+
+    return {
+        supportive: { element: rel.draining, count: chartElementCounts[rel.draining] || 0 },     // 生我
+        weakening: { element: rel.productive, count: chartElementCounts[rel.productive] || 0 },   // 我生
+        controlling: { element: rel.controlling, count: chartElementCounts[rel.controlling] || 0 }, // 克我
+        same: { element: rel.same, count: chartElementCounts[rel.same] || 0 }                    // 同我
+    };
+}
 
 
 // Function to get the element from a Gan (Stem) or Zhi (Branch)
@@ -179,13 +211,66 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
         hour: { stem: hourGan, branch: hourZhi }, // Use the Gan and Zhi for the hour
     };
 
+
+    // Element Joey Yap
+    const stemToElement = {
+        甲: "Wood", 乙: "Wood", 丙: "Fire", 丁: "Fire", 戊: "Earth", 己: "Earth",
+        庚: "Metal", 辛: "Metal", 壬: "Water", 癸: "Water"
+    };
+
+    const hiddenStemsMap = {
+        寅: ["甲", "丙", "戊"], // Yin: Wood, Fire, Earth
+        卯: ["乙"],
+        辰: ["戊", "乙", "癸"],
+        巳: ["丙", "庚", "戊"],
+        午: ["丁", "己"],
+        未: ["己", "丁", "乙"],
+        申: ["庚", "壬", "戊"],
+        酉: ["辛"],
+        戌: ["戊", "辛", "丁"],
+        亥: ["壬", "甲"],
+        子: ["癸"],
+        丑: ["己", "癸", "辛"]
+    };
+
+    const countElementsJoeyYap = (pillars) => {
+        const elements = { Wood: 0, Fire: 0, Earth: 0, Metal: 0, Water: 0 };
+
+        const addElement = (stem, weight = 1) => {
+            const el = stemToElement[stem];
+            if (el) elements[el] += weight;
+        };
+
+        Object.values(pillars).forEach(({ stem, branch }) => {
+            // 1. Hitung dari Heavenly Stem (selalu bobot 1)
+            addElement(stem, 1);
+
+            // 2. Hitung dari Hidden Stems
+            const hiddenStems = hiddenStemsMap[branch];
+            if (hiddenStems) {
+                hiddenStems.forEach((s, i) => {
+                    const weight = i === 0 ? 1 : i === 1 ? 0.5 : 0.3;
+                    addElement(s, weight);
+                });
+            }
+        });
+
+        return elements;
+    };
+
+
+
     const translatedPillars = translatePillars(pillars);
     // Get element balance and other computations
     const elementBalance = countElements(pillars);
+    const elementJoeyYap = countElementsJoeyYap(pillars);
+    console.log(elementJoeyYap)
+
     const elementBalancePercentage = calculateElementBalance(translatedPillars)
     const dayMaster = pillars.day.stem;
     const guaNumber = getGuaNumber(date.getFullYear(), gender === 'male');
     const { favorable, unfavorable } = getDirections(guaNumber);
+    const elementCategories = categorizeElements("Earth", elementBalance);
 
     return {
         name,
@@ -193,9 +278,11 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
         dayMaster,
         elementBalance,
         elementBalancePercentage,
+        elementCategories,
         guaNumber,
         favorableDirections: favorable,
         unfavorableDirections: unfavorable,
+        elementJoeyYap
     };
 };
 

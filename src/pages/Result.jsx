@@ -5,6 +5,7 @@ import Result3 from './BaziResult3';
 import { useLocation } from 'react-router-dom';
 import { generateBaziReading } from '../function/BaziCalculator';
 
+
 const tabs = [
   { key: 'result1', label: 'Result 1' },
   { key: 'result2', label: 'Result 2' },
@@ -58,6 +59,7 @@ export default function Result() {
           </button>
         ))}
       </div> */}
+
       <div className="max-w-screen w-full p-4 rounded shadow">
         {/* <TabContent activeTab={activeTab} /> */}
         <Result3 result={result} biodata={biodata} />
