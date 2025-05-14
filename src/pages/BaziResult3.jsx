@@ -1,9 +1,93 @@
 import React from 'react'
 import { Tooltip } from 'react-tooltip'
+import ReactECharts from 'echarts-for-react';
 
 export default function Result3({ result, biodata }) {
     const handlePrint = () => {
         window.print();
+    };
+
+    function formatNumber(value) {
+        if (value % 1 !== 0) {
+            return value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        } else {
+            return value.toLocaleString();
+        }
+    }
+
+    const option1 = {
+        yAxis: {
+            max: 50,
+            show: true,
+            type: 'value'
+        },
+        axisModel: {},
+        xAxis: {
+            type: 'category',
+            data: Object.keys(result.elementBalancePercentage),
+        },
+        toolbox: {
+            show: false,
+            feature: {
+                mark: { show: true },
+                dataView: { show: false, readOnly: true },
+                restore: { show: false },
+                saveAsImage: { show: true }
+            }
+        },
+        tooltip: {
+            trigger: 'axis',
+            formatter: function (params) {
+                let tooltipText = '';
+                params.forEach(function (item) {
+                    tooltipText += `${item.name}: ${item.value.toFixed(2)}<br>`;
+                });
+                return tooltipText;
+            }
+        },
+        series: {
+            type: 'bar',
+            data: Object.values(result.elementBalancePercentage),
+            itemStyle: {
+                color: function (params) {
+                    return params.value < 3 ? 'rgba(75, 192, 192, 0.8)' : 'rgba(255, 206, 86, 0.8)';
+                },
+            },
+            label: {
+                show: true,
+                formatter: function (params) {
+                    return formatNumber(params.value);
+                }
+            }
+        },
+        label: {
+            show: true,
+            position: 'inside',
+            formatter: '{c}'
+        }
+    };
+
+    const indicators = Object.entries(result.elementBalancePercentage).map(([name]) => ({
+        name,
+        max: 50, // atau Math.ceil(Math.max(...Object.values(...))) kalau bukan persen
+    }));
+
+    const option2 = {
+        radar: {
+            // shape: 'circle',
+            indicator: indicators
+        },
+        series: [
+            {
+                name: 'Budget vs spending',
+                type: 'radar',
+                data: [
+                    {
+                        value: Object.values(result.elementBalancePercentage),
+                    }
+                ]
+            }
+        ]
     };
 
     return (
@@ -106,9 +190,7 @@ export default function Result3({ result, biodata }) {
                     <div className="w-full rounded-md overflow-hidden border"
                         data-tooltip-id="my-tooltip" data-tooltip-content="In BaZi (Four Pillars), each person has a combination of 8 characters (Heavenly Stems and Earthly Branches)
                         that represent the elements of Wood, Fire, Earth, Metal, and Water.
-                        The purpose of this calculation is to identify which elements are dominant and which are weak in your life.
-"
-                    >
+                        The purpose of this calculation is to identify which elements are dominant and which are weak in your life.">
                         {/* Title Row */}
                         <div className="bg-red-800 dark:text-black text-white font-semibold p-2">
                             Five Elemental
@@ -125,14 +207,27 @@ export default function Result3({ result, biodata }) {
 
                         {/* Row */}
                         <div className="flex ">
-                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementJoeyYap.Wood}</div>
-                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementJoeyYap.Fire}</div>
-                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementJoeyYap.Water}</div>
-                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementJoeyYap.Earth}</div>
-                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementJoeyYap.Metal}</div>
+                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementBalance.Wood}</div>
+                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementBalance.Fire}</div>
+                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementBalance.Water}</div>
+                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementBalance.Earth}</div>
+                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementBalance.Metal}</div>
                         </div>
                     </div>
+                </div>
+                <div>
+                    <div className="w-full rounded-md overflow-hidden border">
+                        {/* Title Row */}
+                        <div className="bg-red-800 dark:text-black text-white font-semibold p-2">
+                            Elemental Chart
+                        </div>
 
+                        {/* Row */}
+                        <div className="flex ">
+                            <ReactECharts option={option1} className='md:w-full md:h-[600px] xs:w-full' />
+                            <ReactECharts option={option2} className='md:w-full md:h-[600px] xs:w-full' />
+                        </div>
+                    </div>
                 </div>
                 <div>
                     <div className="w-full rounded-md overflow-hidden border"
@@ -211,46 +306,6 @@ export default function Result3({ result, biodata }) {
                             <div className="flex-1 px-2 py-2 text-red-800">{result.baziPillars.day.branch}</div>
                             <div className="flex-1 px-2 py-2 text-red-800">{result.baziPillars.month.branch}</div>
                             <div className="flex-1 px-2 py-2 text-red-800">{result.baziPillars.year.branch}</div>
-                        </div>
-                    </div>
-
-                </div>
-                <div>
-                    <div className="w-full rounded-md overflow-hidden border">
-                        {/* Title Row */}
-                        <div className="grid grid-cols-4 bg-blue-800 dark:bg-blue-500 text-white dark:text-black text-left">
-                            <div className="p-2">QI MEN DESTINY PALACE</div>
-                            <div className="p-2">奇門命宫 : 西北 NW</div>
-                            <div className="p-2 text-center">LIFE STAR</div>
-                            <div className="p-2 text-center">風水命卦 GUA</div>
-                        </div>
-
-                        {/* Content Rows */}
-                        <div className="grid grid-cols-4">
-                            {/* Row 1 */}
-                            <div className="p-2 bg-gray-100 dark:bg-zinc-900 text-blue-800 dark:text-blue-500">Life Stem</div>
-                            <div className="p-2 text-blue-800 dark:text-blue-500">生氣 : 東南 SE</div>
-                            <div className="p-2 text-center text-blue-800 dark:text-blue-500 row-span-4 flex flex-col justify-center">
-                                <div>1 White</div>
-                                <div>一白星命</div>
-                                <div>Water 水</div>
-                            </div>
-                            <div className="p-2 text-center text-blue-800 dark:text-blue-500 row-span-4 flex flex-col justify-center">
-                                <div>Kan</div>
-                                <div>North</div>
-                            </div>
-
-                            {/* Row 2 */}
-                            <div className="p-2 bg-gray-100 dark:bg-zinc-900 text-blue-800 dark:text-blue-500">Door of Destiny</div>
-                            <div className="p-2 text-blue-800 dark:text-blue-500">天醫 : 東 E</div>
-
-                            {/* Row 3 */}
-                            <div className="p-2 bg-gray-100 dark:bg-zinc-900 text-blue-800 dark:text-blue-500">Star of Destiny</div>
-                            <div className="p-2 text-blue-800 dark:text-blue-500">延年 : 南 S</div>
-
-                            {/* Row 4 */}
-                            <div className="p-2 bg-gray-100 dark:bg-zinc-900 text-blue-800 dark:text-blue-500">Guardian of Destiny</div>
-                            <div className="p-2 text-blue-800 dark:text-blue-500">伏位 : 北 N</div>
                         </div>
                     </div>
 

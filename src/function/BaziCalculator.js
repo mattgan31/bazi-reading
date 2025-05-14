@@ -258,15 +258,152 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
         return elements;
     };
 
+    // TEST
+
+    const stemMap = {
+        '甲': 'Jia', '乙': 'Yi', '丙': 'Bing', '丁': 'Ding', '戊': 'Wu',
+        '己': 'Ji', '庚': 'Geng', '辛': 'Xin', '壬': 'Ren', '癸': 'Gui',
+    };
+
+    const branchMap = {
+        '子': 'Zi', '丑': 'Chou', '寅': 'Yin', '卯': 'Mao', '辰': 'Chen',
+        '巳': 'Si', '午': 'Wu', '未': 'Wei', '申': 'Shen', '酉': 'You',
+        '戌': 'Xu', '亥': 'Hai',
+    };
+
+    const convertPillarsToLatin = (pillars) => {
+        const result = {};
+
+        Object.entries(pillars).forEach(([key, { stem, branch }]) => {
+            result[key] = {
+                stem: stemMap[stem] || stem,
+                branch: branchMap[branch] || branch,
+            };
+        });
+
+        return result;
+    };
+
+
+    const stemToElement2 = {
+        Jia: { element: 'Wood', weight: 1.0 }, // 甲
+        Yi: { element: 'Wood', weight: 1.0 }, // 乙
+        Bing: { element: 'Fire', weight: 1.0 }, // 丙
+        Ding: { element: 'Fire', weight: 1.0 }, // 丁
+        Wu: { element: 'Earth', weight: 1.0 }, // 戊
+        Ji: { element: 'Earth', weight: 1.0 }, // 己
+        Geng: { element: 'Metal', weight: 1.0 }, // 庚
+        Xin: { element: 'Metal', weight: 1.0 }, // 辛
+        Ren: { element: 'Water', weight: 1.0 }, // 壬
+        Gui: { element: 'Water', weight: 1.0 }, // 癸
+    };
+
+    const hiddenStemsMap2 = {
+        Zi: [ // 子
+            { stem: 'Gui', element: 'Water', weight: 0.5 },
+        ],
+        Chou: [ // 丑
+            { stem: 'Ji', element: 'Earth', weight: 0.5 },
+            { stem: 'Gui', element: 'Water', weight: 0.3 },
+            { stem: 'Xin', element: 'Metal', weight: 0.2 },
+        ],
+        Yin: [ // 寅
+            { stem: 'Jia', element: 'Wood', weight: 0.6 },
+            { stem: 'Bing', element: 'Fire', weight: 0.3 },
+            { stem: 'Wu', element: 'Earth', weight: 0.1 },
+        ],
+        Mao: [ // 卯
+            { stem: 'Yi', element: 'Wood', weight: 1.0 },
+        ],
+        Chen: [ // 辰
+            { stem: 'Wu', element: 'Earth', weight: 0.5 },
+            { stem: 'Yi', element: 'Wood', weight: 0.3 },
+            { stem: 'Gui', element: 'Water', weight: 0.2 },
+        ],
+        Si: [ // 巳
+            { stem: 'Bing', element: 'Fire', weight: 1.0 },
+            { stem: 'Wu', element: 'Earth', weight: 0.5 },
+            { stem: 'Geng', element: 'Metal', weight: 0.3 },
+        ],
+        Wu: [ // 午
+            { stem: 'Ding', element: 'Fire', weight: 0.8 },
+            { stem: 'Ji', element: 'Earth', weight: 0.2 },
+        ],
+        Wei: [ // 未
+            { stem: 'Ji', element: 'Earth', weight: 0.6 },
+            { stem: 'Yi', element: 'Wood', weight: 0.3 },
+            { stem: 'Ding', element: 'Fire', weight: 0.1 },
+        ],
+        Shen: [ // 申
+            { stem: 'Geng', element: 'Metal', weight: 0.6 },
+            { stem: 'Ren', element: 'Water', weight: 0.3 },
+            { stem: 'Wu', element: 'Earth', weight: 0.1 },
+        ],
+        You: [ // 酉
+            { stem: 'Xin', element: 'Metal', weight: 1.0 },
+        ],
+        Xu: [ // 戌
+            { stem: 'Wu', element: 'Earth', weight: 0.5 },
+            { stem: 'Xin', element: 'Metal', weight: 0.3 },
+            { stem: 'Ding', element: 'Fire', weight: 0.2 },
+        ],
+        Hai: [ // 亥
+            { stem: 'Ren', element: 'Water', weight: 0.5 },
+            { stem: 'Jia', element: 'Wood', weight: 0.3 },
+        ],
+    };
+
+
+    const latinPillars = convertPillarsToLatin(pillars)
+
+    const countElements2 = (pillars) => {
+        const elements = { Wood: 0, Fire: 0, Earth: 0, Metal: 0, Water: 0 };
+
+        // Hitung dari batang langit
+        Object.values(pillars).forEach(({ stem, branch }) => {
+            const stemData = stemToElement2[stem];
+            if (stemData) {
+                elements[stemData.element] += stemData.weight;
+            }
+
+            // Hitung dari hidden stems di cabang bumi
+            const hiddenStems = hiddenStemsMap2[branch];
+            if (hiddenStems) {
+                hiddenStems.forEach(({ element, weight }) => {
+                    elements[element] += weight;
+                });
+            }
+        });
+
+        return elements;
+    };
+
+    const elementPercentage = (element, total) => {
+        return total > 0 ? (element / total) * 100 : 0;
+    }
+
+    const calculateElementBalance2 = (elements) => {
+        const percentagePerElement = { Wood: 0, Fire: 0, Earth: 0, Metal: 0, Water: 0 };
+
+        const totalElement = Object.values(elements).reduce((sum, val) => sum + val, 0);
+
+        Object.entries(elements).forEach(([key, value]) => {
+            percentagePerElement[key] += parseFloat(elementPercentage(value, totalElement).toFixed(1))
+        })
+
+        return percentagePerElement
+    }
 
 
     const translatedPillars = translatePillars(pillars);
     // Get element balance and other computations
-    const elementBalance = countElements(pillars);
+    // const elementBalance = countElements(pillars);
+    const elementBalance = countElements2(latinPillars);
     const elementJoeyYap = countElementsJoeyYap(pillars);
     console.log(elementJoeyYap)
 
-    const elementBalancePercentage = calculateElementBalance(translatedPillars)
+    // const elementBalancePercentage = calculateElementBalance(translatedPillars)
+    const elementBalancePercentage = calculateElementBalance2(elementBalance)
     const dayMaster = pillars.day.stem;
     const guaNumber = getGuaNumber(date.getFullYear(), gender === 'male');
     const { favorable, unfavorable } = getDirections(guaNumber);
