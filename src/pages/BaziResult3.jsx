@@ -17,7 +17,7 @@ export default function Result3({ result, biodata }) {
 
     const option1 = {
         yAxis: {
-            max: 50,
+            max: 70,
             show: true,
             type: 'value'
         },
@@ -69,7 +69,7 @@ export default function Result3({ result, biodata }) {
 
     const indicators = Object.entries(result.elementBalancePercentage).map(([name]) => ({
         name,
-        max: 50, // atau Math.ceil(Math.max(...Object.values(...))) kalau bukan persen
+        max: 70,
     }));
 
     const option2 = {

@@ -107,7 +107,10 @@ const countElements = (pillars) => {
 };
 
 function categorizeElements(dayMaster, chartElementCounts) {
-    const rel = relationships[dayMaster];
+
+    const dayMasterElement = stemToElement[dayMaster];
+
+    const rel = relationships[dayMasterElement];
 
     return {
         supportive: { element: rel.draining, count: chartElementCounts[rel.draining] || 0 },     // 生我
@@ -271,6 +274,37 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
         '戌': 'Xu', '亥': 'Hai',
     };
 
+    const seasonalMultipliers = {
+        spring: {
+            Wood: 1.5,
+            Metal: 0.5,
+            Water: 1.2,
+            Fire: 1.0,
+            Earth: 0.8
+        },
+        summer: {
+            Fire: 1.5,
+            Water: 0.5,
+            Wood: 1.2,
+            Earth: 1.0,
+            Metal: 0.7
+        },
+        autumn: {
+            Metal: 1.5,
+            Wood: 0.5,
+            Earth: 1.2,
+            Water: 1.0,
+            Fire: 0.7
+        },
+        winter: {
+            Water: 1.5,
+            Fire: 0.5,
+            Earth: 0.5,
+            Metal: 1.0,
+            Wood: 1.0
+        }
+    };
+
     const convertPillarsToLatin = (pillars) => {
         const result = {};
 
@@ -356,6 +390,19 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
 
     const latinPillars = convertPillarsToLatin(pillars)
 
+    function applySeasonalCorrection(balance, season) {
+        const corrected = { ...balance };
+        const multipliers = seasonalMultipliers[season];
+
+        Object.keys(corrected).forEach((element) => {
+            corrected[element] = Number(
+                (corrected[element] * (multipliers[element] || 1)).toFixed(2)
+            );
+        });
+
+        return corrected;
+      }
+
     const countElements2 = (pillars) => {
         const elements = { Wood: 0, Fire: 0, Earth: 0, Metal: 0, Water: 0 };
 
@@ -375,7 +422,34 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
             }
         });
 
-        return elements;
+        Object.keys(elements).forEach(key => {
+            elements[key] = Number(elements[key].toFixed(2));
+        });
+
+        const month = date.getMonth()
+
+        let season = null
+
+        switch (month) {
+            case 0, 1, 2:
+                season = "spring"
+                break
+            case 3, 4, 5:
+                season = "summer"
+                break
+            case 6, 7, 8:
+                season = "autumn"
+                break
+            case 9, 10, 11:
+                season = "winter"
+                break
+            default: console.log("Invalid month");
+
+        }
+
+        const result = applySeasonalCorrection(elements, season)
+
+        return result;
     };
 
     const elementPercentage = (element, total) => {
@@ -388,7 +462,7 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
         const totalElement = Object.values(elements).reduce((sum, val) => sum + val, 0);
 
         Object.entries(elements).forEach(([key, value]) => {
-            percentagePerElement[key] += parseFloat(elementPercentage(value, totalElement).toFixed(1))
+            percentagePerElement[key] += parseFloat(elementPercentage(value, totalElement).toFixed(2))
         })
 
         return percentagePerElement
@@ -407,7 +481,7 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
     const dayMaster = pillars.day.stem;
     const guaNumber = getGuaNumber(date.getFullYear(), gender === 'male');
     const { favorable, unfavorable } = getDirections(guaNumber);
-    const elementCategories = categorizeElements("Earth", elementBalance);
+    const elementCategories = categorizeElements(dayMaster, elementBalance);
 
     return {
         name,
