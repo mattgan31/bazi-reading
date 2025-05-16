@@ -74,7 +74,7 @@ export default function Form() {
               onChange={(e) => setGender(e.target.value)} />
             <label>Female</label>
           </div> */}
-            <select onSelect={(e) => setGender(e.target.value)} className='form-control border-1 px-2 py-1 rounded-sm' required>
+            <select onChange={(e) => setGender(e.target.value)} className='form-control border-1 px-2 py-1 rounded-sm' required>
               <option value={''}>== Select your gender ==</option>
               <option value={'male'}>Male</option>
               <option value={'female'}>Female</option>

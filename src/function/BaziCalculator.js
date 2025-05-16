@@ -318,6 +318,34 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
         return result;
     };
 
+    const stemInfo = {
+        甲: { pinyin: 'Jia', element: 'Wood', yinYang: 'Yang' },
+        乙: { pinyin: 'Yi', element: 'Wood', yinYang: 'Yin' },
+        丙: { pinyin: 'Bing', element: 'Fire', yinYang: 'Yang' },
+        丁: { pinyin: 'Ding', element: 'Fire', yinYang: 'Yin' },
+        戊: { pinyin: 'Wu', element: 'Earth', yinYang: 'Yang' },
+        己: { pinyin: 'Ji', element: 'Earth', yinYang: 'Yin' },
+        庚: { pinyin: 'Geng', element: 'Metal', yinYang: 'Yang' },
+        辛: { pinyin: 'Xin', element: 'Metal', yinYang: 'Yin' },
+        壬: { pinyin: 'Ren', element: 'Water', yinYang: 'Yang' },
+        癸: { pinyin: 'Gui', element: 'Water', yinYang: 'Yin' },
+    };
+
+    const branchInfo = {
+        子: { pinyin: 'Zi', animal: 'Rat' },
+        丑: { pinyin: 'Chou', animal: 'Ox' },
+        寅: { pinyin: 'Yin', animal: 'Tiger' },
+        卯: { pinyin: 'Mao', animal: 'Rabbit' },
+        辰: { pinyin: 'Chen', animal: 'Dragon' },
+        巳: { pinyin: 'Si', animal: 'Snake' },
+        午: { pinyin: 'Wu', animal: 'Horse' },
+        未: { pinyin: 'Wei', animal: 'Goat' },
+        申: { pinyin: 'Shen', animal: 'Monkey' },
+        酉: { pinyin: 'You', animal: 'Rooster' },
+        戌: { pinyin: 'Xu', animal: 'Dog' },
+        亥: { pinyin: 'Hai', animal: 'Pig' },
+      };
+
 
     const stemToElement2 = {
         Jia: { element: 'Wood', weight: 1.0 }, // 甲
@@ -387,6 +415,30 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
         ],
     };
 
+    const translatedPillars = {};
+
+    Object.entries(pillars).forEach(([key, { stem, branch }]) => {
+        console.log('Pillars:', pillars);
+
+        const stemData = stemInfo[stem];
+        const branchData = branchInfo[branch];
+
+        if (!stemData) {
+            console.warn(`Stem "${stem}" not found in stemInfo`);
+        }
+        if (!branchData) {
+            console.warn(`Branch "${branch}" not found in branchInfo`);
+        }
+
+        translatedPillars[key] = {
+            stem,
+            stemInfo: stemData || { pinyin: 'Unknown', element: 'Unknown', yinYang: 'Unknown' },
+            branch,
+            branchInfo: branchData || { pinyin: 'Unknown', animal: 'Unknown' },
+        };
+    });
+
+    console.log(translatedPillars);
 
     const latinPillars = convertPillarsToLatin(pillars)
 
@@ -401,7 +453,7 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
         });
 
         return corrected;
-      }
+    }
 
     const countElements2 = (pillars) => {
         const elements = { Wood: 0, Fire: 0, Earth: 0, Metal: 0, Water: 0 };
@@ -469,7 +521,7 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
     }
 
 
-    const translatedPillars = translatePillars(pillars);
+    // const translatedPillars = translatePillars(pillars);
     // Get element balance and other computations
     // const elementBalance = countElements(pillars);
     const elementBalance = countElements2(latinPillars);
@@ -493,7 +545,8 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
         guaNumber,
         favorableDirections: favorable,
         unfavorableDirections: unfavorable,
-        elementJoeyYap
+        elementJoeyYap,
+        translatedPillars
     };
 };
 

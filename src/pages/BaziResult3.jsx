@@ -92,7 +92,7 @@ export default function Result3({ result, biodata }) {
 
     return (
         <div className='max-w-screen w-auto flex flex-col gap-4'>
-            <Tooltip id="my-tooltip" className='whitespace-pre-line'/>
+            <Tooltip id="my-tooltip" className='whitespace-pre-line' />
             {/* Header */}
             <div className='flex flex-col gap-4'>
                 <div className='flex flex-col print:hidden'>
@@ -106,12 +106,73 @@ export default function Result3({ result, biodata }) {
                     </div>
                 </div>
                 <h1>PERSONAL CHART FOR 2025</h1>
-                <div>
-                    <span>{biodata.name} | {biodata.birthDate}({biodata.birthTime}) | {biodata.gender == "male" ? "Male" : "Female"}</span>
+                <div className='text-left'>
+                    <h2 className='text-3xl'>Biodata</h2>
+                    <p>Name: {biodata.name}</p>
+                    <p>Birth Date: {biodata.birthDate}  </p>
+                    <p>Birth Time: {biodata.birthTime}  </p>
+                    <p>Gender: {biodata.gender == "male" ? "Male" : "Female"}  </p>
                 </div>
             </div>
 
             {/* Main Content */}
+
+            <div className='flex flex-col gap-2'>
+                <div className='text-left'>
+                    <h2 className='text-3xl'>The Four Pillars of BaZi</h2>
+                    {/* <p>
+                        This is your five elemental Wood, Fire, Water, Earth & Metal
+                    </p> */}
+                </div>
+                <div className="w-full rounded-md overflow-hidden border"
+                    data-tooltip-id='my-tooltip'
+                    data-tooltip-content={`The Four Pillars of BaZi (also known as the Four Pillars of Destiny or Eight Characters) is a system in Chinese metaphysics used to analyze a person’s life based on their birth date and time.
+                        Each pillar represents a time component and consists of two parts: the Heavenly Stem and the Earthly Branch.
+                        The four pillars are:
+                        1. Year Pillar – represents family heritage, childhood, and social environment.
+                        2. Month Pillar – represents parents, teenage years, and career potential.
+                        3. Day Pillar – represents the self (Day Master) and spouse.
+                        4. Hour Pillar – represents children, inner thoughts, and future.
+                        Each stem and branch contains one or more of the five elements (Wood, Fire, Earth, Metal, Water), which are used to understand personality, strengths, and the balance of energy in a person’s life.`}
+                >
+                    {/* Title Row */}
+                    <div className="bg-red-800 dark:text-black text-white font-semibold p-2">
+                        Four Pillars | Bazi
+                    </div>
+
+                    {/* Header Row */}
+                    <div className="flex bg-red-800 dark:text-black text-white font-semibold">
+                        <div className="flex-1 p-2">Pillars</div>
+                        <div className="flex-1 p-2">Stems</div>
+                        <div className="flex-1 p-2">Branches</div>
+                    </div>
+
+                    {/* Stems Row */}
+                    <div className="flex ">
+                        <div className="flex-1 px-2 py-2 font-semibold bg-gray-100 dark:bg-zinc-900">Hour</div>
+                        <div className="flex-1 px-2 py-2 text-red-800">{result.translatedPillars.hour.stem} ({result.translatedPillars.hour.stemInfo.pinyin}) - {result.translatedPillars.hour.stemInfo.element}</div>
+                        <div className="flex-1 px-2 py-2 text-red-800">{result.translatedPillars.hour.branch} ({result.translatedPillars.hour.branchInfo.pinyin}) - {result.translatedPillars.hour.branchInfo.animal}</div>
+                    </div>
+                    <div className="flex ">
+                        <div className="flex-1 px-2 py-2 font-semibold bg-gray-100 dark:bg-zinc-900">Day</div>
+                        <div className="flex-1 px-2 py-2 text-red-800">{result.translatedPillars.day.stem} ({result.translatedPillars.day.stemInfo.pinyin}) - {result.translatedPillars.day.stemInfo.element}</div>
+                        <div className="flex-1 px-2 py-2 text-red-800">{result.translatedPillars.day.branch} ({result.translatedPillars.day.branchInfo.pinyin}) - {result.translatedPillars.day.branchInfo.animal}</div>
+                    </div>
+
+                    {/* Branches Row */}
+                    <div className="flex ">
+                        <div className="flex-1 px-2 py-2 font-semibold bg-gray-100 dark:bg-zinc-900">Month</div>
+                        <div className="flex-1 px-2 py-2 text-red-800">{result.translatedPillars.month.stem} ({result.translatedPillars.month.stemInfo.pinyin}) - {result.translatedPillars.month.stemInfo.element}</div>
+                        <div className="flex-1 px-2 py-2 text-red-800">{result.translatedPillars.month.branch} ({result.translatedPillars.month.branchInfo.pinyin}) - {result.translatedPillars.month.branchInfo.animal}</div>
+                    </div>
+                    <div className="flex ">
+                        <div className="flex-1 px-2 py-2 font-semibold bg-gray-100 dark:bg-zinc-900">Year</div>
+                        <div className="flex-1 px-2 py-2 text-red-800">{result.translatedPillars.year.stem} ({result.translatedPillars.year.stemInfo.pinyin}) - {result.translatedPillars.year.stemInfo.element}</div>
+                        <div className="flex-1 px-2 py-2 text-red-800">{result.translatedPillars.year.branch} ({result.translatedPillars.year.branchInfo.pinyin}) - {result.translatedPillars.year.branchInfo.animal}</div>
+                    </div>
+                </div>
+            </div>
+
             <div className='flex flex-col gap-4'>
                 <div className='w-full'>
                     <div className="w-full rounded-md overflow-hidden border">
@@ -186,7 +247,14 @@ export default function Result3({ result, biodata }) {
                     </div>
 
                 </div> */}
-                <div>
+
+                <div className='flex flex-col gap-2'>
+                    <div className='text-left'>
+                        <h2 className='text-3xl'>Five Elemental</h2>
+                        <p>
+                            This is your five elemental Wood, Fire, Water, Earth & Metal
+                        </p>
+                    </div>
                     <div className="w-full rounded-md overflow-hidden border"
                         data-tooltip-id="my-tooltip" data-tooltip-content="In BaZi (Four Pillars), each person has a combination of 8 characters (Heavenly Stems and Earthly Branches)
                         that represent the elements of Wood, Fire, Earth, Metal, and Water.
@@ -223,7 +291,7 @@ export default function Result3({ result, biodata }) {
                         </div>
 
                         {/* Row */}
-                        <div className="flex ">
+                        <div className="flex flex-col">
                             <ReactECharts option={option1} className='md:w-full md:h-[600px] xs:w-full' />
                             <ReactECharts option={option2} className='md:w-full md:h-[600px] xs:w-full' />
                         </div>
@@ -264,52 +332,7 @@ export default function Result3({ result, biodata }) {
                     </div>
 
                 </div>
-                <div>
-                    <div className="w-full rounded-md overflow-hidden border"
-                        data-tooltip-id='my-tooltip'
-                        data-tooltip-content={`The Four Pillars of BaZi (also known as the Four Pillars of Destiny or Eight Characters) is a system in Chinese metaphysics used to analyze a person’s life based on their birth date and time.
-                        Each pillar represents a time component and consists of two parts: the Heavenly Stem and the Earthly Branch.
-                        The four pillars are:
-                        1. Year Pillar – represents family heritage, childhood, and social environment.
-                        2. Month Pillar – represents parents, teenage years, and career potential.
-                        3. Day Pillar – represents the self (Day Master) and spouse.
-                        4. Hour Pillar – represents children, inner thoughts, and future.
-                        Each stem and branch contains one or more of the five elements (Wood, Fire, Earth, Metal, Water), which are used to understand personality, strengths, and the balance of energy in a person’s life.`}
-                    >
-                        {/* Title Row */}
-                        <div className="bg-red-800 dark:text-black text-white font-semibold p-2">
-                            Four Pillars | Bazi
-                        </div>
 
-                        {/* Header Row */}
-                        <div className="flex bg-red-800 dark:text-black text-white font-semibold">
-                            <div className="flex-1 p-2">Type</div>
-                            <div className="flex-1 p-2">Hour</div>
-                            <div className="flex-1 p-2">Day</div>
-                            <div className="flex-1 p-2">Month</div>
-                            <div className="flex-1 p-2">Year</div>
-                        </div>
-
-                        {/* Stems Row */}
-                        <div className="flex ">
-                            <div className="flex-1 px-2 py-2 font-semibold bg-gray-100 dark:bg-zinc-900">Stems</div>
-                            <div className="flex-1 px-2 py-2 text-red-800">{result.baziPillars.hour.stem}</div>
-                            <div className="flex-1 px-2 py-2 text-red-800">{result.baziPillars.day.stem}</div>
-                            <div className="flex-1 px-2 py-2 text-red-800">{result.baziPillars.month.stem}</div>
-                            <div className="flex-1 px-2 py-2 text-red-800">{result.baziPillars.year.stem}</div>
-                        </div>
-
-                        {/* Branches Row */}
-                        <div className="flex ">
-                            <div className="flex-1 px-2 py-2 font-semibold bg-gray-100 dark:bg-zinc-900">Branches</div>
-                            <div className="flex-1 px-2 py-2 text-red-800">{result.baziPillars.hour.branch}</div>
-                            <div className="flex-1 px-2 py-2 text-red-800">{result.baziPillars.day.branch}</div>
-                            <div className="flex-1 px-2 py-2 text-red-800">{result.baziPillars.month.branch}</div>
-                            <div className="flex-1 px-2 py-2 text-red-800">{result.baziPillars.year.branch}</div>
-                        </div>
-                    </div>
-
-                </div>
                 <div>
                     <div className='w-full rounded-md overflow-hidden border'
                         data-tooltip-id='my-tooltip'
@@ -320,8 +343,8 @@ export default function Result3({ result, biodata }) {
                         }
                     >
                         <div className='flex bg-red-800 dark:text-black text-white '>
-                                <div className='flex-1 p-2'>FAVORABLE DIRECTIONS</div>
-                                <div className='flex-1 p-2'>本命吉方</div>
+                            <div className='flex-1 p-2'>FAVORABLE DIRECTIONS</div>
+                            <div className='flex-1 p-2'>本命吉方</div>
                         </div>
                         <div className='flex'>
                             <div className='flex-1 px-2 py-2 bg-gray-100 dark:bg-zinc-900'>Fu Wei (Stability)</div>
@@ -352,27 +375,27 @@ export default function Result3({ result, biodata }) {
                     >
                         <div className='flex bg-red-800 dark:text-black text-white '>
                             <div className='flex-1 p-2'>UNFAVORABLE DIRECTIONS</div>
-                            <div className='flex-1 p-2'>本命凶方</div>
+                            <div className='flex-1 p-2'>不利的方向</div>
                         </div>
-                            <div className='flex'>
-                                <div className='flex-1 px-2 py-2 bg-gray-100 dark:bg-zinc-900'>Wu Gui (Five Ghosts)</div>
-                                <div className='flex-1 px-2 py-2 text-red-800'>{result.unfavorableDirections[0]}</div>
-                            </div>
-                            <div className='flex'>
-                                <div className='flex-1 px-2 py-2 bg-gray-100 dark:bg-zinc-900'>Hou Hai (Mishaps)</div>
-                                <div className='flex-1 px-2 py-2 text-red-800'>{result.unfavorableDirections[1]}</div>
-                            </div>
-                            <div className='flex'>
-                                <div className='flex-1 px-2 py-2 bg-gray-100 dark:bg-zinc-900'>Liu Sha (Six Killings)</div>
-                                <div className='flex-1 px-2 py-2 text-red-800'>{result.unfavorableDirections[2]}</div>
-                            </div>
-                            <div className='flex'>
-                                <div className='flex-1 px-2 py-2 bg-gray-100 dark:bg-zinc-900'>Jue Ming (Life Threatening)</div>
-                                <div className='flex-1 px-2 py-2 text-red-800'>{result.unfavorableDirections[3]}</div>
-                            </div>
+                        <div className='flex'>
+                            <div className='flex-1 px-2 py-2 bg-gray-100 dark:bg-zinc-900'>Wu Gui (Five Ghosts)</div>
+                            <div className='flex-1 px-2 py-2 text-red-800'>{result.unfavorableDirections[0]}</div>
+                        </div>
+                        <div className='flex'>
+                            <div className='flex-1 px-2 py-2 bg-gray-100 dark:bg-zinc-900'>Hou Hai (Mishaps)</div>
+                            <div className='flex-1 px-2 py-2 text-red-800'>{result.unfavorableDirections[1]}</div>
+                        </div>
+                        <div className='flex'>
+                            <div className='flex-1 px-2 py-2 bg-gray-100 dark:bg-zinc-900'>Liu Sha (Six Killings)</div>
+                            <div className='flex-1 px-2 py-2 text-red-800'>{result.unfavorableDirections[2]}</div>
+                        </div>
+                        <div className='flex'>
+                            <div className='flex-1 px-2 py-2 bg-gray-100 dark:bg-zinc-900'>Jue Ming (Life Threatening)</div>
+                            <div className='flex-1 px-2 py-2 text-red-800'>{result.unfavorableDirections[3]}</div>
+                        </div>
                     </div>
                 </div>
-                <div>
+                {/* <div>
                     <div className='w-full rounded-md overflow-hidden border'>
                         <div className='flex bg-blue-800 dark:bg-blue-500 dark:text-black text-white '>
                             <div className='flex-1 p-2'>88</div>
@@ -386,41 +409,41 @@ export default function Result3({ result, biodata }) {
                             <div className='flex-1 p-2'>8</div>
                         </div>
 
-                            <div className='flex'>
-                                <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>丁</div>
-                                <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>戊</div>
-                                <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>己</div>
-                                <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>庚</div>
-                                <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>辛</div>
-                                <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>壬</div>
-                                <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>癸</div>
-                                <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>甲</div>
-                                <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>乙</div>
-                            </div>
-                            <div className='flex'>
-                                <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>卯</div>
-                                <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>辰</div>
-                                <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>⺒</div>
-                                <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>午</div>
-                                <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>未</div>
-                                <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>申</div>
-                                <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>酉</div>
-                                <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>戌</div>
-                                <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>亥</div>
-                            </div>
-                            <div className='flex'>
-                                <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>乙</div>
-                                <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>癸 戊 乙</div>
-                                <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>庚 丙 戊</div>
-                                <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>丁 己</div>
-                                <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>丁 己 乙</div>
-                                <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>戊 庚 壬</div>
-                                <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>辛</div>
-                                <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>丁 戊 辛</div>
-                                <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>壬 甲</div>
-                            </div>
+                        <div className='flex'>
+                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>丁</div>
+                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>戊</div>
+                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>己</div>
+                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>庚</div>
+                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>辛</div>
+                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>壬</div>
+                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>癸</div>
+                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>甲</div>
+                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>乙</div>
+                        </div>
+                        <div className='flex'>
+                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>卯</div>
+                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>辰</div>
+                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>⺒</div>
+                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>午</div>
+                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>未</div>
+                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>申</div>
+                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>酉</div>
+                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>戌</div>
+                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>亥</div>
+                        </div>
+                        <div className='flex'>
+                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>乙</div>
+                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>癸 戊 乙</div>
+                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>庚 丙 戊</div>
+                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>丁 己</div>
+                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>丁 己 乙</div>
+                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>戊 庚 壬</div>
+                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>辛</div>
+                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>丁 戊 辛</div>
+                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>壬 甲</div>
+                        </div>
                     </div>
-                </div>
+                </div> */}
                 <div className="flex justify-center mt-8 print:hidden">
                     <button
                         onClick={handlePrint}
