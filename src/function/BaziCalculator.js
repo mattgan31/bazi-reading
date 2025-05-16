@@ -483,21 +483,30 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
         let season = null
 
         switch (month) {
-            case 0, 1, 2:
-                season = "spring"
-                break
-            case 3, 4, 5:
-                season = "summer"
-                break
-            case 6, 7, 8:
-                season = "autumn"
-                break
-            case 9, 10, 11:
-                season = "winter"
-                break
-            default: console.log("Invalid month");
-
+            case 0:
+            case 1:
+            case 2:
+                season = "spring";
+                break;
+            case 3:
+            case 4:
+            case 5:
+                season = "summer";
+                break;
+            case 6:
+            case 7:
+            case 8:
+                season = "autumn";
+                break;
+            case 9:
+            case 10:
+            case 11:
+                season = "winter";
+                break;
+            default:
+                console.log("Invalid month");
         }
+
 
         const result = applySeasonalCorrection(elements, season)
 
