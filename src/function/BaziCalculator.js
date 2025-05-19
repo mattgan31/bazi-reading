@@ -168,7 +168,7 @@ function calculateElementBalance(pillars) {
 }
 
 export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
-    const date = new Date(birthDate);
+    const date = new Date(`${birthDate}T${birthTime}:00`)
 
     // Validate birth date
     if (!birthDate || isNaN(new Date(birthDate))) {
@@ -194,7 +194,10 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
     console.log(eightChar);
 
     // Calculate the hour index (0-11)
-    const hourIndex = Math.floor(birthTimeInMinutes / 2); // Each GanZhi hour is 2 hours
+    const hour = date.getHours();      // jam 0–23
+    const minute = date.getMinutes();  // menit 0–59
+    const totalMinutes = hour * 60 + minute;
+    const hourIndex = Math.floor(birthTimeInMinutes / 120); // Each GanZhi hour is 2 hours
 
     // Fetch the Gan and Zhi for the hour using getTimeGan and getTimeZhi
     const hourGan = eightChar.getTimeGan(hourIndex);
@@ -544,6 +547,11 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
     const { favorable, unfavorable } = getDirections(guaNumber);
     const elementCategories = categorizeElements(dayMaster, elementBalance);
 
+    const descriptionResult = `Give me a simple (short) summary of personality about Bazi reading, I got the day master is ${dayMaster}, and the five elemental balance is ${Object.entries(elementBalance)
+        .map(([key, value]) => `${key} = ${value}`)
+        .join(', ')}`;
+
+
     return {
         name,
         baziPillars: pillars,
@@ -555,7 +563,8 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
         favorableDirections: favorable,
         unfavorableDirections: unfavorable,
         elementJoeyYap,
-        translatedPillars
+        translatedPillars,
+        descriptionResult
     };
 };
 

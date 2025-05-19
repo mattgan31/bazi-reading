@@ -1,11 +1,102 @@
-import React from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import { Tooltip } from 'react-tooltip'
 import ReactECharts from 'echarts-for-react';
 
 export default function Result3({ result, biodata }) {
+    const [responseText, setResponseText] = useState('');
+    const [loading, setLoading] = useState(false);
+    // const [responseReady, setResponseReady] = useState(false);
+
     const handlePrint = () => {
         window.print();
     };
+
+    // const getAiResponse = async (descriptionResult) => {
+    //     setResponseText('');
+    //     setResponseReady(false);
+    //     setLoading(true);
+
+    //     try {
+    //         const response = await fetch("http://157.245.62.206:8000/api/chat", {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //             body: JSON.stringify({
+    //                 messages: [
+    //                     {
+    //                         content: descriptionResult,
+    //                         role: "user",
+    //                     },
+    //                 ],
+    //             }),
+    //         });
+
+    //         const reader = response.body.getReader();
+    //         const decoder = new TextDecoder("utf-8");
+
+    //         let fullText = '';
+
+    //         while (true) {
+    //             const { done, value } = await reader.read();
+    //             if (done) break;
+
+    //             const chunk = decoder.decode(value, { stream: true });
+
+    //             try {
+    //                 const parsed = JSON.parse(chunk); // if response is array-like
+    //                 if (Array.isArray(parsed)) {
+    //                     for (const word of parsed) {
+    //                         fullText += word;
+    //                         setResponseText((prev) => prev + word);
+    //                     }
+    //                 } else {
+    //                     fullText += chunk;
+    //                     setResponseText((prev) => prev + chunk);
+    //                 }
+    //             } catch {
+    //                 fullText += chunk;
+    //                 setResponseText((prev) => prev + chunk);
+    //             }
+    //         }
+
+    //         setResponseReady(true)
+    //     } catch (error) {
+    //         console.error("Streaming error:", error);
+    //         setResponseText("Error receiving response.");
+    //     }
+
+    //     setLoading(false);
+    // };
+
+    const getAiResponse = async (descriptionResult) => {
+        setLoading(true)
+        try {
+            const response = await fetch(`http://${import.meta.env.VITE_AI_API_URL}/api/chat`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    model: "qwen2.5",
+                    messages: [{ content: descriptionResult, role: "user" }],
+                    stream: false
+                }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log("Data received:", data);
+                setResponseText(data.message.content)
+            }
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setLoading(false)
+        }
+    };
+
+
 
     function formatNumber(value) {
         if (value % 1 !== 0) {
@@ -69,7 +160,7 @@ export default function Result3({ result, biodata }) {
 
     const indicators = Object.entries(result.elementBalancePercentage).map(([name]) => ({
         name,
-        max: 70,
+        max: 50,
     }));
 
     const option2 = {
@@ -89,6 +180,15 @@ export default function Result3({ result, biodata }) {
             }
         ]
     };
+
+    const hasFetched = useRef(false);
+
+    useEffect(() => {
+        if (result?.descriptionResult && !hasFetched.current) {
+            getAiResponse(result.descriptionResult);
+            hasFetched.current = true;
+        }
+    }, [result]);
 
     return (
         <div className='max-w-screen w-auto flex flex-col gap-4'>
@@ -266,11 +366,11 @@ export default function Result3({ result, biodata }) {
 
                         {/* Header Row */}
                         <div className="flex bg-red-800 dark:text-black text-white font-semibold">
-                            <div className="flex-1 p-2">Wood</div>
-                            <div className="flex-1 p-2">Fire</div>
-                            <div className="flex-1 p-2">Water</div>
-                            <div className="flex-1 p-2">Earth</div>
-                            <div className="flex-1 p-2">Metal</div>
+                            <div className="flex-1 p-2 bg-green-600">木 - Wood</div>
+                            <div className="flex-1 p-2 bg-red-600">火 - Fire</div>
+                            <div className="flex-1 p-2 bg-blue-600">水 - Water</div>
+                            <div className="flex-1 p-2 bg-orange-950">土 - Earth</div>
+                            <div className="flex-1 p-2 bg-slate-600">金 - Metal</div>
                         </div>
 
                         {/* Row */}
@@ -393,6 +493,13 @@ export default function Result3({ result, biodata }) {
                             <div className='flex-1 px-2 py-2 bg-gray-100 dark:bg-zinc-900'>Jue Ming (Life Threatening)</div>
                             <div className='flex-1 px-2 py-2 text-red-800'>{result.unfavorableDirections[3]}</div>
                         </div>
+                    </div>
+                </div>
+                <div>
+                    <h2 className='text-3xl'>Recommendation</h2>
+                    {loading && <p>Generating...</p>}
+                    <div style={{ whiteSpace: 'pre-wrap', marginTop: '1rem' }}>
+                        {responseText}
                     </div>
                 </div>
                 {/* <div>

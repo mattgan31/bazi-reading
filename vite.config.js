@@ -13,6 +13,7 @@ export default defineConfig({
       "d83e-2a09-bac5-3a11-25d7-00-3c5-41.ngrok-free.app",
       "3b03-2a09-bac5-3a14-25b9-00-3c2-3c.ngrok-free.app",
       "db44-2a09-bac5-3a15-1d0f-00-2e5-4f.ngrok-free.app"
-    ]
+    ],
+    host: true
   }
 })
