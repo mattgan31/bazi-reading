@@ -1,10 +1,10 @@
-import React, {useState, useEffect, useRef} from 'react'
+import React from 'react'
 import { Tooltip } from 'react-tooltip'
 import ReactECharts from 'echarts-for-react';
 
 export default function Result3({ result, biodata }) {
-    const [responseText, setResponseText] = useState('');
-    const [loading, setLoading] = useState(false);
+    // const [responseText, setResponseText] = useState('');
+    // const [loading, setLoading] = useState(false);
     // const [responseReady, setResponseReady] = useState(false);
 
     const handlePrint = () => {
@@ -69,32 +69,32 @@ export default function Result3({ result, biodata }) {
     //     setLoading(false);
     // };
 
-    const getAiResponse = async (descriptionResult) => {
-        setLoading(true)
-        try {
-            const response = await fetch(`http://${import.meta.env.VITE_AI_API_URL}/api/chat`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    model: "qwen2.5",
-                    messages: [{ content: descriptionResult, role: "user" }],
-                    stream: false
-                }),
-            });
+    // const getAiResponse = async (descriptionResult) => {
+    //     setLoading(true)
+    //     try {
+    //         const response = await fetch(`http://${import.meta.env.VITE_AI_API_URL}/api/chat`, {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //             body: JSON.stringify({
+    //                 model: "qwen2.5",
+    //                 messages: [{ content: descriptionResult, role: "user" }],
+    //                 stream: false
+    //             }),
+    //         });
 
-            if (response.ok) {
-                const data = await response.json();
-                console.log("Data received:", data);
-                setResponseText(data.message.content)
-            }
-        } catch (error) {
-            console.log(error)
-        } finally {
-            setLoading(false)
-        }
-    };
+    //         if (response.ok) {
+    //             const data = await response.json();
+    //             console.log("Data received:", data);
+    //             setResponseText(data.message.content)
+    //         }
+    //     } catch (error) {
+    //         console.log(error)
+    //     } finally {
+    //         setLoading(false)
+    //     }
+    // };
 
 
 
@@ -181,14 +181,14 @@ export default function Result3({ result, biodata }) {
         ]
     };
 
-    const hasFetched = useRef(false);
+    // const hasFetched = useRef(false);
 
-    useEffect(() => {
-        if (result?.descriptionResult && !hasFetched.current) {
-            getAiResponse(result.descriptionResult);
-            hasFetched.current = true;
-        }
-    }, [result]);
+    // useEffect(() => {
+    //     if (result?.descriptionResult && !hasFetched.current) {
+    //         getAiResponse(result.descriptionResult);
+    //         hasFetched.current = true;
+    //     }
+    // }, [result]);
 
     return (
         <div className='max-w-screen w-auto flex flex-col gap-4'>
