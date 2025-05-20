@@ -495,13 +495,13 @@ export default function Result3({ result, biodata }) {
                         </div>
                     </div>
                 </div>
-                <div>
+                {/* <div>
                     <h2 className='text-3xl'>Recommendation</h2>
                     {loading && <p>Generating...</p>}
                     <div style={{ whiteSpace: 'pre-wrap', marginTop: '1rem' }}>
                         {responseText}
                     </div>
-                </div>
+                </div> */}
                 {/* <div>
                     <div className='w-full rounded-md overflow-hidden border'>
                         <div className='flex bg-blue-800 dark:bg-blue-500 dark:text-black text-white '>
