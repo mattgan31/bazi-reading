@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { DatePicker, Input, TimePicker } from 'rsuite';
+import { DatePicker, Input, SelectPicker, TimePicker } from 'rsuite';
 import 'rsuite/dist/rsuite.css';
 
 
@@ -96,11 +96,19 @@ export default function Form() {
               onChange={(e) => setGender(e.target.value)} />
             <label>Female</label>
           </div> */}
-            <select onChange={(e) => setGender(e.target.value)} className='form-control border-1 px-2 py-1 rounded-sm' required>
+            {/* <select onChange={(e) => setGender(e.target.value)} className='form-control border-1 px-2 py-1 rounded-sm' required>
               <option value={''}>== Select your gender ==</option>
               <option value={'male'}>Male</option>
               <option value={'female'}>Female</option>
-            </select>
+          </select> */}
+          <SelectPicker
+            data={[{label:"Male",value: "male"},{label:"Female", value: "female"}]}
+            searchable={false}
+            onChange={(value) => setGender(value)}
+            style={{ width: 224 }}
+            className='w-full form-control px-2 py-1 rounded-sm'
+            required
+          />
         </div>
         <div className='form-group'>
           <label></label>
