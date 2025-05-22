@@ -140,9 +140,7 @@ export default function Result3({ result, biodata }) {
             type: 'bar',
             data: Object.values(result.elementBalancePercentage),
             itemStyle: {
-                color: function (params) {
-                    return params.value < 3 ? 'rgba(75, 192, 192, 0.8)' : 'rgba(255, 206, 86, 0.8)';
-                },
+                color: 'rgba(255, 206, 86, 0.8)'
             },
             label: {
                 show: true,
@@ -195,7 +193,7 @@ export default function Result3({ result, biodata }) {
             <Tooltip id="my-tooltip" className='whitespace-pre-line' />
             {/* Header */}
             <div className='flex flex-col gap-4'>
-                <div className='flex flex-col print:hidden'>
+                {/* <div className='flex flex-col print:hidden'>
                     <div className='flex-1 flex justify-center items-center gap-2'>
                         <div className='w-[10px] h-[10px] bg-red-800'></div>
                         <div>Red is Dynamic data</div>
@@ -204,18 +202,19 @@ export default function Result3({ result, biodata }) {
                         <div className='w-[10px] h-[10px] bg-blue-800 dark:bg-blue-500'></div>
                         <div>Blue is Static data</div>
                     </div>
-                </div>
+                </div> */}
                 <h1>PERSONAL CHART FOR 2025</h1>
                 <div className='text-left'>
                     <h2 className='text-3xl'>Biodata</h2>
                     <p>Name: {biodata.name}</p>
-                    <p>Birth Date: {biodata.birthDate}  </p>
-                    <p>Birth Time: {biodata.birthTime}  </p>
+                    <p>Birth Date: {biodata.birthDate.toLocaleDateString() }  </p>
+                    <p>Birth Time: {biodata.birthTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}  </p>
                     <p>Gender: {biodata.gender == "male" ? "Male" : "Female"}  </p>
                 </div>
             </div>
 
             {/* Main Content */}
+
 
             <div className='flex flex-col gap-2'>
                 <div className='text-left'>
@@ -236,39 +235,63 @@ export default function Result3({ result, biodata }) {
                         Each stem and branch contains one or more of the five elements (Wood, Fire, Earth, Metal, Water), which are used to understand personality, strengths, and the balance of energy in a person’s life.`}
                 >
                     {/* Title Row */}
-                    <div className="bg-red-800 dark:text-black text-white font-semibold p-2">
+                    <div className="bg-red-800  text-white font-semibold p-2">
                         Four Pillars | Bazi
                     </div>
 
                     {/* Header Row */}
-                    <div className="flex bg-red-800 dark:text-black text-white font-semibold">
-                        <div className="flex-1 p-2">Pillars</div>
-                        <div className="flex-1 p-2">Stems</div>
-                        <div className="flex-1 p-2">Branches</div>
+                    <div className="flex bg-red-800  text-white font-semibold">
+                        <div className="flex-1 p-2">Hour</div>
+                        <div className="flex-1 p-2">Day</div>
+                        <div className="flex-1 p-2">Month</div>
+                        <div className="flex-1 p-2">Year</div>
+                        <div className="p-2"></div>
                     </div>
 
                     {/* Stems Row */}
                     <div className="flex ">
-                        <div className="flex-1 px-2 py-2 font-semibold bg-gray-100 dark:bg-zinc-900">Hour</div>
-                        <div className="flex-1 px-2 py-2 text-red-800">{result.translatedPillars.hour.stem} ({result.translatedPillars.hour.stemInfo.pinyin}) - {result.translatedPillars.hour.stemInfo.element}</div>
-                        <div className="flex-1 px-2 py-2 text-red-800">{result.translatedPillars.hour.branch} ({result.translatedPillars.hour.branchInfo.pinyin}) - {result.translatedPillars.hour.branchInfo.animal}</div>
+                        <div className="flex-1 flex items-center justify-center px-2 py-2 text-red-800">{result.translatedPillars.hour.stem} ({result.translatedPillars.hour.stemInfo.pinyin}) - {result.translatedPillars.hour.stemInfo.element}</div>
+                        <div className="flex-1 flex items-center justify-center px-2 py-2 text-red-800">{result.translatedPillars.day.stem} ({result.translatedPillars.day.stemInfo.pinyin}) - {result.translatedPillars.day.stemInfo.element}</div>
+                        <div className="flex-1 flex items-center justify-center px-2 py-2 text-red-800">{result.translatedPillars.month.stem} ({result.translatedPillars.month.stemInfo.pinyin}) - {result.translatedPillars.month.stemInfo.element}</div>
+                        <div className="flex-1 flex items-center justify-center px-2 py-2 text-red-800">{result.translatedPillars.year.stem} ({result.translatedPillars.year.stemInfo.pinyin}) - {result.translatedPillars.year.stemInfo.element}</div>
+                        <div className=" px-2 py-2 font-semibold bg-gray-100" style={{ writingMode: 'vertical-rl' }}>Stems</div>
                     </div>
                     <div className="flex ">
-                        <div className="flex-1 px-2 py-2 font-semibold bg-gray-100 dark:bg-zinc-900">Day</div>
-                        <div className="flex-1 px-2 py-2 text-red-800">{result.translatedPillars.day.stem} ({result.translatedPillars.day.stemInfo.pinyin}) - {result.translatedPillars.day.stemInfo.element}</div>
-                        <div className="flex-1 px-2 py-2 text-red-800">{result.translatedPillars.day.branch} ({result.translatedPillars.day.branchInfo.pinyin}) - {result.translatedPillars.day.branchInfo.animal}</div>
+                        <div className="flex-1 flex items-center justify-center px-2 py-2 text-red-800">{result.translatedPillars.hour.branch} ({result.translatedPillars.hour.branchInfo.pinyin}) - {result.translatedPillars.hour.branchInfo.animal}</div>
+                        <div className="flex-1 flex items-center justify-center px-2 py-2 text-red-800">{result.translatedPillars.day.branch} ({result.translatedPillars.day.branchInfo.pinyin}) - {result.translatedPillars.day.branchInfo.animal}</div>
+                        <div className="flex-1 flex items-center justify-center px-2 py-2 text-red-800">{result.translatedPillars.month.branch} ({result.translatedPillars.month.branchInfo.pinyin}) - {result.translatedPillars.month.branchInfo.animal}</div>
+                        <div className="flex-1 flex items-center justify-center px-2 py-2 text-red-800">{result.translatedPillars.year.branch} ({result.translatedPillars.year.branchInfo.pinyin}) - {result.translatedPillars.year.branchInfo.animal}</div>
+                        <div className="px-2 py-2 font-semibold bg-gray-100" style={{ writingMode: 'vertical-rl' }}>Branches</div>
                     </div>
+                    <div className="flex">
+                        {['hour', 'day', 'month', 'year'].map((pillarKey) => {
+                            const pillar = result.translatedPillars[pillarKey];
+                            return (
+                                <div key={pillarKey} className="flex-1 flex flex-col items-center justify-center px-2 py-2 text-red-800 space-y-1">
+                                    {pillar.hiddenStems.map((hs, index) => {
+                                        const info = pillar.hiddenStemsInfo[index];
+                                        return (
+                                            <div key={hs}>
+                                                {hs} ({info.pinyin}) - {info.element}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            );
+                        })}
+                        <div
+                            className="px-2 py-2 font-semibold bg-gray-100"
+                            style={{ writingMode: 'vertical-rl' }}
+                        >
+                            Hidden Stem
+                        </div>
+                    </div>
+
 
                     {/* Branches Row */}
                     <div className="flex ">
-                        <div className="flex-1 px-2 py-2 font-semibold bg-gray-100 dark:bg-zinc-900">Month</div>
-                        <div className="flex-1 px-2 py-2 text-red-800">{result.translatedPillars.month.stem} ({result.translatedPillars.month.stemInfo.pinyin}) - {result.translatedPillars.month.stemInfo.element}</div>
-                        <div className="flex-1 px-2 py-2 text-red-800">{result.translatedPillars.month.branch} ({result.translatedPillars.month.branchInfo.pinyin}) - {result.translatedPillars.month.branchInfo.animal}</div>
                     </div>
                     <div className="flex ">
-                        <div className="flex-1 px-2 py-2 font-semibold bg-gray-100 dark:bg-zinc-900">Year</div>
-                        <div className="flex-1 px-2 py-2 text-red-800">{result.translatedPillars.year.stem} ({result.translatedPillars.year.stemInfo.pinyin}) - {result.translatedPillars.year.stemInfo.element}</div>
-                        <div className="flex-1 px-2 py-2 text-red-800">{result.translatedPillars.year.branch} ({result.translatedPillars.year.branchInfo.pinyin}) - {result.translatedPillars.year.branchInfo.animal}</div>
                     </div>
                 </div>
             </div>
@@ -277,7 +300,7 @@ export default function Result3({ result, biodata }) {
                 <div className='w-full'>
                     <div className="w-full rounded-md overflow-hidden border">
                         {/* Header */}
-                        <div className="flex bg-blue-800 dark:bg-blue-500 dark:text-black text-white font-semibold">
+                        <div className="flex bg-red-800 dark:bg-red-800  text-white font-semibold">
                             <div className="flex-1 p-2">DAY MASTER</div>
                             <div className="flex-1 p-2">{result.dayMaster}</div>
                         </div>
@@ -285,36 +308,37 @@ export default function Result3({ result, biodata }) {
                         {/* Rows */}
                         <div className="">
                             <div className="flex">
-                                <div className="flex-1 px-2 py-2 text-blue-800 dark:text-blue-500 font-medium bg-gray-100 dark:bg-zinc-900">Celestial Animal</div>
-                                <div className="flex-1 px-2 py-2 text-blue-800 dark:text-blue-500">Rabbit</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium bg-gray-100 ">Celestial Animal</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.celestial}</div>
                             </div>
                             <div className="flex">
-                                <div className="flex-1 px-2 py-2 text-blue-800 dark:text-blue-500 font-medium bg-gray-100 dark:bg-zinc-900">Noble People</div>
-                                <div className="flex-1 px-2 py-2 text-blue-800 dark:text-blue-500">Goat, Ox</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium bg-gray-100 ">Noble People</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.noble}</div>
                             </div>
                             <div className="flex">
-                                <div className="flex-1 px-2 py-2 text-blue-800 dark:text-blue-500 font-medium bg-gray-100 dark:bg-zinc-900">Intelligence</div>
-                                <div className="flex-1 px-2 py-2 text-blue-800 dark:text-blue-500">Monkey</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium bg-gray-100 ">Intelligence</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.intelligence}</div>
                             </div>
                             <div className="flex">
-                                <div className="flex-1 px-2 py-2 text-blue-800 dark:text-blue-500 font-medium bg-gray-100 dark:bg-zinc-900">Peach Blossom</div>
-                                <div className="flex-1 px-2 py-2 text-blue-800 dark:text-blue-500">Rabbit</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium bg-gray-100 ">Peach Blossom</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.peach_blossom}</div>
                             </div>
                             <div className="flex">
-                                <div className="flex-1 px-2 py-2 text-blue-800 dark:text-blue-500 font-medium bg-gray-100 dark:bg-zinc-900">Sky Horse</div>
-                                <div className="flex-1 px-2 py-2 text-blue-800 dark:text-blue-500">Monkey</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium bg-gray-100 ">Sky Horse</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.sky_horse}</div>
                             </div>
                             <div className="flex">
-                                <div className="flex-1 px-2 py-2 text-blue-800 dark:text-blue-500 font-medium bg-gray-100 dark:bg-zinc-900">Solitary</div>
-                                <div className="flex-1 px-2 py-2 text-blue-800 dark:text-blue-500">Monkey</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium bg-gray-100 ">Solitary</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.solitary}</div>
                             </div>
+                            {/* Different value */}
+                            {/* <div className="flex">
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium bg-gray-100 ">Life Palace</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.life_palace}</div>
+                            </div> */}
                             <div className="flex">
-                                <div className="flex-1 px-2 py-2 text-blue-800 dark:text-blue-500 font-medium bg-gray-100 dark:bg-zinc-900">Life Palace</div>
-                                <div className="flex-1 px-2 py-2 text-blue-800 dark:text-blue-500">Yin Wood Pig</div>
-                            </div>
-                            <div className="flex">
-                                <div className="flex-1 px-2 py-2 text-blue-800 dark:text-blue-500 font-medium bg-gray-100 dark:bg-zinc-900">Conception Palace</div>
-                                <div className="flex-1 px-2 py-2 text-blue-800 dark:text-blue-500">Yin Fire Rabbit</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium bg-gray-100 ">Conception Palace</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.conception_palace.ganzhi}</div>
                             </div>
                         </div>
                     </div>
@@ -324,12 +348,12 @@ export default function Result3({ result, biodata }) {
                     <div className="w-full rounded-md overflow-hidden border">
 
                         <div
-                            className="bg-red-800 dark:text-black text-white font-semibold p-2">
+                            className="bg-red-800  text-white font-semibold p-2">
                             Five Elemental
                         </div>
 
 
-                        <div className="flex bg-red-800 dark:text-black text-white font-semibold">
+                        <div className="flex bg-red-800  text-white font-semibold">
                             <div className="flex-1 p-2">Wood</div>
                             <div className="flex-1 p-2">Fire</div>
                             <div className="flex-1 p-2">Water</div>
@@ -360,12 +384,12 @@ export default function Result3({ result, biodata }) {
                         that represent the elements of Wood, Fire, Earth, Metal, and Water.
                         The purpose of this calculation is to identify which elements are dominant and which are weak in your life.">
                         {/* Title Row */}
-                        <div className="bg-red-800 dark:text-black text-white font-semibold p-2">
+                        <div className="bg-red-800  text-white font-semibold p-2">
                             Five Elemental
                         </div>
 
                         {/* Header Row */}
-                        <div className="flex bg-red-800 dark:text-black text-white font-semibold">
+                        <div className="flex bg-red-800  text-white font-semibold">
                             <div className="flex-1 p-2 bg-green-600">木 - Wood</div>
                             <div className="flex-1 p-2 bg-red-600">火 - Fire</div>
                             <div className="flex-1 p-2 bg-blue-600">水 - Water</div>
@@ -386,7 +410,7 @@ export default function Result3({ result, biodata }) {
                 <div>
                     <div className="w-full rounded-md overflow-hidden border">
                         {/* Title Row */}
-                        <div className="bg-red-800 dark:text-black text-white font-semibold p-2">
+                        <div className="bg-red-800  text-white font-semibold p-2">
                             Elemental Chart
                         </div>
 
@@ -410,12 +434,12 @@ export default function Result3({ result, biodata }) {
                         This classification helps to understand which elements are beneficial, which are challenging, and how the balance of elements influences a person's life according to Chinese metaphysics.`}
                     >
                         {/* Title Row */}
-                        <div className="bg-red-800 dark:text-black text-white font-semibold p-2">
+                        <div className="bg-red-800  text-white font-semibold p-2">
                             Categorize elements
                         </div>
 
                         {/* Header Row */}
-                        <div className="flex bg-red-800 dark:text-black text-white font-semibold">
+                        <div className="flex bg-red-800  text-white font-semibold">
                             <div className="flex-1 p-2">Supportive</div>
                             <div className="flex-1 p-2">Weakening</div>
                             <div className="flex-1 p-2">Controlling</div>
@@ -442,24 +466,24 @@ export default function Result3({ result, biodata }) {
                             It is ideal for facing while working, sleeping, or designing home and office layouts.`
                         }
                     >
-                        <div className='flex bg-red-800 dark:text-black text-white '>
+                        <div className='flex bg-red-800  text-white '>
                             <div className='flex-1 p-2'>FAVORABLE DIRECTIONS</div>
                             <div className='flex-1 p-2'>本命吉方</div>
                         </div>
                         <div className='flex'>
-                            <div className='flex-1 px-2 py-2 bg-gray-100 dark:bg-zinc-900'>Fu Wei (Stability)</div>
+                            <div className='flex-1 px-2 py-2 bg-gray-100 '>Fu Wei (Stability)</div>
                             <div className='flex-1 px-2 py-2 text-red-800'>{result.favorableDirections[0]}</div>
                         </div>
                         <div className='flex'>
-                            <div className='flex-1 px-2 py-2 bg-gray-100 dark:bg-zinc-900'>Tian Yi (Heavenly Doctor)</div>
+                            <div className='flex-1 px-2 py-2 bg-gray-100 '>Tian Yi (Heavenly Doctor)</div>
                             <div className='flex-1 px-2 py-2 text-red-800'>{result.favorableDirections[1]}</div>
                         </div>
                         <div className='flex'>
-                            <div className='flex-1 px-2 py-2 bg-gray-100 dark:bg-zinc-900'>Sheng Qi (Life Generating)</div>
+                            <div className='flex-1 px-2 py-2 bg-gray-100 '>Sheng Qi (Life Generating)</div>
                             <div className='flex-1 px-2 py-2 text-red-800'>{result.favorableDirections[2]}</div>
                         </div>
                         <div className='flex'>
-                            <div className='flex-1 px-2 py-2 bg-gray-100 dark:bg-zinc-900'>Yan Nian (Longevity)</div>
+                            <div className='flex-1 px-2 py-2 bg-gray-100 '>Yan Nian (Longevity)</div>
                             <div className='flex-1 px-2 py-2 text-red-800'>{result.favorableDirections[3]}</div>
                         </div>
                     </div>
@@ -473,24 +497,24 @@ export default function Result3({ result, biodata }) {
                             Knowing and avoiding this direction helps maintain energetic balance and reduce negative influences in life.`
                         }
                     >
-                        <div className='flex bg-red-800 dark:text-black text-white '>
+                        <div className='flex bg-red-800  text-white '>
                             <div className='flex-1 p-2'>UNFAVORABLE DIRECTIONS</div>
                             <div className='flex-1 p-2'>不利的方向</div>
                         </div>
                         <div className='flex'>
-                            <div className='flex-1 px-2 py-2 bg-gray-100 dark:bg-zinc-900'>Wu Gui (Five Ghosts)</div>
+                            <div className='flex-1 px-2 py-2 bg-gray-100 '>Wu Gui (Five Ghosts)</div>
                             <div className='flex-1 px-2 py-2 text-red-800'>{result.unfavorableDirections[0]}</div>
                         </div>
                         <div className='flex'>
-                            <div className='flex-1 px-2 py-2 bg-gray-100 dark:bg-zinc-900'>Hou Hai (Mishaps)</div>
+                            <div className='flex-1 px-2 py-2 bg-gray-100 '>Hou Hai (Mishaps)</div>
                             <div className='flex-1 px-2 py-2 text-red-800'>{result.unfavorableDirections[1]}</div>
                         </div>
                         <div className='flex'>
-                            <div className='flex-1 px-2 py-2 bg-gray-100 dark:bg-zinc-900'>Liu Sha (Six Killings)</div>
+                            <div className='flex-1 px-2 py-2 bg-gray-100 '>Liu Sha (Six Killings)</div>
                             <div className='flex-1 px-2 py-2 text-red-800'>{result.unfavorableDirections[2]}</div>
                         </div>
                         <div className='flex'>
-                            <div className='flex-1 px-2 py-2 bg-gray-100 dark:bg-zinc-900'>Jue Ming (Life Threatening)</div>
+                            <div className='flex-1 px-2 py-2 bg-gray-100 '>Jue Ming (Life Threatening)</div>
                             <div className='flex-1 px-2 py-2 text-red-800'>{result.unfavorableDirections[3]}</div>
                         </div>
                     </div>
@@ -504,7 +528,7 @@ export default function Result3({ result, biodata }) {
                 </div> */}
                 {/* <div>
                     <div className='w-full rounded-md overflow-hidden border'>
-                        <div className='flex bg-blue-800 dark:bg-blue-500 dark:text-black text-white '>
+                        <div className='flex bg-blue-800 dark:bg-blue-500  text-white '>
                             <div className='flex-1 p-2'>88</div>
                             <div className='flex-1 p-2'>78</div>
                             <div className='flex-1 p-2'>68</div>

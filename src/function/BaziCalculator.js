@@ -50,6 +50,136 @@ const branchMap = {
     '午': 'Wu', '未': 'Wei', '申': 'Shen', '酉': 'You', '戌': 'Xu', '亥': 'Hai'
 };
 
+const branches = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];
+const stems = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
+
+// const skyHorseMap = {
+//     '申': '寅', '子': '寅', '辰': '寅', // Monkey, Rat, Dragon → Tiger
+//     '寅': '申', '午': '申', '戌': '申', // Tiger, Horse, Dog → Monkey
+//     '巳': '亥', '酉': '亥', '丑': '亥', // Snake, Rooster, Ox → Pig
+//     '亥': '巳', '卯': '巳', '未': '巳'  // Pig, Rabbit, Goat → Snake
+// };
+
+// const skyHorseMap = {
+//     '寅': '申', '午': '申', '戌': '申',     // Sky Horse = Shen
+//     '亥': '寅', '卯': '寅', '未': '寅',     // Sky Horse = Yin
+//     '申': '寅', '子': '寅', '辰': '寅',     // Sky Horse = Yin
+//     '巳': '亥', '酉': '亥', '丑': '亥'      // Sky Horse = Hai
+// };
+const skyHorseMap = {
+    '寅': '申', '午': '申', '戌': '申',   // Group 1 → Shen
+    '申': '寅', '子': '寅', '辰': '寅',   // Group 2 → Yin
+    '巳': '亥', '酉': '亥', '丑': '亥',   // Group 3 → Hai
+    '亥': '巳', '卯': '巳', '未': '巳'    // Group 4 → Si
+};
+
+const noblePeopleMap = {
+    '甲': ['丑', '未'],
+    '乙': ['子', '申'],
+    '丙': ['亥', '酉'],
+    '丁': ['亥', '酉'],
+    '戊': ['丑', '未'],
+    '己': ['子', '申'],
+    '庚': ['丑', '未'],
+    '辛': ['子', '申'],
+    '壬': ['亥', '酉'],
+    '癸': ['亥', '酉']
+};
+
+const solitaryStarMap = {
+    '寅': '辰', '午': '辰', '戌': '辰',
+    '申': '戌', '子': '戌', '辰': '戌',
+    '巳': '丑', '酉': '丑', '丑': '丑',
+    '亥': '未', '卯': '未', '未': '未'
+};
+
+const solitaryMap = {
+    '寅': '丑',
+    '卯': '子',
+    '辰': '酉',
+    '巳': '午',
+    '午': '丑',
+    '未': '子',
+    '申': '亥',
+    '酉': '午',
+    '戌': '丑',
+    '亥': '子',
+    '子': '酉',
+    '丑': '寅'
+};
+
+// const peachBlossomMap = {
+//     // '寅': '卯',
+//     // '午': '卯',
+//     // '戌': '卯',
+//     // '申': '子',
+//     // '子': '子',
+//     // '辰': '子',
+//     // '巳': '酉',
+//     // '酉': '酉',
+//     // '丑': '酉',
+//     // '亥': '卯',
+//     // '卯': '子',
+//     // '未': '酉',
+
+//     '甲': '卯',  // Jia → Mao
+//     '戊': '卯',  // Wu → Mao
+//     '庚': '卯',  // Geng → Mao
+//     '乙': '子',  // Yi → Zi
+//     '己': '子',  // Ji → Zi
+//     '辛': '子',  // Xin → Zi
+//     '丙': '酉',  // Bing → You
+//     '丁': '酉',  // Ding → You
+//     '壬': '酉',  // Ren → You
+//     '癸': '酉'   // Gui → You
+// };
+
+const peachBlossomMap = {
+    // '子': '卯', '辰': '卯', '申': '卯',    // Mao
+    // '午': '酉', '戌': '酉', '寅': '酉',    // You
+    // '卯': '子', '未': '子', '亥': '子',    // Zi
+    // '酉': '午', '丑': '午', '巳': '午'     // Wu
+
+    '子': '卯',
+    '丑': '午',
+    '寅': '酉',
+    '卯': '子',
+    '辰': '卯',
+    '巳': '午',
+    '午': '酉',
+    '未': '子',
+    '申': '酉',
+    '酉': '午',
+    '戌': '酉',
+    '亥': '子'
+};
+
+
+const intelligenceStarMap = {
+    // '甲': '巳',
+    // '乙': '午',
+    // '丙': '申',
+    // '丁': '酉',
+    // '戊': '申',
+    // '己': '酉',
+    // '庚': '亥',
+    // '辛': '子',
+    // '壬': '寅',
+    // '癸': '卯'
+    '子' : '卯',
+    '丑' : '巳',
+    '寅' : '午',
+    '卯' : '申',
+    '辰' : '酉',
+    '巳' : '亥',
+    '午' : '子',
+    '未' : '寅',
+    '申' : '卯',
+    '酉' : '巳',
+    '戌' : '午',
+    '亥' : '申',
+  };
+
 const translatePillars = (pillars) => {
     return {
         day: {
@@ -168,7 +298,15 @@ function calculateElementBalance(pillars) {
 }
 
 export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
-    const date = new Date(`${birthDate}T${birthTime}:00`)
+    // const date = new Date(`${birthDate}T${birthTime}:00`)
+    const date = new Date(
+        birthDate.getFullYear(),
+        birthDate.getMonth(),
+        birthDate.getDate(),
+        birthTime.getHours(),
+        birthTime.getMinutes(),
+        birthTime.getSeconds()
+      );
 
     // Validate birth date
     if (!birthDate || isNaN(new Date(birthDate))) {
@@ -177,7 +315,8 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
     }
 
     // Convert birthTime into minutes for a valid index calculation
-    const birthTimeArray = birthTime.split(':');  // Assuming format is "HH:MM"
+    const birthTimeSplit = birthTime.toTimeString().split(' ')[0]
+    const birthTimeArray = birthTimeSplit.split(':');  // Assuming format is "HH:MM"
     const birthTimeInMinutes = parseInt(birthTimeArray[0]) * 60 + parseInt(birthTimeArray[1]);
 
     // Validate birthTime format
@@ -209,13 +348,6 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
         return;
     }
 
-    // Prepare pillars object
-    const pillars = {
-        year: { stem: eightChar.getYearGan(), branch: eightChar.getYearZhi() },
-        month: { stem: eightChar.getMonthGan(), branch: eightChar.getMonthZhi() },
-        day: { stem: eightChar.getDayGan(), branch: eightChar.getDayZhi() },
-        hour: { stem: hourGan, branch: hourZhi }, // Use the Gan and Zhi for the hour
-    };
 
 
     // Element Joey Yap
@@ -237,6 +369,30 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
         亥: ["壬", "甲"],
         子: ["癸"],
         丑: ["己", "癸", "辛"]
+    };
+
+    // Prepare pillars object
+    const pillars = {
+        year: {
+            stem: eightChar.getYearGan(),
+            branch: eightChar.getYearZhi(),
+            hiddenStems: hiddenStemsMap[eightChar.getYearZhi()]
+        },
+        month: {
+            stem: eightChar.getMonthGan(),
+            branch: eightChar.getMonthZhi(),
+            hiddenStems: hiddenStemsMap[eightChar.getMonthZhi()]
+        },
+        day: {
+            stem: eightChar.getDayGan(),
+            branch: eightChar.getDayZhi(),
+            hiddenStems: hiddenStemsMap[eightChar.getDayZhi()]
+        },
+        hour: {
+            stem: hourGan,
+            branch: hourZhi,
+            hiddenStems: hiddenStemsMap[hourZhi]
+        },
     };
 
     const countElementsJoeyYap = (pillars) => {
@@ -420,11 +576,20 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
 
     const translatedPillars = {};
 
-    Object.entries(pillars).forEach(([key, { stem, branch }]) => {
+    Object.entries(pillars).forEach(([key, { stem, branch, hiddenStems }]) => {
         console.log('Pillars:', pillars);
 
         const stemData = stemInfo[stem];
         const branchData = branchInfo[branch];
+        const hiddenStemsData = Array.isArray(hiddenStems)
+            ? hiddenStems.map(hs => {
+                const data = stemInfo[hs];
+                if (!data) {
+                    console.warn(`Hidden stem "${hs}" not found in stemInfo`);
+                }
+                return data || { pinyin: 'Unknown', element: 'Unknown', yinYang: 'Unknown' };
+            })
+            : [];
 
         if (!stemData) {
             console.warn(`Stem "${stem}" not found in stemInfo`);
@@ -432,12 +597,17 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
         if (!branchData) {
             console.warn(`Branch "${branch}" not found in branchInfo`);
         }
+        if (!hiddenStemsData) {
+            console.warn(`Branch "${hiddenStems}" not found in hiddenStemsInfo`);
+        }
 
         translatedPillars[key] = {
             stem,
             stemInfo: stemData || { pinyin: 'Unknown', element: 'Unknown', yinYang: 'Unknown' },
             branch,
             branchInfo: branchData || { pinyin: 'Unknown', animal: 'Unknown' },
+            hiddenStems,
+            hiddenStemsInfo: hiddenStemsData
         };
     });
 
@@ -521,7 +691,7 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
     }
 
     const calculateElementBalance2 = (elements) => {
-        const percentagePerElement = { Wood: 0, Fire: 0, Earth: 0, Metal: 0, Water: 0 };
+        const percentagePerElement = { Earth: 0, Fire: 0, Wood: 0, Water: 0, Metal: 0 };
 
         const totalElement = Object.values(elements).reduce((sum, val) => sum + val, 0);
 
@@ -532,6 +702,143 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
         return percentagePerElement
     }
 
+    // function getLifePalace(monthStem, monthBranch, hourBranch) {
+    //     function mod(n, m) {
+    //         return ((n % m) + m) % m;
+    //     }
+
+    //     const stemIndex = stems.indexOf(monthStem);
+    //     const branchIndex = branches.indexOf(monthBranch);
+    //     const hourIndex = branches.indexOf(hourBranch);
+
+    //     // Jarak mundur dari Month Branch ke Hour Branch
+    //     const offset = mod(branchIndex - hourIndex, 12); // hitung mundur 12 langkah
+
+    //     // Hitung indeks baru
+    //     const lifeStemIndex = mod(stemIndex + offset, 10);
+    //     const lifeBranchIndex = mod(branchIndex + offset, 12);
+
+    //     return [
+    //         stems[lifeStemIndex],
+    //         branches[lifeBranchIndex]
+    //     ];
+    // }
+
+    // 60 Jia Zi (Stem + Branch)
+//     const jiaZiCycle = [
+//         '甲子', '乙丑', '丙寅', '丁卯', '戊辰', '己巳', '庚午', '辛未', '壬申', '癸酉',
+//         '甲戌', '乙亥', '丙子', '丁丑', '戊寅', '己卯', '庚辰', '辛巳', '壬午', '癸未',
+//         '甲申', '乙酉', '丙戌', '丁亥', '戊子', '己丑', '庚寅', '辛卯', '壬辰', '癸巳',
+//         '甲午', '乙未', '丙申', '丁酉', '戊戌', '己亥', '庚子', '辛丑', '壬寅', '癸卯',
+//         '甲辰', '乙巳', '丙午', '丁未', '戊申', '己酉', '庚戌', '辛亥', '壬子', '癸丑',
+//         '甲寅', '乙卯', '丙辰', '丁巳', '戊午', '己未', '庚申', '辛酉', '壬戌', '癸亥'
+//     ];
+
+//     function getLifePalace(monthStem, monthBranch, hourBranch) {
+//         const branches = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];
+
+//         const mIndex = branches.indexOf(monthBranch); // 0-based
+//         const hIndex = branches.indexOf(hourBranch);  // 0-based
+
+//         if (mIndex === -1 || hIndex === -1) return null;
+
+//         // offset = (Month Branch + Hour Branch) - 2
+//         const offset = mIndex + hIndex - 2;
+
+//         const monthPillar = monthStem + monthBranch;
+//         const startIndex = jiaZiCycle.indexOf(monthPillar);
+//         if (startIndex === -1) return null;
+
+//         // Move BACKWARD in the cycle
+//         const lifePalaceIndex = (startIndex - offset + 60) % 60;
+//         return jiaZiCycle[lifePalaceIndex];
+//   }
+
+    function generateJiaZi() {
+        const jiaZi = [
+            '甲子', '乙丑', '丙寅', '丁卯', '戊辰', '己巳', '庚午', '辛未', '壬申', '癸酉',
+            '甲戌', '乙亥', '丙子', '丁丑', '戊寅', '己卯', '庚辰', '辛巳', '壬午', '癸未',
+            '甲申', '乙酉', '丙戌', '丁亥', '戊子', '己丑', '庚寅', '辛卯', '壬辰', '癸巳',
+            '甲午', '乙未', '丙申', '丁酉', '戊戌', '己亥', '庚子', '辛丑', '壬寅', '癸卯',
+            '甲辰', '乙巳', '丙午', '丁未', '戊申', '己酉', '庚戌', '辛亥', '壬子', '癸丑',
+            '甲寅', '乙卯', '丙辰', '丁巳', '戊午', '己未', '庚申', '辛酉', '壬戌', '癸亥'
+        ];
+        return jiaZi;
+    }
+
+
+    function getLifePalace(monthStem, monthBranch, hourBranch) {
+        const branches = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];
+        const jiaZiCycle = generateJiaZi();
+        const monthPillar = monthStem + monthBranch;
+
+        const monthIndex = jiaZiCycle.indexOf(monthPillar);
+        const hourIndex = branches.indexOf(hourBranch);
+
+        if (monthIndex === -1 || hourIndex === -1) return null;
+
+        const lifePalaceIndex = (monthIndex + hourIndex) % 60;
+        return jiaZiCycle[lifePalaceIndex];
+    }
+
+    const jiaZiCycle = generateJiaZi();
+    console.log(jiaZiCycle);  // lihat daftar, cek urutan
+    console.log(jiaZiCycle[0]);   // 甲子
+    console.log(jiaZiCycle[1]);   // 乙丑
+    console.log(jiaZiCycle[2]);   // 丙寅
+    console.log(jiaZiCycle[25]);   // 戊子
+    console.log(jiaZiCycle.indexOf('戊子')); // Harusnya 25
+    console.log(jiaZiCycle[30]);
+
+
+    const getConceptionPalace = (pillars) => {
+        // Buat daftar 60 JiaZi
+        const ganzhiList = [];
+        for (let i = 0; i < 60; i++) {
+            ganzhiList.push(stems[i % 10] + branches[i % 12]);
+        }
+
+        // Fungsi untuk cari index JiaZi
+        function getJiaZiIndex(gan, zhi) {
+            return ganzhiList.findIndex(gz => gz === gan + zhi);
+        }
+
+        // Ambil index pilar bulan
+        const monthIndex = getJiaZiIndex(pillars.month.stem, pillars.month.branch);
+
+        // Tambah 1 untuk Tai Yuan (Conception Palace)
+        const taiYuanIndex = (monthIndex + 1) % 60;
+
+        const taiYuanGanzhi = ganzhiList[taiYuanIndex];
+        const stem = stems[taiYuanIndex % 10];
+        const branch = branches[taiYuanIndex % 12];
+
+        return {
+            stem,
+            branch,
+            ganzhi: taiYuanGanzhi
+        };
+    };
+
+    const getConceptionPalace2 = (date) => {
+
+        const conceptionDate = new Date(date);
+        conceptionDate.setDate(date.getDate() - 280);
+        const lunarConception = Lunar.fromDate(conceptionDate);
+        const eightCharConception = lunarConception.getEightChar()
+
+        const pillarConception = {
+            month: {
+                branch: eightCharConception.getMonthGan(),
+                stem: eightCharConception.getMonthZhi()
+            }
+        }
+        return {
+            branch: pillarConception.month.branch,
+            stem: pillarConception.month.stem,
+            ganzhi: pillarConception.month.branch + pillarConception.month.stem
+        }
+    }
 
     // const translatedPillars = translatePillars(pillars);
     // Get element balance and other computations
@@ -551,6 +858,17 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
         .map(([key, value]) => `${key} = ${value}`)
         .join(', ')}`;
 
+    const animal = {
+        celestial: lunar.getYearShengXiao(),
+        noble: noblePeopleMap[pillars.day.stem] || [],
+        intelligence: intelligenceStarMap[pillars.year.branch] || [],
+        peach_blossom: peachBlossomMap[pillars.day.branch] || [],
+        sky_horse: skyHorseMap[pillars.day.branch] || [],
+        solitary: solitaryMap[pillars.day.branch] || [],
+        // life_palace: getLifePalace(pillars.month.stem, pillars.month.branch, pillars.hour.branch),
+        life_palace: getLifePalace(pillars.month.stem, pillars.month.branch, pillars.hour.branch),
+        conception_palace: getConceptionPalace2(date)
+    }
 
     return {
         name,
@@ -564,7 +882,8 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
         unfavorableDirections: unfavorable,
         elementJoeyYap,
         translatedPillars,
-        descriptionResult
+        descriptionResult,
+        animal
     };
 };
 

@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { DatePicker, Input, TimePicker } from 'rsuite';
+import 'rsuite/dist/rsuite.css';
+
 
 export default function Form() {
   const navigate = useNavigate();
@@ -28,33 +31,52 @@ export default function Form() {
       <form onSubmit={handleSubmit} method='GET' className='flex flex-col gap-2'>
         <div className='form-group mt-4'>
           <label>Fullname</label>
-          <input type='text'
+          {/* <input type='text'
             name='fullname'
             placeholder='Insert your name'
             className='form-control border-1 px-2 py-1 rounded-sm'
             value={name}
             onChange={(e) => setName(e.target.value)}
-            required/>
+            required /> */}
+          <Input
+            name='fullname'
+            placeholder='Insert your name'
+            className=''
+            value={name}
+            style={{ width: 'auto' }}
+            onChange={(value) => setName(value)}
+            required
+          />
         </div>
         <div className='form-group'>
           <label>Birthdate</label>
-          <input type='date'
+          {/* <input type='date'
             name='birthdate'
             placeholder='Insert your birthdate'
             className='form-control border-1 px-2 py-1 rounded-sm'
             value={birthDate}
             onChange={(e) => setBirthDate(e.target.value)}
-            required/>
+            required/> */}
+          <DatePicker
+            name='birthdate'
+            className='form-control px-2 py-1 rounded-sm'
+            value={birthDate}
+            onChange={(value) => setBirthDate(value)} />
         </div>
         <div className='form-group'>
           <label>Birth time</label>
-          <input type='time'
+          {/* <input type='time'
             name='birthtime'
             placeholder='Insert your birthtime'
             className='form-control border-1 px-2 py-1 rounded-sm'
             value={birthTime}
             onChange={(e) => setBirthTime(e.target.value)}
-            required/>
+            required/> */}
+          <TimePicker
+            name='birthtime'
+            className='form-control px-2 py-1 rounded-sm'
+            value={birthTime}
+            onChange={(value) => setBirthTime(value)} />
         </div>
         <div className='form-group'>
           <label>Select Gender</label>
@@ -82,7 +104,7 @@ export default function Form() {
         </div>
         <div className='form-group'>
           <label></label>
-          <input type='submit' placeholder='Submit' value="Submit" className='border-1 py-1 px-2 rounded-sm bg-green-600 font-bold' />
+          <input type='submit' placeholder='Submit' value="Submit" className='w-full md:w-30 border-1 py-1 px-2 rounded-sm bg-green-600 font-bold' />
         </div>
       </form>
     </div>
