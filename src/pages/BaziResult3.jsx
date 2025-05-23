@@ -128,6 +128,9 @@ export default function Result3({ result, biodata }) {
         },
         tooltip: {
             trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            },
             formatter: function (params) {
                 let tooltipText = '';
                 params.forEach(function (item) {
@@ -152,8 +155,27 @@ export default function Result3({ result, biodata }) {
         label: {
             show: true,
             position: 'inside',
-            formatter: '{c}'
-        }
+            formatter: '{c}',
+        },
+        media: [
+            {
+                query: { maxWidth: 480 },
+                option: {
+                    series: [{
+                        barWidth: '60%',
+                        label: {
+                            fontSize: 9
+                        }
+                    }],
+                    xAxis: {
+                        axisLabel: {
+                            rotate: 30,
+                            fontSize: 10
+                        }
+                    }
+                }
+            }
+        ]
     };
 
     // const indicators = Object.entries(result.elementBalancePercentage).map(([name]) => ({
@@ -299,15 +321,15 @@ export default function Result3({ result, biodata }) {
             </div>
 
             <div className='flex flex-col gap-4'>
-                <div className='w-full'>
+                {/* <div className='w-full'>
                     <div className="w-full rounded-md overflow-hidden border">
-                        {/* Header */}
+
                         <div className="flex bg-red-800 dark:bg-red-800  text-white font-semibold">
                             <div className="flex-1 p-2">DAY MASTER</div>
                             <div className="flex-1 p-2">{result.dayMaster}</div>
                         </div>
 
-                        {/* Rows */}
+
                         <div className="">
                             <div className="flex bg-gray-100">
                                 <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium">Celestial Animal</div>
@@ -333,11 +355,10 @@ export default function Result3({ result, biodata }) {
                                 <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium">Solitary</div>
                                 <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.solitary}</div>
                             </div>
-                            {/* Different value */}
-                            {/* <div className="flex">
+                            <div className="flex">
                                 <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium bg-gray-100 ">Life Palace</div>
                                 <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.life_palace}</div>
-                            </div> */}
+                            </div>
                             <div className="flex bg-gray-100">
                                 <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium">Conception Palace</div>
                                 <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.conception_palace.ganzhi}</div>
@@ -345,7 +366,7 @@ export default function Result3({ result, biodata }) {
                         </div>
                     </div>
 
-                </div>
+                </div> */}
                 {/* <div>
                     <div className="w-full rounded-md overflow-hidden border">
 
@@ -378,7 +399,7 @@ export default function Result3({ result, biodata }) {
                     <div className='text-left'>
                         <h2 className='text-3xl'>Five Elemental</h2>
                         <p>
-                            This is your five elemental Wood, Fire, Water, Earth & Metal
+                            This is your five elemental Wood, Fire, Earth, Metal & Water
                         </p>
                     </div>
                     <div className="w-full rounded-md overflow-hidden border"

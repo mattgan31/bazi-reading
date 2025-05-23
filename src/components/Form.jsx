@@ -30,6 +30,12 @@ export default function Form() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (!gender) {
+      alert("Please select your gender.");
+      return;
+    }
+
+
     navigate('/result',
       {
         state: {
