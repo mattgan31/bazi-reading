@@ -108,14 +108,14 @@ export default function Result3({ result, biodata }) {
 
     const option1 = {
         yAxis: {
-            max: 70,
+            max: 60,
             show: true,
             type: 'value'
         },
         axisModel: {},
         xAxis: {
             type: 'category',
-            data: Object.keys(result.elementBalancePercentage),
+            data: result.elementBalancePercentageBar.map(item => item.label)
         },
         toolbox: {
             show: false,
@@ -138,7 +138,7 @@ export default function Result3({ result, biodata }) {
         },
         series: {
             type: 'bar',
-            data: Object.values(result.elementBalancePercentage),
+            data: result.elementBalancePercentageBar.map(item => item.percentage),
             itemStyle: {
                 color: 'rgba(255, 206, 86, 0.8)'
             },
@@ -156,28 +156,30 @@ export default function Result3({ result, biodata }) {
         }
     };
 
-    const indicators = Object.entries(result.elementBalancePercentage).map(([name]) => ({
-        name,
-        max: 50,
-    }));
+    // const indicators = Object.entries(result.elementBalancePercentage).map(([name]) => ({
+    //     name,
+    //     max: 50,
+    // }));
 
     const option2 = {
         radar: {
-            // shape: 'circle',
-            indicator: indicators
+            indicator: result.elementBalancePercentage.map(item => ({
+                name: item.label,
+                max: 60
+            }))
         },
         series: [
             {
-                name: 'Budget vs spending',
+                name: 'Element Balance',
                 type: 'radar',
                 data: [
                     {
-                        value: Object.values(result.elementBalancePercentage),
+                        value: result.elementBalancePercentage.map(item => item.percentage)
                     }
                 ]
             }
         ]
-    };
+      };
 
     // const hasFetched = useRef(false);
 
@@ -190,7 +192,7 @@ export default function Result3({ result, biodata }) {
 
     return (
         <div className='max-w-screen w-auto flex flex-col gap-4'>
-            <Tooltip id="my-tooltip" className='whitespace-pre-line' />
+            {/* <Tooltip id="my-tooltip" className='whitespace-pre-line' /> */}
             {/* Header */}
             <div className='flex flex-col gap-4'>
                 {/* <div className='flex flex-col print:hidden'>
@@ -307,28 +309,28 @@ export default function Result3({ result, biodata }) {
 
                         {/* Rows */}
                         <div className="">
-                            <div className="flex">
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium bg-gray-100 ">Celestial Animal</div>
+                            <div className="flex bg-gray-100">
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium">Celestial Animal</div>
                                 <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.celestial}</div>
                             </div>
                             <div className="flex">
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium bg-gray-100 ">Noble People</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium">Noble People</div>
                                 <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.noble}</div>
                             </div>
-                            <div className="flex">
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium bg-gray-100 ">Intelligence</div>
+                            <div className="flex bg-gray-100">
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium">Intelligence</div>
                                 <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.intelligence}</div>
                             </div>
                             <div className="flex">
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium bg-gray-100 ">Peach Blossom</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium">Peach Blossom</div>
                                 <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.peach_blossom}</div>
                             </div>
-                            <div className="flex">
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium bg-gray-100 ">Sky Horse</div>
+                            <div className="flex bg-gray-100">
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium">Sky Horse</div>
                                 <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.sky_horse}</div>
                             </div>
                             <div className="flex">
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium bg-gray-100 ">Solitary</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium">Solitary</div>
                                 <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.solitary}</div>
                             </div>
                             {/* Different value */}
@@ -336,8 +338,8 @@ export default function Result3({ result, biodata }) {
                                 <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium bg-gray-100 ">Life Palace</div>
                                 <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.life_palace}</div>
                             </div> */}
-                            <div className="flex">
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium bg-gray-100 ">Conception Palace</div>
+                            <div className="flex bg-gray-100">
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium">Conception Palace</div>
                                 <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.conception_palace.ganzhi}</div>
                             </div>
                         </div>
@@ -382,28 +384,29 @@ export default function Result3({ result, biodata }) {
                     <div className="w-full rounded-md overflow-hidden border"
                         data-tooltip-id="my-tooltip" data-tooltip-content="In BaZi (Four Pillars), each person has a combination of 8 characters (Heavenly Stems and Earthly Branches)
                         that represent the elements of Wood, Fire, Earth, Metal, and Water.
-                        The purpose of this calculation is to identify which elements are dominant and which are weak in your life.">
+                        The purpose of this calculation is to identify which elements are dominant and which are weak in your life."
+                    >
                         {/* Title Row */}
                         <div className="bg-red-800  text-white font-semibold p-2">
                             Five Elemental
                         </div>
 
                         {/* Header Row */}
-                        <div className="flex bg-red-800  text-white font-semibold">
-                            <div className="flex-1 p-2 bg-green-600">木 - Wood</div>
-                            <div className="flex-1 p-2 bg-red-600">火 - Fire</div>
-                            <div className="flex-1 p-2 bg-blue-600">水 - Water</div>
-                            <div className="flex-1 p-2 bg-orange-950">土 - Earth</div>
-                            <div className="flex-1 p-2 bg-slate-600">金 - Metal</div>
+                        <div className="flex flex-wrap sm:flex-nowrap bg-red-800 text-white font-semibold text-center">
+                            <div className="flex-1 min-w-[40px] p-2 bg-green-600 flex items-center justify-center">木 - Wood</div>
+                            <div className="flex-1 min-w-[40px] p-2 bg-red-600 flex items-center justify-center">火 - Fire</div>
+                            <div className="flex-1 min-w-[40px] p-2 bg-orange-950 flex items-center justify-center">土 - Earth</div>
+                            <div className="flex-1 min-w-[40px] p-2 bg-slate-600 flex items-center justify-center">金 - Metal</div>
+                            <div className="flex-1 min-w-[40px] p-2 bg-blue-600 flex items-center justify-center">水 - Water</div>
                         </div>
 
                         {/* Row */}
                         <div className="flex ">
                             <div className="flex-1 px-2 py-2 text-red-800">{result.elementBalance.Wood}</div>
                             <div className="flex-1 px-2 py-2 text-red-800">{result.elementBalance.Fire}</div>
-                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementBalance.Water}</div>
                             <div className="flex-1 px-2 py-2 text-red-800">{result.elementBalance.Earth}</div>
                             <div className="flex-1 px-2 py-2 text-red-800">{result.elementBalance.Metal}</div>
+                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementBalance.Water}</div>
                         </div>
                     </div>
                 </div>
@@ -457,7 +460,7 @@ export default function Result3({ result, biodata }) {
 
                 </div>
 
-                <div>
+                {/* <div>
                     <div className='w-full rounded-md overflow-hidden border'
                         data-tooltip-id='my-tooltip'
                         data-tooltip-content={
@@ -487,8 +490,8 @@ export default function Result3({ result, biodata }) {
                             <div className='flex-1 px-2 py-2 text-red-800'>{result.favorableDirections[3]}</div>
                         </div>
                     </div>
-                </div>
-                <div>
+                </div> */}
+                {/* <div>
                     <div className='w-full rounded-md overflow-hidden border'
                         data-tooltip-id='my-tooltip'
                         data-tooltip-content={
@@ -518,7 +521,7 @@ export default function Result3({ result, biodata }) {
                             <div className='flex-1 px-2 py-2 text-red-800'>{result.unfavorableDirections[3]}</div>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 {/* <div>
                     <h2 className='text-3xl'>Recommendation</h2>
                     {loading && <p>Generating...</p>}
