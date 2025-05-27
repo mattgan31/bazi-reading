@@ -321,7 +321,7 @@ export default function Result3({ result, biodata }) {
             </div>
 
             <div className='flex flex-col gap-4'>
-                {/* <div className='w-full'>
+                <div className='w-full'>
                     <div className="w-full rounded-md overflow-hidden border">
 
                         <div className="flex bg-red-800 dark:bg-red-800  text-white font-semibold">
@@ -355,10 +355,10 @@ export default function Result3({ result, biodata }) {
                                 <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium">Solitary</div>
                                 <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.solitary}</div>
                             </div>
-                            <div className="flex">
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium bg-gray-100 ">Life Palace</div>
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.life_palace}</div>
-                            </div>
+                            {/* <div className="flex bg-gray-100">
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium ">Life Palace</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.life_palace.full}</div>
+                            </div> */}
                             <div className="flex bg-gray-100">
                                 <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium">Conception Palace</div>
                                 <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.conception_palace.ganzhi}</div>
@@ -366,7 +366,7 @@ export default function Result3({ result, biodata }) {
                         </div>
                     </div>
 
-                </div> */}
+                </div>
                 {/* <div>
                     <div className="w-full rounded-md overflow-hidden border">
 
@@ -481,7 +481,7 @@ export default function Result3({ result, biodata }) {
 
                 </div>
 
-                {/* <div>
+                <div>
                     <div className='w-full rounded-md overflow-hidden border'
                         data-tooltip-id='my-tooltip'
                         data-tooltip-content={
@@ -511,8 +511,8 @@ export default function Result3({ result, biodata }) {
                             <div className='flex-1 px-2 py-2 text-red-800'>{result.favorableDirections[3]}</div>
                         </div>
                     </div>
-                </div> */}
-                {/* <div>
+                </div>
+                <div>
                     <div className='w-full rounded-md overflow-hidden border'
                         data-tooltip-id='my-tooltip'
                         data-tooltip-content={
@@ -542,7 +542,7 @@ export default function Result3({ result, biodata }) {
                             <div className='flex-1 px-2 py-2 text-red-800'>{result.unfavorableDirections[3]}</div>
                         </div>
                     </div>
-                </div> */}
+                </div>
                 {/* <div>
                     <h2 className='text-3xl'>Recommendation</h2>
                     {loading && <p>Generating...</p>}
