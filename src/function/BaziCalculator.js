@@ -123,6 +123,163 @@ function categorizeElements(dayMaster, chartElementCounts) {
     };
 }
 
+// Element Joey Yap
+const hiddenStemsMap = {
+    寅: ["甲", "丙", "戊"], // Yin: Wood, Fire, Earth
+    卯: ["乙"],
+    辰: ["戊", "乙", "癸"],
+    巳: ["丙", "庚", "戊"],
+    午: ["丁", "己"],
+    未: ["己", "丁", "乙"],
+    申: ["庚", "壬", "戊"],
+    酉: ["辛"],
+    戌: ["戊", "辛", "丁"],
+    亥: ["壬", "甲"],
+    子: ["癸"],
+    丑: ["己", "癸", "辛"]
+};
+
+const stemMap = {
+    '甲': 'Jia', '乙': 'Yi', '丙': 'Bing', '丁': 'Ding', '戊': 'Wu',
+    '己': 'Ji', '庚': 'Geng', '辛': 'Xin', '壬': 'Ren', '癸': 'Gui',
+};
+
+const branchMap = {
+    '子': 'Zi', '丑': 'Chou', '寅': 'Yin', '卯': 'Mao', '辰': 'Chen',
+    '巳': 'Si', '午': 'Wu', '未': 'Wei', '申': 'Shen', '酉': 'You',
+    '戌': 'Xu', '亥': 'Hai',
+};
+
+const seasonalMultipliers = {
+    spring: {
+        Wood: 1.5,
+        Metal: 0.5,
+        Water: 1.2,
+        Fire: 1.0,
+        Earth: 0.8
+    },
+    summer: {
+        Fire: 1.5,
+        Water: 0.5,
+        Wood: 1.2,
+        Earth: 1.0,
+        Metal: 0.7
+    },
+    autumn: {
+        Metal: 1.5,
+        Wood: 0.5,
+        Earth: 1.2,
+        Water: 1.0,
+        Fire: 0.7
+    },
+    winter: {
+        Water: 1.5,
+        Fire: 0.5,
+        Earth: 0.5,
+        Metal: 1.0,
+        Wood: 1.0
+    }
+};
+
+function isForwardDirection(dayStem, gender) {
+    const yangStems = ['Jia', 'Bing', 'Wu', 'Geng', 'Ren'];
+    const isYang = yangStems.includes(dayStem);
+
+    if (gender.toLowerCase() === 'male') {
+        return isYang; // Male + Yang => Forward
+    } else if (gender.toLowerCase() === 'female') {
+        return !isYang; // Female + Yin => Forward
+    } else {
+        throw new Error("Gender must be 'male' or 'female'");
+    }
+}
+
+
+function generateLuckPillarsData(startStem, startBranch, forward, startingAge, count = 10) {
+    const stems = [
+        { hanzi: '甲', pinyin: 'Jia', element: 'Wood', yinYang: 'Yang' },
+        { hanzi: '乙', pinyin: 'Yi', element: 'Wood', yinYang: 'Yin' },
+        { hanzi: '丙', pinyin: 'Bing', element: 'Fire', yinYang: 'Yang' },
+        { hanzi: '丁', pinyin: 'Ding', element: 'Fire', yinYang: 'Yin' },
+        { hanzi: '戊', pinyin: 'Wu', element: 'Earth', yinYang: 'Yang' },
+        { hanzi: '己', pinyin: 'Ji', element: 'Earth', yinYang: 'Yin' },
+        { hanzi: '庚', pinyin: 'Geng', element: 'Metal', yinYang: 'Yang' },
+        { hanzi: '辛', pinyin: 'Xin', element: 'Metal', yinYang: 'Yin' },
+        { hanzi: '壬', pinyin: 'Ren', element: 'Water', yinYang: 'Yang' },
+        { hanzi: '癸', pinyin: 'Gui', element: 'Water', yinYang: 'Yin' },
+    ];
+
+    const branches = [
+        { hanzi: '子', pinyin: 'Zi', animal: 'Rat', hidden: ['癸'] },
+        { hanzi: '丑', pinyin: 'Chou', animal: 'Ox', hidden: ['己', '癸', '辛'] },
+        { hanzi: '寅', pinyin: 'Yin', animal: 'Tiger', hidden: ['甲', '丙', '戊'] },
+        { hanzi: '卯', pinyin: 'Mao', animal: 'Rabbit', hidden: ['乙'] },
+        { hanzi: '辰', pinyin: 'Chen', animal: 'Dragon', hidden: ['戊', '乙', '癸'] },
+        { hanzi: '巳', pinyin: 'Si', animal: 'Snake', hidden: ['丙', '庚', '戊'] },
+        { hanzi: '午', pinyin: 'Wu', animal: 'Horse', hidden: ['丁', '己'] },
+        { hanzi: '未', pinyin: 'Wei', animal: 'Goat', hidden: ['己', '丁', '乙'] },
+        { hanzi: '申', pinyin: 'Shen', animal: 'Monkey', hidden: ['庚', '壬', '戊'] },
+        { hanzi: '酉', pinyin: 'You', animal: 'Rooster', hidden: ['辛'] },
+        { hanzi: '戌', pinyin: 'Xu', animal: 'Dog', hidden: ['戊', '辛', '丁'] },
+        { hanzi: '亥', pinyin: 'Hai', animal: 'Pig', hidden: ['壬', '甲'] },
+    ];
+
+    // Ambil index awal dari Hanzi input
+    const stemIndex = stems.findIndex(s => s.hanzi === startStem);
+    const branchIndex = branches.findIndex(b => b.hanzi === startBranch);
+
+    if (stemIndex === -1 || branchIndex === -1) {
+        throw new Error("Invalid stem or branch input. Use Chinese characters.");
+    }
+
+    const startIndex = (stemIndex * 12 + branchIndex) % 60;
+
+    function getPillarData(index) {
+        const stem = stems[index % 10];
+        const branch = branches[index % 12];
+        return {
+            pillar: `${stem.hanzi}${branch.hanzi}`,
+            stem: {
+                hanzi: stem.hanzi,
+                pinyin: stem.pinyin,
+                element: stem.element,
+                yinYang: stem.yinYang,
+                description: `${stem.hanzi} (${stem.pinyin}) – ${stem.yinYang} ${stem.element}`
+            },
+            branch: {
+                hanzi: branch.hanzi,
+                pinyin: branch.pinyin,
+                animal: branch.animal,
+                hiddenStems: branch.hidden.map(hs => {
+                    const ref = stems.find(s => s.hanzi === hs);
+                    return {
+                        hanzi: hs,
+                        pinyin: ref?.pinyin || '',
+                        element: ref?.element || '',
+                        yinYang: ref?.yinYang || '',
+                        description: `${hs} (${ref?.pinyin}) – ${ref?.yinYang} ${ref?.element}`
+                    };
+                }),
+                description: `${branch.hanzi} (${branch.pinyin}) – ${branch.animal}`
+            }
+        };
+    }
+
+    // Bangun hasil akhir
+    const result = [];
+    for (let i = 0; i < count; i++) {
+        const adjustedIndex = (startIndex + (forward ? i : -i) + 60) % 60;
+        const pillarData = getPillarData(adjustedIndex);
+
+        result.push({
+            ...pillarData,
+            startAge: startingAge + i * 10,
+            endAge: startingAge + i * 10 + 9
+        });
+    }
+
+    return result;
+}
 
 
 
@@ -136,7 +293,7 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
         birthTime.getHours(),
         birthTime.getMinutes(),
         birthTime.getSeconds()
-      );
+    );
 
     // Validate birth date
     if (!birthDate || isNaN(new Date(birthDate))) {
@@ -178,29 +335,6 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
         return;
     }
 
-
-
-    // Element Joey Yap
-    const stemToElement = {
-        甲: "Wood", 乙: "Wood", 丙: "Fire", 丁: "Fire", 戊: "Earth", 己: "Earth",
-        庚: "Metal", 辛: "Metal", 壬: "Water", 癸: "Water"
-    };
-
-    const hiddenStemsMap = {
-        寅: ["甲", "丙", "戊"], // Yin: Wood, Fire, Earth
-        卯: ["乙"],
-        辰: ["戊", "乙", "癸"],
-        巳: ["丙", "庚", "戊"],
-        午: ["丁", "己"],
-        未: ["己", "丁", "乙"],
-        申: ["庚", "壬", "戊"],
-        酉: ["辛"],
-        戌: ["戊", "辛", "丁"],
-        亥: ["壬", "甲"],
-        子: ["癸"],
-        丑: ["己", "癸", "辛"]
-    };
-
     // Prepare pillars object
     const pillars = {
         year: {
@@ -234,10 +368,8 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
         };
 
         Object.values(pillars).forEach(({ stem, branch }) => {
-            // 1. Hitung dari Heavenly Stem (selalu bobot 1)
             addElement(stem, 1);
 
-            // 2. Hitung dari Hidden Stems
             const hiddenStems = hiddenStemsMap[branch];
             if (hiddenStems) {
                 hiddenStems.forEach((s, i) => {
@@ -248,50 +380,6 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
         });
 
         return elements;
-    };
-
-    // TEST
-
-    const stemMap = {
-        '甲': 'Jia', '乙': 'Yi', '丙': 'Bing', '丁': 'Ding', '戊': 'Wu',
-        '己': 'Ji', '庚': 'Geng', '辛': 'Xin', '壬': 'Ren', '癸': 'Gui',
-    };
-
-    const branchMap = {
-        '子': 'Zi', '丑': 'Chou', '寅': 'Yin', '卯': 'Mao', '辰': 'Chen',
-        '巳': 'Si', '午': 'Wu', '未': 'Wei', '申': 'Shen', '酉': 'You',
-        '戌': 'Xu', '亥': 'Hai',
-    };
-
-    const seasonalMultipliers = {
-        spring: {
-            Wood: 1.5,
-            Metal: 0.5,
-            Water: 1.2,
-            Fire: 1.0,
-            Earth: 0.8
-        },
-        summer: {
-            Fire: 1.5,
-            Water: 0.5,
-            Wood: 1.2,
-            Earth: 1.0,
-            Metal: 0.7
-        },
-        autumn: {
-            Metal: 1.5,
-            Wood: 0.5,
-            Earth: 1.2,
-            Water: 1.0,
-            Fire: 0.7
-        },
-        winter: {
-            Water: 1.5,
-            Fire: 0.5,
-            Earth: 0.5,
-            Metal: 1.0,
-            Wood: 1.0
-        }
     };
 
     const convertPillarsToLatin = (pillars) => {
@@ -333,7 +421,7 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
         酉: { pinyin: 'You', animal: 'Rooster' },
         戌: { pinyin: 'Xu', animal: 'Dog' },
         亥: { pinyin: 'Hai', animal: 'Pig' },
-      };
+    };
 
 
     const stemToElement2 = {
@@ -538,7 +626,8 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
             return {
                 key,
                 label: elementLabels[key],
-                percentage
+                percentage,
+                value
             };
         });
 
@@ -711,6 +800,9 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
         conception_palace: getConceptionPalace2(date)
     }
 
+    const forwardDirection = isForwardDirection(translatedPillars.day.stemInfo.pinyin, gender)
+    const luckyPillars = generateLuckPillarsData(pillars.month.stem, pillars.month.branch, forwardDirection, 8, 9)
+
     return {
         name,
         baziPillars: pillars,
@@ -725,6 +817,7 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
         elementJoeyYap,
         translatedPillars,
         descriptionResult,
+        luckyPillars,
         animal
     };
 };

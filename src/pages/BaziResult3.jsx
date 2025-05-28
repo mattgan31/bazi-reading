@@ -201,7 +201,7 @@ export default function Result3({ result, biodata }) {
                 ]
             }
         ]
-      };
+    };
 
     // const hasFetched = useRef(false);
 
@@ -231,7 +231,7 @@ export default function Result3({ result, biodata }) {
                 <div className='text-left'>
                     <h2 className='text-3xl'>Biodata</h2>
                     <p>Name: {biodata.name}</p>
-                    <p>Birth Date: {biodata.birthDate.toLocaleDateString() }  </p>
+                    <p>Birth Date: {biodata.birthDate.toLocaleDateString()}  </p>
                     <p>Birth Time: {biodata.birthTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}  </p>
                     <p>Gender: {biodata.gender == "male" ? "Male" : "Female"}  </p>
                 </div>
@@ -240,91 +240,182 @@ export default function Result3({ result, biodata }) {
             {/* Main Content */}
 
 
-            <div className='flex flex-col gap-2'>
+            <div className='flex flex-col gap-4'>
                 <div className='text-left'>
-                    <h2 className='text-3xl'>The Four Pillars of BaZi</h2>
-                    {/* <p>
-                        This is your five elemental Wood, Fire, Water, Earth & Metal
-                    </p> */}
+                    <h2 className='text-2xl md:text-3xl'>The Four Pillars of BaZi</h2>
                 </div>
-                <div className="w-full rounded-md overflow-hidden border"
-                    data-tooltip-id='my-tooltip'
-                    data-tooltip-content={`The Four Pillars of BaZi (also known as the Four Pillars of Destiny or Eight Characters) is a system in Chinese metaphysics used to analyze a person’s life based on their birth date and time.
-                        Each pillar represents a time component and consists of two parts: the Heavenly Stem and the Earthly Branch.
-                        The four pillars are:
-                        1. Year Pillar – represents family heritage, childhood, and social environment.
-                        2. Month Pillar – represents parents, teenage years, and career potential.
-                        3. Day Pillar – represents the self (Day Master) and spouse.
-                        4. Hour Pillar – represents children, inner thoughts, and future.
-                        Each stem and branch contains one or more of the five elements (Wood, Fire, Earth, Metal, Water), which are used to understand personality, strengths, and the balance of energy in a person’s life.`}
-                >
-                    {/* Title Row */}
-                    <div className="bg-red-800  text-white font-semibold p-2">
-                        Four Pillars | Bazi
-                    </div>
 
-                    {/* Header Row */}
-                    <div className="flex bg-red-800  text-white font-semibold">
-                        <div className="flex-1 p-2">Hour</div>
-                        <div className="flex-1 p-2">Day</div>
-                        <div className="flex-1 p-2">Month</div>
-                        <div className="flex-1 p-2">Year</div>
-                        <div className="p-2"></div>
-                    </div>
+                {/* Mobile View (shown only on small screens) */}
+                <div className="hidden">
+                    <div className="w-full rounded-md overflow-hidden border">
+                        <div className="bg-red-800 text-white font-semibold p-2 text-center">
+                            Four Pillars | Bazi
+                        </div>
 
-                    {/* Stems Row */}
-                    <div className="flex ">
-                        <div className="flex-1 flex items-center justify-center px-2 py-2 text-red-800">{result.translatedPillars.hour.stem} ({result.translatedPillars.hour.stemInfo.pinyin}) - {result.translatedPillars.hour.stemInfo.element}</div>
-                        <div className="flex-1 flex items-center justify-center px-2 py-2 text-red-800">{result.translatedPillars.day.stem} ({result.translatedPillars.day.stemInfo.pinyin}) - {result.translatedPillars.day.stemInfo.element}</div>
-                        <div className="flex-1 flex items-center justify-center px-2 py-2 text-red-800">{result.translatedPillars.month.stem} ({result.translatedPillars.month.stemInfo.pinyin}) - {result.translatedPillars.month.stemInfo.element}</div>
-                        <div className="flex-1 flex items-center justify-center px-2 py-2 text-red-800">{result.translatedPillars.year.stem} ({result.translatedPillars.year.stemInfo.pinyin}) - {result.translatedPillars.year.stemInfo.element}</div>
-                        <div className=" px-2 py-2 font-semibold bg-gray-100" style={{ writingMode: 'vertical-rl' }}>Stems</div>
-                    </div>
-                    <div className="flex ">
-                        <div className="flex-1 flex items-center justify-center px-2 py-2 text-red-800">{result.translatedPillars.hour.branch} ({result.translatedPillars.hour.branchInfo.pinyin}) - {result.translatedPillars.hour.branchInfo.animal}</div>
-                        <div className="flex-1 flex items-center justify-center px-2 py-2 text-red-800">{result.translatedPillars.day.branch} ({result.translatedPillars.day.branchInfo.pinyin}) - {result.translatedPillars.day.branchInfo.animal}</div>
-                        <div className="flex-1 flex items-center justify-center px-2 py-2 text-red-800">{result.translatedPillars.month.branch} ({result.translatedPillars.month.branchInfo.pinyin}) - {result.translatedPillars.month.branchInfo.animal}</div>
-                        <div className="flex-1 flex items-center justify-center px-2 py-2 text-red-800">{result.translatedPillars.year.branch} ({result.translatedPillars.year.branchInfo.pinyin}) - {result.translatedPillars.year.branchInfo.animal}</div>
-                        <div className="px-2 py-2 font-semibold bg-gray-100" style={{ writingMode: 'vertical-rl' }}>Branches</div>
-                    </div>
-                    <div className="flex">
                         {['hour', 'day', 'month', 'year'].map((pillarKey) => {
                             const pillar = result.translatedPillars[pillarKey];
+                            const pillarName = pillarKey.charAt(0).toUpperCase() + pillarKey.slice(1);
+
                             return (
-                                <div key={pillarKey} className="flex-1 flex flex-col items-center justify-center px-2 py-2 text-red-800 space-y-1">
-                                    {pillar.hiddenStems.map((hs, index) => {
-                                        const info = pillar.hiddenStemsInfo[index];
-                                        return (
-                                            <div key={hs}>
-                                                {hs} ({info.pinyin}) - {info.element}
+                                <div key={pillarKey} className="border-b">
+                                    {/* Pillar Header */}
+                                    <div className="bg-red-800 text-white font-semibold p-2 text-center">
+                                        {pillarName}
+                                    </div>
+
+                                    {/* Stem Section */}
+                                    <div className="p-3 border-b">
+                                        <div className="flex justify-between items-center">
+                                            <div>
+                                                <div className="text-2xl font-bold text-red-800">{pillar.stem}</div>
+                                                <div className="text-xs text-gray-600">({pillar.stemInfo.pinyin}) {pillar.stemInfo.element}</div>
                                             </div>
-                                        );
-                                    })}
+                                            <div className="text-sm font-semibold">Stem</div>
+                                        </div>
+                                    </div>
+
+                                    {/* Branch Section */}
+                                    <div className="p-3 border-b">
+                                        <div className="flex justify-between items-center">
+                                            <div>
+                                                <div className="text-2xl font-bold text-red-800">{pillar.branch}</div>
+                                                <div className="text-xs text-gray-600">({pillar.branchInfo.pinyin}) {pillar.branchInfo.animal}</div>
+                                            </div>
+                                            <div className="text-sm font-semibold">Branch</div>
+                                        </div>
+                                    </div>
+
+                                    {/* Hidden Stems Section */}
+                                    <div className="p-3 bg-gray-50">
+                                        <div className="flex justify-between">
+                                            <div className="flex items-center flex-wrap gap-1">
+                                                {pillar.hiddenStems.map((hs, index) => {
+                                                    const info = pillar.hiddenStemsInfo[index];
+                                                    return (
+                                                        <div key={hs} className="text-xs">
+                                                            {hs} ({info.pinyin}) <span className="text-red-800">{info.element}</span>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                            <div className="text-sm font-semibold pl-2">Stem<br />(Hidden)</div>
+                                        </div>
+                                    </div>
                                 </div>
                             );
                         })}
-                        <div
-                            className="px-2 py-2 font-semibold bg-gray-100"
-                            style={{ writingMode: 'vertical-rl' }}
-                        >
-                            Hidden Stem
-                        </div>
-                    </div>
-
-
-                    {/* Branches Row */}
-                    <div className="flex ">
-                    </div>
-                    <div className="flex ">
                     </div>
                 </div>
+
+                {/* Desktop View (shown on medium screens and up) */}
+
+                <div className=" w-full rounded-md overflow-hidden border"
+                    data-tooltip-id='my-tooltip'
+                    data-tooltip-content={`The Four Pillars of BaZi...`}>
+
+                    {/* Title Row */}
+                    <div className="bg-red-800 text-white font-semibold p-2 text-center">
+                        Four Pillars | Bazi
+                    </div>
+
+                    {/* Main Table Container */}
+                    <div className="flex">
+                        {/* Pillars Content */}
+                        <div className="grid grid-cols-4 flex-1">
+                            {['hour', 'day', 'month', 'year'].map((pillarKey) => {
+                                const pillar = result.translatedPillars[pillarKey];
+                                const pillarName = pillarKey.charAt(0).toUpperCase() + pillarKey.slice(1);
+
+                                return (
+                                    <div key={pillarKey} className="flex flex-col">
+                                        {/* Pillar Header */}
+                                        <div className="bg-red-800 text-white font-semibold p-2 text-center">
+                                            {pillarName}
+                                        </div>
+
+                                        {/* Stem Section */}
+                                        <div className="flex-1 p-4 border-b border-r">
+                                            <div className="text-center">
+                                                <div className="text-3xl md:text-4xl font-bold text-red-800">
+                                                    {pillar.stem}
+                                                </div>
+                                                <div className="text-sm text-gray-600">
+                                                    ({pillar.stemInfo.pinyin})
+                                                </div>
+                                                <div className="text-sm">
+                                                    {pillar.stemInfo.element}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Branch Section */}
+                                        <div className="flex-1 p-4 border-b border-r">
+                                            <div className="text-center">
+                                                <div className="text-3xl md:text-4xl font-bold text-red-800">
+                                                    {pillar.branch}
+                                                </div>
+                                                <div className="text-sm text-gray-600">
+                                                    ({pillar.branchInfo.pinyin})
+                                                </div>
+                                                <div className="text-sm">
+                                                    {pillar.branchInfo.animal}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Hidden Stems Section */}
+                                        <div className="min-h-[140px] sm:min-h-[80px] flex-1 flex justify-center items-center p-2 bg-gray-50 border-r">
+                                            <div className="flex flex-wrap justify-center gap-1">
+                                                {pillar.hiddenStems.map((hs, index) => {
+                                                    const info = pillar.hiddenStemsInfo[index];
+                                                    return (
+                                                        <div key={hs} className="text-xs text-center px-1">
+                                                            {hs} ({info.pinyin})<br />
+                                                            <span className="text-red-800">{info.element}</span>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+
+                        {/* Right Side Captions */}
+                        <div className="w-8 sm:w-16 flex flex-col">
+                            {/* Empty space for header - matches pillar header height */}
+                            <div className="h-[36px] bg-red-800 border-b"></div>
+
+                            {/* Stem Caption - matches stem section height */}
+                            <div className="flex-1 flex items-center justify-center font-semibold bg-gray-100 border-b">
+                                <span style={{ writingMode: 'vertical-rl' }}>Stem</span>
+                            </div>
+
+                            {/* Branch Caption - matches branch section height */}
+                            <div className="flex-1 flex items-center justify-center font-semibold bg-gray-100 border-b">
+                                <span style={{ writingMode: 'vertical-rl' }}>Branch</span>
+                            </div>
+
+                            {/* Hidden Stems Caption - matches hidden stems section height */}
+                            <div className="hidden sm:flex min-h-[80px] flex items-center justify-center font-semibold bg-gray-100">
+                                <span style={{ writingMode: 'vertical-rl' }}>Stem<br />(Hidden)</span>
+                            </div>
+
+                            <div className="sm:hidden min-h-[140px] flex items-center justify-center font-semibold bg-gray-100">
+                                <span style={{ writingMode: 'vertical-rl' }}>Stem (Hidden)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <div className='flex flex-col gap-4'>
                 <div className='w-full'>
-                    <div className="w-full rounded-md overflow-hidden border">
+                    <div className="w-full rounded-md overflow-hidden border border-black">
 
-                        <div className="flex bg-red-800 dark:bg-red-800  text-white font-semibold">
+                        <div className="flex bg-red-800 dark:bg-red-800 text-white font-semibold">
                             <div className="flex-1 p-2">DAY MASTER</div>
                             <div className="flex-1 p-2">{result.dayMaster}</div>
                         </div>
@@ -332,36 +423,36 @@ export default function Result3({ result, biodata }) {
 
                         <div className="">
                             <div className="flex bg-gray-100">
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium">Celestial Animal</div>
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.celestial}</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black border-r font-medium">Celestial Animal</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black">{result.animal.celestial}</div>
                             </div>
                             <div className="flex">
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium">Noble People</div>
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.noble}</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black border-r font-medium">Noble People</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black">{result.animal.noble}</div>
                             </div>
                             <div className="flex bg-gray-100">
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium">Intelligence</div>
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.intelligence}</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black border-r font-medium">Intelligence</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black">{result.animal.intelligence}</div>
                             </div>
                             <div className="flex">
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium">Peach Blossom</div>
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.peach_blossom}</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black border-r font-medium">Peach Blossom</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black">{result.animal.peach_blossom}</div>
                             </div>
                             <div className="flex bg-gray-100">
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium">Sky Horse</div>
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.sky_horse}</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black border-r font-medium">Sky Horse</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black">{result.animal.sky_horse}</div>
                             </div>
                             <div className="flex">
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium">Solitary</div>
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.solitary}</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black border-r font-medium">Solitary</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black">{result.animal.solitary}</div>
                             </div>
                             {/* <div className="flex bg-gray-100">
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium ">Life Palace</div>
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.life_palace.full}</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black border-r font-medium ">Life Palace</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black">{result.animal.life_palace.full}</div>
                             </div> */}
                             <div className="flex bg-gray-100">
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 font-medium">Conception Palace</div>
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">{result.animal.conception_palace.ganzhi}</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-r font-medium">Conception Palace</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 ">{result.animal.conception_palace.ganzhi}</div>
                             </div>
                         </div>
                     </div>
@@ -395,39 +486,108 @@ export default function Result3({ result, biodata }) {
 
                 </div> */}
 
-                <div className='flex flex-col gap-2'>
+                <div className='flex flex-col gap-4'>
                     <div className='text-left'>
-                        <h2 className='text-3xl'>Five Elemental</h2>
-                        <p>
+                        <h2 className='text-2xl md:text-3xl'>Five Elemental</h2>
+                        <p className='text-sm md:text-base'>
                             This is your five elemental Wood, Fire, Earth, Metal & Water
                         </p>
                     </div>
+
                     <div className="w-full rounded-md overflow-hidden border"
-                        data-tooltip-id="my-tooltip" data-tooltip-content="In BaZi (Four Pillars), each person has a combination of 8 characters (Heavenly Stems and Earthly Branches)
-                        that represent the elements of Wood, Fire, Earth, Metal, and Water.
-                        The purpose of this calculation is to identify which elements are dominant and which are weak in your life."
+                        data-tooltip-id="my-tooltip"
+                        data-tooltip-content="In BaZi (Four Pillars), each person has a combination of 8 characters (Heavenly Stems and Earthly Branches) that represent the elements of Wood, Fire, Earth, Metal, and Water. The purpose of this calculation is to identify which elements are dominant and which are weak in your life."
                     >
                         {/* Title Row */}
-                        <div className="bg-red-800  text-white font-semibold p-2">
+                        <div className="bg-red-800 text-white font-semibold p-2 text-center">
                             Five Elemental
                         </div>
 
-                        {/* Header Row */}
-                        <div className="flex flex-wrap sm:flex-nowrap bg-red-800 text-white font-semibold text-center">
-                            <div className="flex-1 min-w-[40px] p-2 bg-green-600 flex items-center justify-center">木 - Wood</div>
-                            <div className="flex-1 min-w-[40px] p-2 bg-red-600 flex items-center justify-center">火 - Fire</div>
-                            <div className="flex-1 min-w-[40px] p-2 bg-orange-950 flex items-center justify-center">土 - Earth</div>
-                            <div className="flex-1 min-w-[40px] p-2 bg-slate-600 flex items-center justify-center">金 - Metal</div>
-                            <div className="flex-1 min-w-[40px] p-2 bg-blue-600 flex items-center justify-center">水 - Water</div>
+                        {/* Mobile-friendly table structure */}
+                        <div className="hidden sm:block">
+                            {/* Header Row - shown on desktop/tablet */}
+                            <div className="flex bg-red-800 text-white font-semibold text-center">
+                                {["Wood", "Fire", "Earth", "Metal", "Water"].map((element) => (
+                                    <div
+                                        key={element}
+                                        className={`flex-1 p-2 min-w-0 ${element === "Wood" ? "bg-green-600" :
+                                            element === "Fire" ? "bg-red-600" :
+                                                element === "Earth" ? "bg-orange-950" :
+                                                    element === "Metal" ? "bg-slate-600" : "bg-blue-600"
+                                            }`}
+                                    >
+                                        {element === "Wood" ? "木 - Wood" :
+                                            element === "Fire" ? "火 - Fire" :
+                                                element === "Earth" ? "土 - Earth" :
+                                                    element === "Metal" ? "金 - Metal" : "水 - Water"}
+                                    </div>
+                                ))}
+                                <div className="w-10"></div>
+                            </div>
+
+                            {/* Data Rows - desktop/tablet */}
+                            <div className="flex border-b">
+                                {["Wood", "Fire", "Earth", "Metal", "Water"].map((element) => (
+                                    <div key={`value-${element}`} className="flex-1 border-r text-center p-2 text-red-800 last:border-r-0">
+                                        {result.elementBalancePercentage.find(item => item.key === element)?.value || 0}
+                                    </div>
+                                ))}
+                                <div className="w-10 sm:min-h-[60px] flex items-center justify-center font-semibold bg-gray-100">
+                                    <span style={{ writingMode: 'vertical-rl' }}>Value</span>
+                                </div>
+                            </div>
+
+                            <div className="flex">
+                                {["Wood", "Fire", "Earth", "Metal", "Water"].map((element) => (
+                                    <div key={`percentage-${element}`} className="flex-1 border-r text-center p-2 text-red-800 last:border-r-0">
+                                        {result.elementBalancePercentage.find(item => item.key === element)?.percentage || 0}%
+                                    </div>
+                                ))}
+                                <div className="w-10 sm:min-h-[100px] flex items-center justify-center font-semibold bg-gray-100">
+                                    <span style={{ writingMode: 'vertical-rl' }}>Percentage</span>
+                                </div>
+                            </div>
                         </div>
 
-                        {/* Row */}
-                        <div className="flex ">
-                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementBalance.Wood}</div>
-                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementBalance.Fire}</div>
-                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementBalance.Earth}</div>
-                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementBalance.Metal}</div>
-                            <div className="flex-1 px-2 py-2 text-red-800">{result.elementBalance.Water}</div>
+                        {/* Mobile view - stacked layout */}
+                        <div className="sm:hidden">
+                            <div className="bg-red-800 text-white font-semibold p-2 text-center">
+                                Elements Breakdown
+                            </div>
+
+                            {["Wood", "Fire", "Earth", "Metal", "Water"].map((element) => {
+                                const item = result.elementBalancePercentage.find(item => item.key === element);
+                                return (
+                                    <div key={element} className="">
+                                        <div className={`p-2 text-white font-semibold text-center ${element === "Wood" ? "bg-green-600" :
+                                            element === "Fire" ? "bg-red-600" :
+                                                element === "Earth" ? "bg-orange-950" :
+                                                    element === "Metal" ? "bg-slate-600" : "bg-blue-600"
+                                            }`}>
+                                            {element === "Wood" ? "木 - Wood" :
+                                                element === "Fire" ? "火 - Fire" :
+                                                    element === "Earth" ? "土 - Earth" :
+                                                        element === "Metal" ? "金 - Metal" : "水 - Water"}
+                                        </div>
+                                        <div className="flex">
+                                            <div className="flex-1 p-2 border-r text-center font-semibold bg-gray-100">
+                                                Value
+                                            </div>
+                                            <div className="flex-1 p-2 text-center text-red-800">
+                                                {item?.value || 0}
+                                            </div>
+                                        </div>
+                                        <div className="flex">
+                                            <div className="flex-1 p-2 border-r text-center font-semibold bg-gray-100">
+                                                Percentage
+                                            </div>
+                                            <div className="flex-1 p-2 text-center text-red-800">
+                                                {item?.percentage || 0}%
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
                 </div>
@@ -445,7 +605,7 @@ export default function Result3({ result, biodata }) {
                         </div>
                     </div>
                 </div>
-                <div>
+                {/* <div>
                     <div className="w-full rounded-md overflow-hidden border"
                         data-tooltip-id='my-tooltip'
                         data-tooltip-content={`Categorize Element is a process in BaZi analysis used to classify the five elements (Wood, Fire, Earth, Metal, Water)
@@ -457,12 +617,10 @@ export default function Result3({ result, biodata }) {
                         Same: The same element as the Day Master (can support or compete)
                         This classification helps to understand which elements are beneficial, which are challenging, and how the balance of elements influences a person's life according to Chinese metaphysics.`}
                     >
-                        {/* Title Row */}
                         <div className="bg-red-800  text-white font-semibold p-2">
                             Categorize elements
                         </div>
 
-                        {/* Header Row */}
                         <div className="flex bg-red-800  text-white font-semibold">
                             <div className="flex-1 p-2">Supportive</div>
                             <div className="flex-1 p-2">Weakening</div>
@@ -470,7 +628,6 @@ export default function Result3({ result, biodata }) {
                             <div className="flex-1 p-2">Same</div>
                         </div>
 
-                        {/* Row */}
                         <div className="flex ">
                             <div className="flex-1 px-2 py-2 text-red-800">{result.elementCategories.supportive.element}</div>
                             <div className="flex-1 px-2 py-2 text-red-800">{result.elementCategories.weakening.element}</div>
@@ -479,7 +636,7 @@ export default function Result3({ result, biodata }) {
                         </div>
                     </div>
 
-                </div>
+                </div> */}
 
                 <div>
                     <div className='w-full rounded-md overflow-hidden border'
@@ -495,20 +652,20 @@ export default function Result3({ result, biodata }) {
                             <div className='flex-1 p-2'>本命吉方</div>
                         </div>
                         <div className='flex'>
-                            <div className='flex-1 px-2 py-2 bg-gray-100 '>Fu Wei (Stability)</div>
-                            <div className='flex-1 px-2 py-2 text-red-800'>{result.favorableDirections[0]}</div>
+                            <div className='flex-1 px-2 py-2 bg-gray-100 border-r border-b'>Fu Wei (Stability)</div>
+                            <div className='flex-1 px-2 py-2 text-red-800 border-black border-b'>{result.favorableDirections[0]}</div>
                         </div>
                         <div className='flex'>
-                            <div className='flex-1 px-2 py-2 bg-gray-100 '>Tian Yi (Heavenly Doctor)</div>
-                            <div className='flex-1 px-2 py-2 text-red-800'>{result.favorableDirections[1]}</div>
+                            <div className='flex-1 px-2 py-2 bg-gray-100 border-r border-b'>Tian Yi (Heavenly Doctor)</div>
+                            <div className='flex-1 px-2 py-2 text-red-800 border-black border-b'>{result.favorableDirections[1]}</div>
                         </div>
                         <div className='flex'>
-                            <div className='flex-1 px-2 py-2 bg-gray-100 '>Sheng Qi (Life Generating)</div>
-                            <div className='flex-1 px-2 py-2 text-red-800'>{result.favorableDirections[2]}</div>
+                            <div className='flex-1 px-2 py-2 bg-gray-100 border-r border-b'>Sheng Qi (Life Generating)</div>
+                            <div className='flex-1 px-2 py-2 text-red-800 border-black border-b'>{result.favorableDirections[2]}</div>
                         </div>
                         <div className='flex'>
-                            <div className='flex-1 px-2 py-2 bg-gray-100 '>Yan Nian (Longevity)</div>
-                            <div className='flex-1 px-2 py-2 text-red-800'>{result.favorableDirections[3]}</div>
+                            <div className='flex-1 px-2 py-2 bg-gray-100 border-r'>Yan Nian (Longevity)</div>
+                            <div className='flex-1 px-2 py-2 text-red-800 '>{result.favorableDirections[3]}</div>
                         </div>
                     </div>
                 </div>
@@ -526,19 +683,19 @@ export default function Result3({ result, biodata }) {
                             <div className='flex-1 p-2'>不利的方向</div>
                         </div>
                         <div className='flex'>
-                            <div className='flex-1 px-2 py-2 bg-gray-100 '>Wu Gui (Five Ghosts)</div>
-                            <div className='flex-1 px-2 py-2 text-red-800'>{result.unfavorableDirections[0]}</div>
+                            <div className='flex-1 px-2 py-2 bg-gray-100 border-r border-b'>Wu Gui (Five Ghosts)</div>
+                            <div className='flex-1 px-2 py-2 text-red-800 border-black border-b'>{result.unfavorableDirections[0]}</div>
                         </div>
                         <div className='flex'>
-                            <div className='flex-1 px-2 py-2 bg-gray-100 '>Hou Hai (Mishaps)</div>
-                            <div className='flex-1 px-2 py-2 text-red-800'>{result.unfavorableDirections[1]}</div>
+                            <div className='flex-1 px-2 py-2 bg-gray-100 border-r border-b'>Hou Hai (Mishaps)</div>
+                            <div className='flex-1 px-2 py-2 text-red-800 border-black border-b'>{result.unfavorableDirections[1]}</div>
                         </div>
                         <div className='flex'>
-                            <div className='flex-1 px-2 py-2 bg-gray-100 '>Liu Sha (Six Killings)</div>
-                            <div className='flex-1 px-2 py-2 text-red-800'>{result.unfavorableDirections[2]}</div>
+                            <div className='flex-1 px-2 py-2 bg-gray-100 border-r border-b'>Liu Sha (Six Killings)</div>
+                            <div className='flex-1 px-2 py-2 text-red-800 border-black border-b'>{result.unfavorableDirections[2]}</div>
                         </div>
                         <div className='flex'>
-                            <div className='flex-1 px-2 py-2 bg-gray-100 '>Jue Ming (Life Threatening)</div>
+                            <div className='flex-1 px-2 py-2 bg-gray-100 border-r'>Jue Ming (Life Threatening)</div>
                             <div className='flex-1 px-2 py-2 text-red-800'>{result.unfavorableDirections[3]}</div>
                         </div>
                     </div>
@@ -550,55 +707,148 @@ export default function Result3({ result, biodata }) {
                         {responseText}
                     </div>
                 </div> */}
-                {/* <div>
-                    <div className='w-full rounded-md overflow-hidden border'>
-                        <div className='flex bg-blue-800 dark:bg-blue-500  text-white '>
-                            <div className='flex-1 p-2'>88</div>
-                            <div className='flex-1 p-2'>78</div>
-                            <div className='flex-1 p-2'>68</div>
-                            <div className='flex-1 p-2'>58</div>
-                            <div className='flex-1 p-2'>48</div>
-                            <div className='flex-1 p-2'>38</div>
-                            <div className='flex-1 p-2'>28</div>
-                            <div className='flex-1 p-2'>18</div>
-                            <div className='flex-1 p-2'>8</div>
+                <div className='block sm:hidden text-left'>
+                    <h2 className='text-2xl md:text-3xl'>10-Year Luck Pillars</h2>
+
+                    {/* Mobile View */}
+                    <div className="w-full rounded-md overflow-hidden border mt-4">
+                        <div className="bg-red-800 text-white font-semibold p-2 text-center">
+                            Luck Pillars
                         </div>
 
-                        <div className='flex'>
-                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>丁</div>
-                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>戊</div>
-                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>己</div>
-                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>庚</div>
-                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>辛</div>
-                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>壬</div>
-                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>癸</div>
-                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>甲</div>
-                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>乙</div>
+                        {result.luckyPillars.map((pillar, index) => {
+                            return (
+                                <div key={index} className="border-b">
+                                    {/* Pillar Header */}
+                                    <div className="bg-red-800 text-white font-semibold p-2 text-center">
+                                        Age {pillar.startAge} – {pillar.endAge}
+                                    </div>
+
+                                    {/* Stem Section */}
+                                    <div className="p-3 border-b">
+                                        <div className="flex justify-between items-center">
+                                            <div>
+                                                <div className="text-2xl font-bold text-red-800">{pillar.stem.hanzi}</div>
+                                                <div className="text-xs text-gray-600">
+                                                    ({pillar.stem.pinyin}) {pillar.stem.yinYang} {pillar.stem.element}
+                                                </div>
+                                            </div>
+                                            <div className="text-sm font-semibold">Stem</div>
+                                        </div>
+                                    </div>
+
+                                    {/* Branch Section */}
+                                    <div className="p-3 border-b">
+                                        <div className="flex justify-between items-center">
+                                            <div>
+                                                <div className="text-2xl font-bold text-red-800">{pillar.branch.hanzi}</div>
+                                                <div className="text-xs text-gray-600">
+                                                    ({pillar.branch.pinyin}) {pillar.branch.animal}
+                                                </div>
+                                            </div>
+                                            <div className="text-sm font-semibold">Branch</div>
+                                        </div>
+                                    </div>
+
+                                    {/* Hidden Stems Section */}
+                                    <div className="p-3 bg-gray-50">
+                                        <div className="flex justify-between">
+                                            <div className="flex items-center flex-wrap gap-1">
+                                                {pillar.branch.hiddenStems.map((hs, idx) => (
+                                                    <div key={idx} className="text-xs">
+                                                        {hs.hanzi} ({hs.pinyin}) <span className="text-red-800">{hs.element}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            <div className="text-sm font-semibold pl-2">Stem<br />(Hidden)</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+                <div
+                    className="w-full rounded-md overflow-hidden border"
+                    data-tooltip-id="luck-tooltip"
+                    data-tooltip-content="10-Year Luck Pillars based on your BaZi chart"
+                >
+                    {/* Title Row */}
+                    <div className="bg-red-800 text-white font-semibold p-2 text-center">
+                        Luck Pillars (10-Year)
+                    </div>
+
+                    {/* Main Table Container */}
+                    <div className="hidden sm:flex">
+                        {/* Luck Pillars Grid */}
+                        <div className="grid grid-cols-9 flex-1">
+                            {result.luckyPillars.map((pillar, index) => (
+                                <div key={index} className="flex flex-col">
+                                    {/* Age Header */}
+                                    <div className="bg-red-800 text-white font-semibold p-2 text-center text-xs sm:text-sm">
+                                        Age {pillar.startAge}-{pillar.endAge}
+                                    </div>
+
+                                    {/* Stem Section */}
+                                    <div className="flex-1 p-4 border-b border-r">
+                                        <div className="text-center">
+                                            <div className="text-3xl md:text-4xl font-bold text-red-800">
+                                                {pillar.stem.hanzi}
+                                            </div>
+                                            <div className="text-sm text-gray-600">
+                                                ({pillar.stem.pinyin})
+                                            </div>
+                                            <div className="text-sm">{pillar.stem.element}</div>
+                                        </div>
+                                    </div>
+
+                                    {/* Branch Section */}
+                                    <div className="flex-1 p-4 border-b border-r">
+                                        <div className="text-center">
+                                            <div className="text-3xl md:text-4xl font-bold text-red-800">
+                                                {pillar.branch.hanzi}
+                                            </div>
+                                            <div className="text-sm text-gray-600">
+                                                ({pillar.branch.pinyin})
+                                            </div>
+                                            <div className="text-sm">{pillar.branch.animal}</div>
+                                        </div>
+                                    </div>
+
+                                    {/* Hidden Stems Section */}
+                                    <div className="min-h-[140px] sm:min-h-[80px] flex-1 flex justify-center items-center p-2 bg-gray-50 border-r">
+                                        <div className="flex flex-wrap justify-center gap-1">
+                                            {pillar.branch.hiddenStems.map((hs, i) => (
+                                                <div key={i} className="text-xs text-center px-1">
+                                                    {hs.hanzi} ({hs.pinyin})<br />
+                                                    <span className="text-red-800">{hs.element}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
-                        <div className='flex'>
-                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>卯</div>
-                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>辰</div>
-                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>⺒</div>
-                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>午</div>
-                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>未</div>
-                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>申</div>
-                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>酉</div>
-                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>戌</div>
-                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>亥</div>
-                        </div>
-                        <div className='flex'>
-                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>乙</div>
-                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>癸 戊 乙</div>
-                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>庚 丙 戊</div>
-                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>丁 己</div>
-                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>丁 己 乙</div>
-                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>戊 庚 壬</div>
-                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>辛</div>
-                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>丁 戊 辛</div>
-                            <div className='flex-1 px-2 py-2 text-blue-800 dark:text-blue-500'>壬 甲</div>
+
+                        {/* Right Side Captions */}
+                        <div className="flex flex-col">
+                            <div className="h-[36px] bg-red-800 border-b sm:min-h-[56px] md:min-h-[36px]"></div>
+                            <div className="flex-1 flex items-center justify-center font-semibold bg-gray-100 border-b">
+                                <span style={{ writingMode: 'vertical-rl' }}>Stem</span>
+                            </div>
+                            <div className="flex-1 flex items-center justify-center font-semibold bg-gray-100 border-b">
+                                <span style={{ writingMode: 'vertical-rl' }}>Branch</span>
+                            </div>
+                            <div className="hidden sm:flex sm:min-h-[112px] md:min-h-[104px] xl:min-h-[84px] flex items-center justify-center font-semibold bg-gray-100">
+                                <span style={{ writingMode: 'vertical-rl' }}>Stem<br />(Hidden)</span>
+                            </div>
+                            <div className="sm:hidden min-h-[140px] flex items-center justify-center font-semibold bg-gray-100">
+                                <span style={{ writingMode: 'vertical-rl' }}>Stem (Hidden)</span>
+                            </div>
                         </div>
                     </div>
-                </div> */}
+                </div>
+
                 <div className="flex justify-center mt-8 print:hidden">
                     <button
                         onClick={handlePrint}
