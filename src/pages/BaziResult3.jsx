@@ -842,7 +842,7 @@ Knowing and avoiding this direction helps maintain energetic balance and reduce 
                     </div>
                 </div>
                 <div
-                    className="hidden sm:flex w-full rounded-md overflow-hidden border"
+                    className="hidden sm:flex w-full flex-col rounded-md overflow-hidden border"
                     data-tooltip-id="luck-tooltip"
                     data-tooltip-content="10-Year Luck Pillars based on your BaZi chart"
                 >
@@ -912,7 +912,7 @@ Knowing and avoiding this direction helps maintain energetic balance and reduce 
                             <div className="flex-1 flex items-center justify-center font-semibold bg-gray-100 border-b">
                                 <span style={{ writingMode: 'vertical-rl' }}>Branch</span>
                             </div>
-                            <div className="hidden sm:flex sm:min-h-[112px] md:min-h-[104px] flex items-center justify-center font-semibold bg-gray-100">
+                            <div className="hidden sm:flex sm:min-h-[112px] md:min-h-[104px] lg:min-h-[84px] flex items-center justify-center font-semibold bg-gray-100">
                                 <span style={{ writingMode: 'vertical-rl' }}>Stem<br />(Hidden)</span>
                             </div>
                             <div className="sm:hidden min-h-[140px] flex items-center justify-center font-semibold bg-gray-100">
