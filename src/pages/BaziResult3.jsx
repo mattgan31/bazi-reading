@@ -849,6 +849,71 @@ export default function Result3({ result, biodata }) {
                     </div>
                 </div>
 
+                <div
+                    className="w-full rounded-md overflow-hidden border"
+                    data-tooltip-id="luck-tooltip"
+                    data-tooltip-content="Current Year Pillar based on your BaZi chart"
+                >
+                    {/* Title Row */}
+                    <div className="bg-red-800 text-white font-semibold p-2 text-center">
+                        Current Year Pillar
+                    </div>
+
+                    {/* Main Table Container */}
+                    <div className="flex">
+                        {/* Pillar Content Grid */}
+                        <div className="grid grid-cols-3 flex-1">
+                            {/* Stem */}
+                            <div className="p-4 border-b border-r flex items-center justify-between">
+                                <div>
+                                    <div className="text-3xl font-bold text-red-800">
+                                        {result.currentYearPillar.stem}
+                                    </div>
+                                    <div className="text-sm text-gray-600">
+                                        ({result.currentYearPillar.stemInfo.pinyin})
+                                    </div>
+                                    <div className="text-sm">{result.currentYearPillar.stemInfo.element}</div>
+                                </div>
+                                <div className="text-sm font-semibold">Stem</div>
+                            </div>
+
+                            {/* Branch */}
+                            <div className="p-4 border-b border-r flex items-center justify-between">
+                                <div>
+                                    <div className="text-3xl font-bold text-red-800">
+                                        {result.currentYearPillar.branch}
+                                    </div>
+                                    <div className="text-sm text-gray-600">
+                                        ({result.currentYearPillar.branchInfo.pinyin})
+                                    </div>
+                                    <div className="text-sm">{result.currentYearPillar.branchInfo.animal}</div>
+                                </div>
+                                <div className="text-sm font-semibold">Branch</div>
+                            </div>
+
+                            {/* Hidden Stems */}
+                            <div className="p-4 bg-gray-50 flex items-center justify-between border-b">
+                                <div className="flex flex-wrap gap-2">
+                                    {result.currentYearPillar.hiddenStems.map((hs, index) => {
+                                        const info = result.currentYearPillar.hiddenStemsInfo[index];
+                                        return (
+                                            <div key={hs} className="text-xs text-center">
+                                                {hs} ({info.pinyin})<br />
+                                                <span className="text-red-800">{info.element}</span>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                                <div className="text-sm font-semibold pl-2 text-right">
+                                    Stem<br />(Hidden)
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
                 <div className="flex justify-center mt-8 print:hidden">
                     <button
                         onClick={handlePrint}

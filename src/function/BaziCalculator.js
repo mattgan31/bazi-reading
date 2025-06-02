@@ -281,9 +281,6 @@ function generateLuckPillarsData(startStem, startBranch, forward, startingAge, c
     return result;
 }
 
-
-
-
 export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
     // const date = new Date(`${birthDate}T${birthTime}:00`)
     const date = new Date(
@@ -409,18 +406,18 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
     };
 
     const branchInfo = {
-        子: { pinyin: 'Zi', animal: 'Rat' },
-        丑: { pinyin: 'Chou', animal: 'Ox' },
-        寅: { pinyin: 'Yin', animal: 'Tiger' },
-        卯: { pinyin: 'Mao', animal: 'Rabbit' },
-        辰: { pinyin: 'Chen', animal: 'Dragon' },
-        巳: { pinyin: 'Si', animal: 'Snake' },
-        午: { pinyin: 'Wu', animal: 'Horse' },
-        未: { pinyin: 'Wei', animal: 'Goat' },
-        申: { pinyin: 'Shen', animal: 'Monkey' },
-        酉: { pinyin: 'You', animal: 'Rooster' },
-        戌: { pinyin: 'Xu', animal: 'Dog' },
-        亥: { pinyin: 'Hai', animal: 'Pig' },
+        '子': { pinyin: 'Zi', animal: 'Rat', hiddenStems: ['癸'] },
+        '丑': { pinyin: 'Chou', animal: 'Ox', hiddenStems: ['己', '癸', '辛'] },
+        '寅': { pinyin: 'Yin', animal: 'Tiger', hiddenStems: ['甲', '丙', '戊'] },
+        '卯': { pinyin: 'Mao', animal: 'Rabbit', hiddenStems: ['乙'] },
+        '辰': { pinyin: 'Chen', animal: 'Dragon', hiddenStems: ['戊', '乙', '癸'] },
+        '巳': { pinyin: 'Si', animal: 'Snake', hiddenStems: ['丙', '庚', '戊'] },
+        '午': { pinyin: 'Wu', animal: 'Horse', hiddenStems: ['丁', '己'] },
+        '未': { pinyin: 'Wei', animal: 'Goat', hiddenStems: ['己', '丁', '乙'] },
+        '申': { pinyin: 'Shen', animal: 'Monkey', hiddenStems: ['庚', '壬', '戊'] },
+        '酉': { pinyin: 'You', animal: 'Rooster', hiddenStems: ['辛'] },
+        '戌': { pinyin: 'Xu', animal: 'Dog', hiddenStems: ['戊', '辛', '丁'] },
+        '亥': { pinyin: 'Hai', animal: 'Pig', hiddenStems: ['壬', '甲'] },
     };
 
 
@@ -774,6 +771,36 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
         }
     }
 
+
+    function getCurrentYearPillar() {
+        const currentYear = new Date().getFullYear();
+        const lunar = Lunar.fromDate(new Date(`${currentYear}-03-01`));
+
+        const stem = lunar.getYearGan();
+        const branch = lunar.getYearZhi();
+
+        const stemDetails = stemInfo[stem];
+        const branchDetails = branchInfo[branch];
+
+        const hiddenStemsInfo = branchDetails.hiddenStems.map(hs => ({
+            hanzi: hs,
+            ...stemInfo[hs],
+        }));
+
+        return {
+            year: currentYear,
+            stem,
+            branch,
+            stemInfo: stemDetails,
+            branchInfo: {
+                pinyin: branchDetails.pinyin,
+                animal: branchDetails.animal,
+            },
+            hiddenStems: branchDetails.hiddenStems,
+            hiddenStemsInfo,
+        };
+    }
+
     const elementBalance = countElements2(latinPillars);
     const elementJoeyYap = countElementsJoeyYap(pillars);
 
@@ -818,7 +845,8 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
         translatedPillars,
         descriptionResult,
         luckyPillars,
-        animal
+        animal,
+        currentYearPillar: getCurrentYearPillar()
     };
 };
 
