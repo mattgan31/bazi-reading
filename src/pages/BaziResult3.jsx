@@ -96,6 +96,17 @@ export default function Result3({ result, biodata }) {
     //     }
     // };
 
+    const directionMap = {
+        N: { zh: '北', pinyin: 'Běi' },
+        NE: { zh: '东北', pinyin: 'Dōngběi' },
+        E: { zh: '东', pinyin: 'Dōng' },
+        SE: { zh: '东南', pinyin: 'Dōngnán' },
+        S: { zh: '南', pinyin: 'Nán' },
+        SW: { zh: '西南', pinyin: 'Xīnán' },
+        W: { zh: '西', pinyin: 'Xī' },
+        NW: { zh: '西北', pinyin: 'Xīběi' },
+        Center: { zh: '中', pinyin: 'Zhōng' },
+    };
 
 
     function formatNumber(value) {
@@ -638,65 +649,127 @@ export default function Result3({ result, biodata }) {
 
                 </div> */}
 
-                <div>
-                    <div className='w-full rounded-md overflow-hidden border'
-                        data-tooltip-id='my-tooltip'
-                        data-tooltip-content={
-                            `This direction brings luck, health, harmony, and success.
-                            It is usually determined based on a person's dominant element from their BaZi chart and their Kua number (in the Eight Mansions system).
-                            It is ideal for facing while working, sleeping, or designing home and office layouts.`
-                        }
+<div>
+                    {/* FAVORABLE DIRECTIONS */}
+                    <div
+                        className="w-full rounded-md overflow-hidden border"
+                        data-tooltip-id="my-tooltip"
+                        data-tooltip-content={`This direction brings luck, health, harmony, and success.
+It is usually determined based on a person's dominant element from their BaZi chart and their Kua number (in the Eight Mansions system).
+It is ideal for facing while working, sleeping, or designing home and office layouts.`}
                     >
-                        <div className='flex bg-red-800  text-white '>
-                            <div className='flex-1 p-2'>FAVORABLE DIRECTIONS</div>
-                            <div className='flex-1 p-2'>本命吉方</div>
+                        <div className="flex bg-red-800 text-white">
+                            <div className="flex-1 p-2">FAVORABLE DIRECTIONS</div>
+                            <div className="flex-1 p-2">本命吉方</div>
                         </div>
-                        <div className='flex'>
-                            <div className='flex-1 px-2 py-2 bg-gray-100 border-r border-b'>Fu Wei (Stability)</div>
-                            <div className='flex-1 px-2 py-2 text-red-800 border-black border-b'>{result.favorableDirections[0]}</div>
+                        <div className="flex">
+                            <div className="flex-1 px-2 py-2 bg-gray-100 border-r border-b">
+                                Fu Wei (Stability) <br /><span className="text-sm text-gray-500">伏位（稳定）</span>
+                            </div>
+                            <div className="flex-1 px-2 py-2 text-red-800 border-black border-b text-center">
+                                <div className="text-lg font-semibold">{result.favorableDirections[0]}</div>
+                                <div className="text-sm text-gray-600">
+                                    {directionMap[result.favorableDirections[0]]?.zh} ({directionMap[result.favorableDirections[0]]?.pinyin})
+                                </div>
+                            </div>
+
                         </div>
-                        <div className='flex'>
-                            <div className='flex-1 px-2 py-2 bg-gray-100 border-r border-b'>Tian Yi (Heavenly Doctor)</div>
-                            <div className='flex-1 px-2 py-2 text-red-800 border-black border-b'>{result.favorableDirections[1]}</div>
+                        <div className="flex">
+                            <div className="flex-1 px-2 py-2 bg-gray-100 border-r border-b">
+                                Tian Yi (Heavenly Doctor) <br /><span className="text-sm text-gray-500">天医（健康）</span>
+                            </div>
+                            <div className="flex-1 px-2 py-2 text-red-800 border-black border-b text-center">
+                                <div className="text-lg font-semibold">{result.favorableDirections[1]}</div>
+                                <div className="text-sm text-gray-600">
+                                    {directionMap[result.favorableDirections[1]]?.zh} ({directionMap[result.favorableDirections[1]]?.pinyin})
+                                </div>
+                            </div>
+
                         </div>
-                        <div className='flex'>
-                            <div className='flex-1 px-2 py-2 bg-gray-100 border-r border-b'>Sheng Qi (Life Generating)</div>
-                            <div className='flex-1 px-2 py-2 text-red-800 border-black border-b'>{result.favorableDirections[2]}</div>
+                        <div className="flex">
+                            <div className="flex-1 px-2 py-2 bg-gray-100 border-r border-b">
+                                Sheng Qi (Life Generating) <br /><span className="text-sm text-gray-500">生气（兴旺）</span>
+                            </div>
+                            <div className="flex-1 px-2 py-2 text-red-800 border-black border-b text-center">
+                                <div className="text-lg font-semibold">{result.favorableDirections[2]}</div>
+                                <div className="text-sm text-gray-600">
+                                    {directionMap[result.favorableDirections[2]]?.zh} ({directionMap[result.favorableDirections[2]]?.pinyin})
+                                </div>
+                            </div>
+
                         </div>
-                        <div className='flex'>
-                            <div className='flex-1 px-2 py-2 bg-gray-100 border-r'>Yan Nian (Longevity)</div>
-                            <div className='flex-1 px-2 py-2 text-red-800 '>{result.favorableDirections[3]}</div>
+                        <div className="flex">
+                            <div className="flex-1 px-2 py-2 bg-gray-100 border-r">
+                                Yan Nian (Longevity) <br /><span className="text-sm text-gray-500">延年（长寿）</span>
+                            </div>
+                            <div className="flex-1 px-2 py-2 text-red-800 border-black  text-center">
+                                <div className="text-lg font-semibold">{result.favorableDirections[3]}</div>
+                                <div className="text-sm text-gray-600">
+                                    {directionMap[result.favorableDirections[3]]?.zh} ({directionMap[result.favorableDirections[3]]?.pinyin})
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
+
                 <div>
-                    <div className='w-full rounded-md overflow-hidden border'
-                        data-tooltip-id='my-tooltip'
-                        data-tooltip-content={
-                            `This direction may cause obstacles, conflicts, illness, or setbacks.
-                            It is best avoided for important activities.
-                            Knowing and avoiding this direction helps maintain energetic balance and reduce negative influences in life.`
-                        }
+                    {/* UNFAVORABLE DIRECTIONS */}
+                    <div
+                        className="w-full rounded-md overflow-hidden border mt-4"
+                        data-tooltip-id="my-tooltip"
+                        data-tooltip-content={`This direction may cause obstacles, conflicts, illness, or setbacks.
+It is best avoided for important activities.
+Knowing and avoiding this direction helps maintain energetic balance and reduce negative influences in life.`}
                     >
-                        <div className='flex bg-red-800  text-white '>
-                            <div className='flex-1 p-2'>UNFAVORABLE DIRECTIONS</div>
-                            <div className='flex-1 p-2'>不利的方向</div>
+                        <div className="flex bg-red-800 text-white">
+                            <div className="flex-1 p-2">UNFAVORABLE DIRECTIONS</div>
+                            <div className="flex-1 p-2">不利的方向</div>
                         </div>
-                        <div className='flex'>
-                            <div className='flex-1 px-2 py-2 bg-gray-100 border-r border-b'>Wu Gui (Five Ghosts)</div>
-                            <div className='flex-1 px-2 py-2 text-red-800 border-black border-b'>{result.unfavorableDirections[0]}</div>
+                        <div className="flex">
+                            <div className="flex-1 px-2 py-2 bg-gray-100 border-r border-b">
+                                Wu Gui (Five Ghosts) <br /><span className="text-sm text-gray-500">五鬼（祸害）</span>
+                            </div>
+                            <div className="flex-1 px-2 py-2 text-red-800 border-black border-b text-center">
+                                <div className="text-lg font-semibold">{result.unfavorableDirections[0]}</div>
+                                <div className="text-sm text-gray-600">
+                                    {directionMap[result.unfavorableDirections[0]]?.zh} ({directionMap[result.unfavorableDirections[0]]?.pinyin})
+                                </div>
+                            </div>
+
                         </div>
-                        <div className='flex'>
-                            <div className='flex-1 px-2 py-2 bg-gray-100 border-r border-b'>Hou Hai (Mishaps)</div>
-                            <div className='flex-1 px-2 py-2 text-red-800 border-black border-b'>{result.unfavorableDirections[1]}</div>
+                        <div className="flex">
+                            <div className="flex-1 px-2 py-2 bg-gray-100 border-r border-b">
+                                Hou Hai (Mishaps) <br /><span className="text-sm text-gray-500">祸害（小人）</span>
+                            </div>
+                            <div className="flex-1 px-2 py-2 text-red-800 border-black border-b text-center">
+                                <div className="text-lg font-semibold">{result.unfavorableDirections[1]}</div>
+                                <div className="text-sm text-gray-600">
+                                    {directionMap[result.unfavorableDirections[1]]?.zh} ({directionMap[result.unfavorableDirections[1]]?.pinyin})
+                                </div>
+                            </div>
                         </div>
-                        <div className='flex'>
-                            <div className='flex-1 px-2 py-2 bg-gray-100 border-r border-b'>Liu Sha (Six Killings)</div>
-                            <div className='flex-1 px-2 py-2 text-red-800 border-black border-b'>{result.unfavorableDirections[2]}</div>
+                        <div className="flex">
+                            <div className="flex-1 px-2 py-2 bg-gray-100 border-r border-b">
+                                Liu Sha (Six Killings) <br /><span className="text-sm text-gray-500">六煞（损耗）</span>
+                            </div>
+                            <div className="flex-1 px-2 py-2 text-red-800 border-black border-b text-center">
+                                <div className="text-lg font-semibold">{result.unfavorableDirections[2]}</div>
+                                <div className="text-sm text-gray-600">
+                                    {directionMap[result.unfavorableDirections[2]]?.zh} ({directionMap[result.unfavorableDirections[2]]?.pinyin})
+                                </div>
+                            </div>
                         </div>
-                        <div className='flex'>
-                            <div className='flex-1 px-2 py-2 bg-gray-100 border-r'>Jue Ming (Life Threatening)</div>
-                            <div className='flex-1 px-2 py-2 text-red-800'>{result.unfavorableDirections[3]}</div>
+                        <div className="flex">
+                            <div className="flex-1 px-2 py-2 bg-gray-100 border-r">
+                                Jue Ming (Life Threatening) <br /><span className="text-sm text-gray-500">绝命（危机）</span>
+                            </div>
+                            <div className="flex-1 px-2 py-2 text-red-800 border-black text-center">
+                                <div className="text-lg font-semibold">{result.unfavorableDirections[3]}</div>
+                                <div className="text-sm text-gray-600">
+                                    {directionMap[result.unfavorableDirections[3]]?.zh} ({directionMap[result.unfavorableDirections[3]]?.pinyin})
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -769,12 +842,12 @@ export default function Result3({ result, biodata }) {
                     </div>
                 </div>
                 <div
-                    className="w-full rounded-md overflow-hidden border"
+                    className="hidden sm:flex w-full rounded-md overflow-hidden border"
                     data-tooltip-id="luck-tooltip"
                     data-tooltip-content="10-Year Luck Pillars based on your BaZi chart"
                 >
                     {/* Title Row */}
-                    <div className="bg-red-800 text-white font-semibold p-2 text-center">
+                    <div className=" bg-red-800 text-white font-semibold p-2 text-center">
                         Luck Pillars (10-Year)
                     </div>
 
@@ -839,7 +912,7 @@ export default function Result3({ result, biodata }) {
                             <div className="flex-1 flex items-center justify-center font-semibold bg-gray-100 border-b">
                                 <span style={{ writingMode: 'vertical-rl' }}>Branch</span>
                             </div>
-                            <div className="hidden sm:flex sm:min-h-[112px] md:min-h-[104px] xl:min-h-[84px] flex items-center justify-center font-semibold bg-gray-100">
+                            <div className="hidden sm:flex sm:min-h-[112px] md:min-h-[104px] flex items-center justify-center font-semibold bg-gray-100">
                                 <span style={{ writingMode: 'vertical-rl' }}>Stem<br />(Hidden)</span>
                             </div>
                             <div className="sm:hidden min-h-[140px] flex items-center justify-center font-semibold bg-gray-100">
@@ -854,58 +927,68 @@ export default function Result3({ result, biodata }) {
                     data-tooltip-id="luck-tooltip"
                     data-tooltip-content="Current Year Pillar based on your BaZi chart"
                 >
-                    {/* Title Row */}
-                    <div className="bg-red-800 text-white font-semibold p-2 text-center">
-                        Current Year Pillar
-                    </div>
 
                     {/* Main Table Container */}
                     <div className="flex">
                         {/* Pillar Content Grid */}
-                        <div className="grid grid-cols-3 flex-1">
-                            {/* Stem */}
-                            <div className="p-4 border-b border-r flex items-center justify-between">
-                                <div>
-                                    <div className="text-3xl font-bold text-red-800">
-                                        {result.currentYearPillar.stem}
-                                    </div>
-                                    <div className="text-sm text-gray-600">
-                                        ({result.currentYearPillar.stemInfo.pinyin})
-                                    </div>
-                                    <div className="text-sm">{result.currentYearPillar.stemInfo.element}</div>
-                                </div>
-                                <div className="text-sm font-semibold">Stem</div>
+                        <div className="w-full rounded-md overflow-hidden">
+                            {/* Title */}
+                            <div className="bg-red-800 text-white font-semibold p-2 text-center">
+                                Current Year Pillar
                             </div>
 
-                            {/* Branch */}
-                            <div className="p-4 border-b border-r flex items-center justify-between">
-                                <div>
-                                    <div className="text-3xl font-bold text-red-800">
-                                        {result.currentYearPillar.branch}
+                            {/* Row: Stem */}
+                            <div className="flex border-b">
+                                {/* Content */}
+                                <div className="flex-1 flex items-center justify-between p-4 ">
+                                    <div>
+                                        <div className="text-3xl font-bold text-red-800">
+                                            {result.currentYearPillar.stem}
+                                        </div>
+                                        <div className="text-sm text-gray-600">
+                                            ({result.currentYearPillar.stemInfo.pinyin})
+                                        </div>
+                                        <div className="text-sm">{result.currentYearPillar.stemInfo.element}</div>
                                     </div>
-                                    <div className="text-sm text-gray-600">
-                                        ({result.currentYearPillar.branchInfo.pinyin})
-                                    </div>
-                                    <div className="text-sm">{result.currentYearPillar.branchInfo.animal}</div>
+                                    <div className="text-sm font-semibold">Stem</div>
                                 </div>
-                                <div className="text-sm font-semibold">Branch</div>
                             </div>
 
-                            {/* Hidden Stems */}
-                            <div className="p-4 bg-gray-50 flex items-center justify-between border-b">
-                                <div className="flex flex-wrap gap-2">
-                                    {result.currentYearPillar.hiddenStems.map((hs, index) => {
-                                        const info = result.currentYearPillar.hiddenStemsInfo[index];
-                                        return (
-                                            <div key={hs} className="text-xs text-center">
-                                                {hs} ({info.pinyin})<br />
-                                                <span className="text-red-800">{info.element}</span>
-                                            </div>
-                                        );
-                                    })}
+                            {/* Row: Branch */}
+                            <div className="flex border-b">
+                                {/* Content */}
+                                <div className="flex-1 flex items-center justify-between p-4 ">
+                                    <div>
+                                        <div className="text-3xl font-bold text-red-800">
+                                            {result.currentYearPillar.branch}
+                                        </div>
+                                        <div className="text-sm text-gray-600">
+                                            ({result.currentYearPillar.branchInfo.pinyin})
+                                        </div>
+                                        <div className="text-sm">{result.currentYearPillar.branchInfo.animal}</div>
+                                    </div>
+                                    <div className="text-sm font-semibold">Branch</div>
                                 </div>
-                                <div className="text-sm font-semibold pl-2 text-right">
-                                    Stem<br />(Hidden)
+                            </div>
+
+                            {/* Row: Hidden Stem */}
+                            <div className="flex">
+                                {/* Content */}
+                                <div className="flex-1 flex items-center justify-between p-4  bg-gray-50">
+                                    <div className="flex flex-wrap gap-2">
+                                        {result.currentYearPillar.hiddenStems.map((hs, index) => {
+                                            const info = result.currentYearPillar.hiddenStemsInfo[index];
+                                            return (
+                                                <div key={hs} className="text-xs text-center">
+                                                    {hs} ({info.pinyin})<br />
+                                                    <span className="text-red-800">{info.element}</span>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                    <div className="text-sm font-semibold text-right">
+                                        Stem<br />(Hidden)
+                                    </div>
                                 </div>
                             </div>
                         </div>
