@@ -833,7 +833,7 @@ Knowing and avoiding this direction helps maintain energetic balance and reduce 
                                                     </div>
                                                 ))}
                                             </div>
-                                            <div className="text-sm font-semibold pl-2">Stem<br />(Hidden)</div>
+                                            <div className="text-sm font-semibold pl-2 text-right">Stem<br />(Hidden)</div>
                                         </div>
                                     </div>
                                 </div>
