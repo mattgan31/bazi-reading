@@ -150,6 +150,41 @@ const branchMap = {
     '戌': 'Xu', '亥': 'Hai',
 };
 
+const stemMeta = {
+    '甲': { element: 'Wood', yinYang: 'Yang' },
+    '乙': { element: 'Wood', yinYang: 'Yin' },
+    '丙': { element: 'Fire', yinYang: 'Yang' },
+    '丁': { element: 'Fire', yinYang: 'Yin' },
+    '戊': { element: 'Earth', yinYang: 'Yang' },
+    '己': { element: 'Earth', yinYang: 'Yin' },
+    '庚': { element: 'Metal', yinYang: 'Yang' },
+    '辛': { element: 'Metal', yinYang: 'Yin' },
+    '壬': { element: 'Water', yinYang: 'Yang' },
+    '癸': { element: 'Water', yinYang: 'Yin' },
+};
+
+const elementRelation = {
+    Wood: { generates: 'Fire', controls: 'Earth', generatedBy: 'Water', controlledBy: 'Metal' },
+    Fire: { generates: 'Earth', controls: 'Metal', generatedBy: 'Wood', controlledBy: 'Water' },
+    Earth: { generates: 'Metal', controls: 'Water', generatedBy: 'Fire', controlledBy: 'Wood' },
+    Metal: { generates: 'Water', controls: 'Wood', generatedBy: 'Earth', controlledBy: 'Fire' },
+    Water: { generates: 'Wood', controls: 'Fire', generatedBy: 'Metal', controlledBy: 'Earth' },
+};
+
+const tenGodMap = {
+    Friend: { hanzi: '比肩', pinyin: 'Bǐ Jiān', english: 'Friend' },
+    RobWealth: { hanzi: '劫财', pinyin: 'Jié Cái', english: 'Rob Wealth' },
+    EatingGod: { hanzi: '食神', pinyin: 'Shí Shén', english: 'Eating God' },
+    HurtingOfficer: { hanzi: '伤官', pinyin: 'Shāng Guān', english: 'Hurting Officer' },
+    DirectWealth: { hanzi: '正财', pinyin: 'Zhèng Cái', english: 'Direct Wealth' },
+    IndirectWealth: { hanzi: '偏财', pinyin: 'Piān Cái', english: 'Indirect Wealth' },
+    DirectOfficer: { hanzi: '正官', pinyin: 'Zhèng Guān', english: 'Direct Officer' },
+    SevenKillings: { hanzi: '七杀', pinyin: 'Qī Shā', english: 'Seven Killings' },
+    DirectResource: { hanzi: '正印', pinyin: 'Zhèng Yìn', english: 'Direct Resource' },
+    IndirectResource: { hanzi: '偏印', pinyin: 'Piān Yìn', english: 'Indirect Resource' },
+    Self: { hanzi: '日主', pinyin: 'Rì Zhǔ', english: 'Day Master' }
+};
+
 const seasonalMultipliers = {
     spring: {
         Wood: 1.5,
@@ -194,6 +229,35 @@ function isForwardDirection(dayStem, gender) {
     }
 }
 
+function getTenGod(dayMasterStem, targetStem) {
+    if (dayMasterStem === targetStem) {
+        return tenGodMap.Self;
+    }
+
+    const dm = stemMeta[dayMasterStem];
+    const tg = stemMeta[targetStem];
+
+    const sameYinYang = dm.yinYang === tg.yinYang;
+    const relation = elementRelation[dm.element];
+
+    if (tg.element === dm.element) {
+        return sameYinYang ? tenGodMap.RobWealth : tenGodMap.Friend;
+    }
+    if (tg.element === relation.generates) {
+        return sameYinYang ? tenGodMap.IndirectWealth : tenGodMap.DirectWealth;
+    }
+    if (tg.element === relation.generatedBy) {
+        return sameYinYang ? tenGodMap.IndirectResource : tenGodMap.DirectResource;
+    }
+    if (tg.element === relation.controls) {
+        return sameYinYang ? tenGodMap.HurtingOfficer : tenGodMap.EatingGod;
+    }
+    if (tg.element === relation.controlledBy) {
+        return sameYinYang ? tenGodMap.SevenKillings : tenGodMap.DirectOfficer;
+    }
+
+    return { hanzi: '未知', pinyin: 'Wèi Zhī', english: 'Unknown' };
+}
 
 function generateLuckPillarsData(startStem, startBranch, forward, startingAge, count = 10) {
     const stems = [
@@ -846,7 +910,8 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
         descriptionResult,
         luckyPillars,
         animal,
-        currentYearPillar: getCurrentYearPillar()
+        currentYearPillar: getCurrentYearPillar(),
+        tenGod: getTenGod()
     };
 };
 

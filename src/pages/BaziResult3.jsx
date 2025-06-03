@@ -375,7 +375,7 @@ export default function Result3({ result, biodata }) {
                                         </div>
 
                                         {/* Hidden Stems Section */}
-                                        <div className="min-h-[140px] sm:min-h-[80px] flex-1 flex justify-center items-center p-2 bg-gray-50 border-r">
+                                        <div className="min-h-[140px] md:min-h-[80px] flex-1 flex justify-center items-center p-2 bg-gray-50 border-r">
                                             <div className="flex flex-wrap justify-center gap-1">
                                                 {pillar.hiddenStems.map((hs, index) => {
                                                     const info = pillar.hiddenStemsInfo[index];
@@ -426,49 +426,87 @@ export default function Result3({ result, biodata }) {
                 <div className='w-full'>
                     <div className="w-full rounded-md overflow-hidden border border-black">
 
+                        {/* Day Master */}
                         <div className="flex bg-red-800 dark:bg-red-800 text-white font-semibold">
-                            <div className="flex-1 p-2">DAY MASTER</div>
+                            <div className="flex-1 p-2">DAY MASTER 日主</div>
                             <div className="flex-1 p-2">{result.dayMaster}</div>
                         </div>
 
+                        <div>
+                            {/* Celestial Animal */}
+                            <div className="flex bg-gray-100">
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black border-r font-medium">
+                                    Celestial Animal 生肖
+                                </div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black">
+                                    {result.animal.celestial}
+                                </div>
+                            </div>
 
-                        <div className="">
-                            <div className="flex bg-gray-100">
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black border-r font-medium">Celestial Animal</div>
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black">{result.animal.celestial}</div>
-                            </div>
+                            {/* Noble People */}
                             <div className="flex">
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black border-r font-medium">Noble People</div>
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black">{result.animal.noble}</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black border-r font-medium">
+                                    Noble People 贵人
+                                </div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black">
+                                    {result.animal.noble}
+                                </div>
                             </div>
+
+                            {/* Intelligence Star */}
                             <div className="flex bg-gray-100">
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black border-r font-medium">Intelligence</div>
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black">{result.animal.intelligence}</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black border-r font-medium">
+                                    Intelligence 文昌
+                                </div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black">
+                                    {result.animal.intelligence}
+                                </div>
                             </div>
+
+                            {/* Peach Blossom */}
                             <div className="flex">
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black border-r font-medium">Peach Blossom</div>
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black">{result.animal.peach_blossom}</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black border-r font-medium">
+                                    Peach Blossom 桃花
+                                </div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black">
+                                    {result.animal.peach_blossom}
+                                </div>
                             </div>
+
+                            {/* Sky Horse */}
                             <div className="flex bg-gray-100">
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black border-r font-medium">Sky Horse</div>
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black">{result.animal.sky_horse}</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black border-r font-medium">
+                                    Sky Horse 驛馬
+                                </div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black">
+                                    {result.animal.sky_horse}
+                                </div>
                             </div>
+
+                            {/* Solitary Star */}
                             <div className="flex">
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black border-r font-medium">Solitary</div>
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black">{result.animal.solitary}</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black border-r font-medium">
+                                    Solitary 孤辰
+                                </div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black">
+                                    {result.animal.solitary}
+                                </div>
                             </div>
-                            {/* <div className="flex bg-gray-100">
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black border-r font-medium ">Life Palace</div>
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-b border-black">{result.animal.life_palace.full}</div>
-                            </div> */}
+
+                            {/* Conception Palace */}
                             <div className="flex bg-gray-100">
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-r font-medium">Conception Palace</div>
-                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 ">{result.animal.conception_palace.ganzhi}</div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800 border-r font-medium">
+                                    Conception Palace 胎元
+                                </div>
+                                <div className="flex-1 px-2 py-2 text-red-800 dark:text-red-800">
+                                    {result.animal.conception_palace.ganzhi}
+                                </div>
                             </div>
+
                         </div>
                     </div>
-
                 </div>
+
                 {/* <div>
                     <div className="w-full rounded-md overflow-hidden border">
 
@@ -539,7 +577,7 @@ export default function Result3({ result, biodata }) {
                             {/* Data Rows - desktop/tablet */}
                             <div className="flex border-b">
                                 {["Wood", "Fire", "Earth", "Metal", "Water"].map((element) => (
-                                    <div key={`value-${element}`} className="flex-1 border-r text-center p-2 text-red-800 last:border-r-0">
+                                    <div key={`value-${element}`} className="flex-1 flex justify-center items-center border-r text-center p-2 text-red-800 last:border-r-0 ">
                                         {result.elementBalancePercentage.find(item => item.key === element)?.value || 0}
                                     </div>
                                 ))}
@@ -550,7 +588,7 @@ export default function Result3({ result, biodata }) {
 
                             <div className="flex">
                                 {["Wood", "Fire", "Earth", "Metal", "Water"].map((element) => (
-                                    <div key={`percentage-${element}`} className="flex-1 border-r text-center p-2 text-red-800 last:border-r-0">
+                                    <div key={`percentage-${element}`} className="flex-1 flex justify-center items-center border-r text-center p-2 text-red-800 last:border-r-0 ">
                                         {result.elementBalancePercentage.find(item => item.key === element)?.percentage || 0}%
                                     </div>
                                 ))}
@@ -839,6 +877,57 @@ Knowing and avoiding this direction helps maintain energetic balance and reduce 
                                 </div>
                             );
                         })}
+                        <div className="">
+                            {/* Pillar Header */}
+                            <div className="bg-red-800 text-white font-semibold p-2 text-center">
+                                Current Year
+                            </div>
+
+                            {/* Stem Section */}
+                            <div className="p-3 border-b">
+                                <div className="flex justify-between items-center">
+                                    <div>
+                                        <div className="text-2xl font-bold text-red-800">{result.currentYearPillar.stem}</div>
+                                        <div className="text-xs text-gray-600">
+                                            ({result.currentYearPillar.stemInfo.pinyin}) {result.currentYearPillar.stemInfo.yinYang} {result.currentYearPillar.stemInfo.element}
+                                        </div>
+                                    </div>
+                                    <div className="text-sm font-semibold">Stem</div>
+                                </div>
+                            </div>
+
+                            {/* Branch Section */}
+                            <div className="p-3 border-b">
+                                <div className="flex justify-between items-center">
+                                    <div>
+                                        <div className="text-2xl font-bold text-red-800">{result.currentYearPillar.branch}</div>
+                                        <div className="text-xs text-gray-600">
+                                            ({result.currentYearPillar.branchInfo.pinyin}) {result.currentYearPillar.branchInfo.animal}
+                                        </div>
+                                    </div>
+                                    <div className="text-sm font-semibold">Branch</div>
+                                </div>
+                            </div>
+
+                            {/* Hidden Stems Section */}
+                            <div className="p-3 bg-gray-50">
+                                <div className="flex justify-between">
+                                    <div className="flex items-center flex-wrap gap-1">
+                                        {result.currentYearPillar.hiddenStems.map((hs, index) => {
+                                            const info = result.currentYearPillar.hiddenStemsInfo[index];
+                                            return (
+                                                <div key={hs} className="text-xs text-center">
+                                                    {hs} ({info.pinyin})<br />
+                                                    <span className="text-red-800">{info.element}</span>
+                                                </div>
+                                            );
+                                        })}
+
+                                    </div>
+                                    <div className="text-sm font-semibold pl-2 text-right">Stem<br />(Hidden)</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div
@@ -854,7 +943,7 @@ Knowing and avoiding this direction helps maintain energetic balance and reduce 
                     {/* Main Table Container */}
                     <div className="hidden sm:flex">
                         {/* Luck Pillars Grid */}
-                        <div className="grid grid-cols-9 flex-1">
+                        <div className="grid grid-cols-10 flex-1">
                             {result.luckyPillars.map((pillar, index) => (
                                 <div key={index} className="flex flex-col">
                                     {/* Age Header */}
@@ -901,45 +990,108 @@ Knowing and avoiding this direction helps maintain energetic balance and reduce 
                                     </div>
                                 </div>
                             ))}
+
+                            {/* Current Year Pillar */}
+                            <div className="flex flex-col">
+                                <div className="min-h-[36px] md:min-h-[56px] lg:min-h-[36px] bg-red-800 text-white font-semibold p-2 text-center text-xs sm:text-sm">
+                                    <span className='hidden xl:block'>
+                                        Current Year
+                                    </span>
+                                    <span className='block xl:hidden'>
+                                        Current
+                                    </span>
+                                </div>
+
+                                {/* Stem Section */}
+                                <div className="flex-1 p-4 border-b border-r">
+                                    <div className="text-center">
+                                        <div className="text-3xl md:text-4xl font-bold text-red-800">
+                                            {result.currentYearPillar.stem}
+                                        </div>
+                                        <div className="text-sm text-gray-600">
+                                            ({result.currentYearPillar.stemInfo.pinyin})
+                                        </div>
+                                        <div className="text-sm">{result.currentYearPillar.stemInfo.element}</div>
+                                    </div>
+                                </div>
+
+                                {/* Branch Section */}
+                                <div className="flex-1 p-4 border-b border-r">
+                                    <div className="text-center">
+                                        <div className="text-3xl md:text-4xl font-bold text-red-800">
+                                            {result.currentYearPillar.branch}
+                                        </div>
+                                        <div className="text-sm text-gray-600">
+                                            ({result.currentYearPillar.branchInfo.pinyin})
+                                        </div>
+                                        <div className="text-sm">{result.currentYearPillar.branchInfo.animal}</div>
+                                    </div>
+                                </div>
+
+                                {/* Hidden Stems Section */}
+                                <div className="min-h-[140px] sm:min-h-[80px] flex-1 flex justify-center items-center p-2 bg-gray-50 border-r">
+                                    <div className="flex flex-wrap justify-center gap-1">
+                                        {result.currentYearPillar.hiddenStems.map((hs, index) => {
+                                            const info = result.currentYearPillar.hiddenStemsInfo[index];
+                                            return (
+                                                <div key={hs} className="text-xs text-center">
+                                                    {hs} ({info.pinyin})<br />
+                                                    <span className="text-red-800">{info.element}</span>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         {/* Right Side Captions */}
                         <div className="flex flex-col">
-                            <div className="h-[36px] bg-red-800 border-b sm:min-h-[56px] md:min-h-[36px]"></div>
+                            {/* Header Spacer */}
+                            <div className="bg-red-800 border-b min-h-[56px] lg:min-h-[36px]"></div>
+
+                            {/* Stem Label */}
                             <div className="flex-1 flex items-center justify-center font-semibold bg-gray-100 border-b">
                                 <span style={{ writingMode: 'vertical-rl' }}>Stem</span>
                             </div>
+
+                            {/* Branch Label */}
                             <div className="flex-1 flex items-center justify-center font-semibold bg-gray-100 border-b">
                                 <span style={{ writingMode: 'vertical-rl' }}>Branch</span>
                             </div>
-                            <div className="hidden sm:flex sm:min-h-[112px] md:min-h-[104px] lg:min-h-[84px] flex items-center justify-center font-semibold bg-gray-100">
+
+                            {/* Hidden Stem Label */}
+                            <div className="hidden sm:flex min-w-8 lg:min-w-12 md:min-h-[114.67px] lg:min-h-[104px] items-center justify-center font-semibold bg-gray-100">
                                 <span style={{ writingMode: 'vertical-rl' }}>Stem<br />(Hidden)</span>
                             </div>
+
+                            {/* Mobile Hidden Stem Label */}
                             <div className="sm:hidden min-h-[140px] flex items-center justify-center font-semibold bg-gray-100">
                                 <span style={{ writingMode: 'vertical-rl' }}>Stem (Hidden)</span>
                             </div>
                         </div>
                     </div>
+
                 </div>
 
-                <div
+                {/* <div
                     className="w-full rounded-md overflow-hidden border"
                     data-tooltip-id="luck-tooltip"
                     data-tooltip-content="Current Year Pillar based on your BaZi chart"
                 >
 
-                    {/* Main Table Container */}
+
                     <div className="flex">
-                        {/* Pillar Content Grid */}
+
                         <div className="w-full rounded-md overflow-hidden">
-                            {/* Title */}
+
                             <div className="bg-red-800 text-white font-semibold p-2 text-center">
                                 Current Year Pillar
                             </div>
 
-                            {/* Row: Stem */}
+
                             <div className="flex border-b">
-                                {/* Content */}
+
                                 <div className="flex-1 flex items-center justify-between p-4 ">
                                     <div>
                                         <div className="text-3xl font-bold text-red-800">
@@ -954,9 +1106,9 @@ Knowing and avoiding this direction helps maintain energetic balance and reduce 
                                 </div>
                             </div>
 
-                            {/* Row: Branch */}
+
                             <div className="flex border-b">
-                                {/* Content */}
+
                                 <div className="flex-1 flex items-center justify-between p-4 ">
                                     <div>
                                         <div className="text-3xl font-bold text-red-800">
@@ -971,9 +1123,9 @@ Knowing and avoiding this direction helps maintain energetic balance and reduce 
                                 </div>
                             </div>
 
-                            {/* Row: Hidden Stem */}
+
                             <div className="flex">
-                                {/* Content */}
+
                                 <div className="flex-1 flex items-center justify-between p-4  bg-gray-50">
                                     <div className="flex flex-wrap gap-2">
                                         {result.currentYearPillar.hiddenStems.map((hs, index) => {
@@ -994,7 +1146,7 @@ Knowing and avoiding this direction helps maintain energetic balance and reduce 
                         </div>
 
                     </div>
-                </div>
+                </div> */}
 
 
                 <div className="flex justify-center mt-8 print:hidden">
