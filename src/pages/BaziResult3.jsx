@@ -266,6 +266,7 @@ export default function Result3({ result, biodata }) {
                         {['hour', 'day', 'month', 'year'].map((pillarKey) => {
                             const pillar = result.translatedPillars[pillarKey];
                             const pillarName = pillarKey.charAt(0).toUpperCase() + pillarKey.slice(1);
+                            const tenGod = result.tenGod[pillarKey]
 
                             return (
                                 <div key={pillarKey} className="border-b">
@@ -280,6 +281,7 @@ export default function Result3({ result, biodata }) {
                                             <div>
                                                 <div className="text-2xl font-bold text-red-800">{pillar.stem}</div>
                                                 <div className="text-xs text-gray-600">({pillar.stemInfo.pinyin}) {pillar.stemInfo.element}</div>
+                                                <div className='text-xs'>{ tenGod.hanzi} </div>
                                             </div>
                                             <div className="text-sm font-semibold">Stem</div>
                                         </div>
@@ -336,6 +338,7 @@ export default function Result3({ result, biodata }) {
                             {['hour', 'day', 'month', 'year'].map((pillarKey) => {
                                 const pillar = result.translatedPillars[pillarKey];
                                 const pillarName = pillarKey.charAt(0).toUpperCase() + pillarKey.slice(1);
+                                const tenGod = result.tenGod[pillarKey]
 
                                 return (
                                     <div key={pillarKey} className="flex flex-col">
@@ -356,6 +359,7 @@ export default function Result3({ result, biodata }) {
                                                 <div className="text-sm">
                                                     {pillar.stemInfo.element}
                                                 </div>
+                                                <div className='text-xs'>{tenGod.hanzi} </div>
                                             </div>
                                         </div>
 

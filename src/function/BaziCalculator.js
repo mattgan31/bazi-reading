@@ -911,7 +911,12 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
         luckyPillars,
         animal,
         currentYearPillar: getCurrentYearPillar(),
-        tenGod: getTenGod()
+        tenGod: {
+            hour: getTenGod(dayMaster, pillars.hour.stem),
+            day: getTenGod(dayMaster, pillars.day.stem),
+            month: getTenGod(dayMaster, pillars.month.stem),
+            year: getTenGod(dayMaster, pillars.year.stem),
+        }
     };
 };
 
