@@ -12,6 +12,12 @@ export default function Form() {
   const [birthTime, setBirthTime] = useState('');
   const [gender, setGender] = useState('');
   const [placement, setPlacement] = useState('bottomStart');
+  const [errors, setErrors] = useState({
+    name: '',
+    gender: '',
+    birthTime: '',
+    birthDate: ''
+  });
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(max-width: 640px)'); // Tailwind sm breakpoint
@@ -30,10 +36,20 @@ export default function Form() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!gender) {
-      alert("Please select your gender.");
-      return;
+    const newErrors = {};
+    if (!name) newErrors.name = "Please fill your name";
+    if (!gender) newErrors.gender = "Please select your gender";
+    if (!birthTime) newErrors.birthTime = "Please fill the Time of Birth";
+    if (!birthDate) newErrors.birthDate = "Please fill the Date of Birth";
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return; // Stop submission
     }
+
+    // Jika validasi berhasil
+    setErrors({});
+
 
 
     navigate('/result',
@@ -69,8 +85,8 @@ export default function Form() {
               value={name}
               style={{ width: '100%' }}
               onChange={(value) => setName(value)}
-              required
-              />
+            />
+            {errors.name && <div className="mt-2 text-red-600 text-sm">{errors.name}</div>}
             </div>
         </div>
         <div className='flex justify-between'>
@@ -93,7 +109,9 @@ export default function Form() {
               onChange={(value) => setBirthDate(value)}
               block
               placement={placement}
+              required
             />
+            {errors.birthDate && <div className="mt-2 text-red-600 text-sm">{errors.birthDate}</div>}
             </div>
         </div>
         <div className='form-group'>
@@ -117,7 +135,9 @@ export default function Form() {
               onChange={(value) => setBirthTime(value)}
               block
               placement={placement}
+              required
             />
+            {errors.birthTime && <div className="mt-2 text-red-600 text-sm">{errors.birthTime}</div>}
             </div>
         </div>
         <div className='form-group'>
@@ -155,6 +175,8 @@ export default function Form() {
             className='w-full '
             required
             />
+            {errors.gender && <div className="mt-2 text-red-600 text-sm">{errors.gender}</div>}
+
             </div>
         </div>
         <div className='form-group'>
