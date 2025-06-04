@@ -348,18 +348,27 @@ export default function Result3({ result, biodata }) {
                                         </div>
 
                                         {/* Stem Section */}
-                                        <div className="flex-1 p-4 border-b border-r">
+                                        <div className="flex-1 p-4 border-b border-r relative">
+                                            {/* tenGod di pojok kiri atas */}
+                                            <div
+                                                className="absolute top-1 left-1 text-xs font-semibold text-red-800 bg-slate-100 shadow p-1 border w-6 md:w-8"
+                                                style={{
+                                                    writingMode: 'vertical-rl',
+                                                    textOrientation: 'upright',
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center',
+                                                    maxHeight: '4rem',
+                                                }}
+                                            >
+                                                {tenGod.hanzi}
+                                            </div>
+
+                                            {/* Konten tengah (stem, pinyin, element) */}
                                             <div className="text-center">
-                                                <div className="text-3xl md:text-4xl font-bold text-red-800">
-                                                    {pillar.stem}
-                                                </div>
-                                                <div className="text-sm text-gray-600">
-                                                    ({pillar.stemInfo.pinyin})
-                                                </div>
-                                                <div className="text-sm">
-                                                    {pillar.stemInfo.element}
-                                                </div>
-                                                <div className='text-xs'>{tenGod.hanzi} </div>
+                                                <div className="text-3xl md:text-4xl font-bold text-red-800">{pillar.stem}</div>
+                                                <div className="text-sm text-gray-600">({pillar.stemInfo.pinyin})</div>
+                                                <div className="text-sm">{pillar.stemInfo.element}</div>
                                             </div>
                                         </div>
 

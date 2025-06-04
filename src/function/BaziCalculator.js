@@ -182,7 +182,7 @@ const tenGodMap = {
     SevenKillings: { hanzi: '七杀', pinyin: 'Qī Shā', english: 'Seven Killings' },
     DirectResource: { hanzi: '正印', pinyin: 'Zhèng Yìn', english: 'Direct Resource' },
     IndirectResource: { hanzi: '偏印', pinyin: 'Piān Yìn', english: 'Indirect Resource' },
-    Self: { hanzi: '日主', pinyin: 'Rì Zhǔ', english: 'Day Master' }
+    Self: { hanzi: '日元', pinyin: 'Rì Zhǔ', english: 'Day Master' }
 };
 
 const seasonalMultipliers = {
@@ -229,35 +229,39 @@ function isForwardDirection(dayStem, gender) {
     }
 }
 
-function getTenGod(dayMasterStem, targetStem) {
-    if (dayMasterStem === targetStem) {
-        return tenGodMap.Self;
+function getTenGod(dayStem, targetStem, isDayPillar = false) {
+    // Jika untuk pilar hari (Day Pillar), beri label khusus
+    if (isDayPillar && dayStem === targetStem) {
+        return { hanzi: '日元', pinyin: 'Rì Yuán', english: 'Day Master' };
     }
 
-    const dm = stemMeta[dayMasterStem];
-    const tg = stemMeta[targetStem];
+    const dayInfo = stemMeta[dayStem];
+    const targetInfo = stemMeta[targetStem];
+    const rel = elementRelation[dayInfo.element];
+    const targetElement = targetInfo.element;
 
-    const sameYinYang = dm.yinYang === tg.yinYang;
-    const relation = elementRelation[dm.element];
-
-    if (tg.element === dm.element) {
-        return sameYinYang ? tenGodMap.RobWealth : tenGodMap.Friend;
+    if (targetElement === dayInfo.element) {
+        return tenGodMap['Friend'];
     }
-    if (tg.element === relation.generates) {
-        return sameYinYang ? tenGodMap.IndirectWealth : tenGodMap.DirectWealth;
+    if (rel.generatedBy === targetElement) {
+        return tenGodMap['DirectResource'];
     }
-    if (tg.element === relation.generatedBy) {
-        return sameYinYang ? tenGodMap.IndirectResource : tenGodMap.DirectResource;
+    if (rel.generates === targetElement) {
+        return tenGodMap['EatingGod'];
     }
-    if (tg.element === relation.controls) {
-        return sameYinYang ? tenGodMap.HurtingOfficer : tenGodMap.EatingGod;
+    if (rel.controls === targetElement) {
+        return tenGodMap['HurtingOfficer'];
     }
-    if (tg.element === relation.controlledBy) {
-        return sameYinYang ? tenGodMap.SevenKillings : tenGodMap.DirectOfficer;
+    if (rel.controlledBy === targetElement) {
+        return tenGodMap['DirectOfficer'];
     }
-
-    return { hanzi: '未知', pinyin: 'Wèi Zhī', english: 'Unknown' };
+    if (targetElement === rel.controlledBy) {
+        return tenGodMap['DirectWealth'];
+    }
+    return null;
 }
+
+
 
 function generateLuckPillarsData(startStem, startBranch, forward, startingAge, count = 10) {
     const stems = [
@@ -913,7 +917,7 @@ export const generateBaziReading = ({ name, birthDate, birthTime, gender }) => {
         currentYearPillar: getCurrentYearPillar(),
         tenGod: {
             hour: getTenGod(dayMaster, pillars.hour.stem),
-            day: getTenGod(dayMaster, pillars.day.stem),
+            day: getTenGod(dayMaster, pillars.day.stem, true),
             month: getTenGod(dayMaster, pillars.month.stem),
             year: getTenGod(dayMaster, pillars.year.stem),
         }
