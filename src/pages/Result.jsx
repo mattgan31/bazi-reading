@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Result1 from './BaziResult1';
 import Result2 from './BaziResult2';
 import Result3 from './BaziResult3';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Navigate } from 'react-router-dom';
 import { generateBaziReading } from '../function/BaziCalculator';
 
 
@@ -15,6 +15,10 @@ const tabs = [
 export default function Result() {
   const { state } = useLocation();
   const { name, birthDate, birthTime, gender } = state || {};
+
+  if (!name || !birthDate || !birthTime || !gender) {
+    return <Navigate to="/" replace />;
+  }
 
   const biodata = {
     name, birthDate, birthTime, gender
