@@ -364,7 +364,6 @@ export default function Result3({ result, biodata }) {
                                                 {tenGod.hanzi}
                                             </div>
 
-                                            {/* Konten tengah (stem, pinyin, element) */}
                                             <div className="text-center">
                                                 <div className="text-3xl md:text-4xl font-bold text-red-800">{pillar.stem}</div>
                                                 <div className="text-sm text-gray-600">({pillar.stemInfo.pinyin})</div>
@@ -1006,7 +1005,7 @@ Knowing and avoiding this direction helps maintain energetic balance and reduce 
 
                             {/* Current Year Pillar */}
                             <div className="flex flex-col">
-                                <div className="min-h-[36px] md:min-h-[56px] lg:min-h-[36px] bg-red-800 text-white font-semibold p-2 text-center text-xs sm:text-sm">
+                                <div className="min-h-[36px] sm:min-h-[56px] lg:min-h-[36px] bg-red-800 text-white font-semibold p-2 text-center text-xs sm:text-sm">
                                     <span className='hidden xl:block'>
                                         Current Year
                                     </span>

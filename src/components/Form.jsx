@@ -8,9 +8,9 @@ export default function Form() {
   const navigate = useNavigate();
 
   const [name, setName] = useState('');
-  const [birthDate, setBirthDate] = useState('');
-  const [birthTime, setBirthTime] = useState('');
-  const [gender, setGender] = useState('');
+  const [birthDate, setBirthDate] = useState(null);
+  const [birthTime, setBirthTime] = useState(null);
+  const [gender, setGender] = useState(null);
   const [placement, setPlacement] = useState('bottomStart');
   const [errors, setErrors] = useState({
     name: '',
@@ -130,12 +130,12 @@ export default function Form() {
           <TimePicker
             name='birthtime'
             className=''
-              value={birthTime}
-              style={{width:'100%'}}
-              onChange={(value) => setBirthTime(value)}
-              block
-              placement={placement}
-              required
+            value={birthTime}
+            style={{width:'100%'}}
+            onChange={(value) => setBirthTime(value)}
+            block
+            placement={placement}
+            required
             />
             {errors.birthTime && <div className="mt-2 text-red-600 text-sm">{errors.birthTime}</div>}
             </div>
